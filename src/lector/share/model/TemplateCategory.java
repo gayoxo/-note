@@ -33,9 +33,6 @@ public class TemplateCategory implements Serializable{
 	@Transient
 	private ArrayList<Long> annotationsIds = new ArrayList<Long>();
 
-	
-	@ManyToOne
-	@JoinColumn
 	private Template template;
 
 	private Integer OrderInFather;

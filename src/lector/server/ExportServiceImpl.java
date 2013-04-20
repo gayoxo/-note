@@ -199,10 +199,15 @@ public class ExportServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void deleteTemplate(Long templateId) throws GeneralException {
+		try {
+		Template template = findTemplate(templateId);
+		for (TemplateCategory hijos : template.getCategories()) {
+			deleteTemplateCategory(hijos.getId());
+		}
+		
 		EntityManager entityManager = emf.createEntityManager();
 
-		try {
-			Template template = entityManager.find(Template.class, templateId);
+		template = entityManager.find(Template.class, templateId);
 			userTransaction.begin();
 			template.getProfessor().getTemplates().size();
 			template.getProfessor().getTemplates().remove(template);
@@ -337,7 +342,7 @@ public class ExportServiceImpl extends RemoteServiceServlet implements
 				fromFather.getSubCategories().remove(templateCategory);
 				templateCategory.setFather(newFather);
 				persistObjectsForCategoryMove(template, null, fromFather);
-				templateCategory.setOrderInFather(template.getCategories().size()-1);
+				templateCategory.setOrderInFather(template.getCategories().size());
 				saveTemplateCategory(templateCategory);
 				reorderChildren(fromFather.getSubCategories());
 				
@@ -353,7 +358,7 @@ public class ExportServiceImpl extends RemoteServiceServlet implements
 					templateCategory.setFather(newFather);
 					persistObjectsForCategoryMove(template, newFather, null);
 					reorderChildren(template.getCategories());
-					templateCategory.setOrderInFather(newFather.getSubCategories().size()-1);
+					templateCategory.setOrderInFather(newFather.getSubCategories().size());
 					saveTemplateCategory(templateCategory);
 				}
 				else
@@ -362,7 +367,7 @@ public class ExportServiceImpl extends RemoteServiceServlet implements
 					templateCategory.setFather(newFather);
 					persistObjectsForCategoryMove(template, newFather, fromFather);
 					reorderChildren(fromFather.getSubCategories());
-					templateCategory.setOrderInFather(newFather.getSubCategories().size()-1);
+					templateCategory.setOrderInFather(newFather.getSubCategories().size());
 					saveTemplateCategory(templateCategory);
 				}
 				
@@ -460,7 +465,20 @@ public class ExportServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void swapCategoryWeight(Long movingCategoryId, Long staticCategoryId) {
-		// TODO Auto-generated method stub
+		try {
+		TemplateCategory T1 = findTemplateCategory(movingCategoryId);
+		TemplateCategory T2=findTemplateCategory(staticCategoryId);
+		Integer T1O=T1.getOrderInFather();
+		Integer T2O=T2.getOrderInFather();
+		T2.setOrderInFather(T1O);
+		T1.setOrderInFather(T2O);
+		saveTemplateCategory(T1);
+		saveTemplateCategory(T2);
+		} catch (TemplateCategoryNotFoundException e) {
+			e.printStackTrace();
+		} catch (GeneralException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -525,9 +543,10 @@ public class ExportServiceImpl extends RemoteServiceServlet implements
 	}
 
 	private void reorderChildren(List<TemplateCategory> list) {
-		quickSort(list,0,list.size()-1);
+		if (list.size()>0)
+			quickSort(list,0,list.size()-1);
 		for (int i = 0; i < list.size(); i++) {
-			list.get(i).setOrderInFather(i);
+			list.get(i).setOrderInFather(i+1);
 			try {
 				saveTemplateCategory(list.get(i));
 			} catch (GeneralException e) {
