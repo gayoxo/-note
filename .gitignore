@@ -1,1 +1,25 @@
-/test-classes
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.tmp
+*.symbolMap
+
+# gwt caches and compiled units #
+war/gwt_bree/
+gwt-unitCache/
+WebContent/gwt_bree/
+GlassAtNote/WebContent/gwt_bree/
+GlassAtNote/.gwt/
+
+# boilerplate generated classes #
+.apt_generated/
+
+# more caches and things from deploy #
+WebContent/WEB-INF/deploy/
+WebContent/WEB-INF/classes/
+WebContent/BookReader/
+GlassAtNote/WebContent/WEB-INF/deploy/
+GlassAtNote/WebContent/WEB-INF/classes/
+GlassAtNote/WebContent/BookReader/

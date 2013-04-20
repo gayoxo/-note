@@ -1,0 +1,39 @@
+drop table `atnote`.`catalogo_entry`;
+drop table `atnote`.`annotation_thread`;
+drop table `atnote`.`annotation_text_selector`;
+drop table `atnote`.`text_selector`;
+drop table `atnote`.`relation`;
+drop table `atnote`.`entry_annotation`;
+drop table `atnote`.`template_category`;
+drop table `atnote`.`annotation`;
+drop table `atnote`.`reading_activity`;
+drop table `atnote`.`book`;
+drop table `atnote`.`language`;
+drop table `atnote`.`template`;
+drop table `atnote`.`entry`;
+drop table `atnote`.`user_app_group_app`;
+drop table `atnote`.`catalogo`;
+drop table `atnote`.`group_app_user_app`;
+drop table `atnote`.`group_app`;
+drop table `atnote`.`user_app`;
+
+
+#PARA INCLUIR UN PROFESOR
+INSERT INTO `atnote`.`user_app` (`ID`, `DTYPE`, `CREATEDDATE`, `EMAIL`, `FIRSTNAME`, `ISCONFIRMED`, `LASTNAME`, `PASSWORD`) VALUES ('2', 'PROFESSOR', '2013-01-21', 'ce', 'ce', '1', 'ce', '33');
+INSERT INTO `atnote`.`user_app` (`ID`, `ENTRY_TYPE`, `CREATEDDATE`, `EMAIL`, `FIRSTNAME`, `ISCONFIRMED`, `LASTNAME`, `PASSWORD`) VALUES ('2', 'PROFESSOR', '2013-01-09', 'aa', 'Joaquin', '1', 'Gayoso', 'aa');
+INSERT INTO `atnote`.`user_app` (`ID`, `DTYPE`, `CREATEDDATE`, `EMAIL`, `FIRSTNAME`, `ISCONFIRMED`, `LASTNAME`, `PASSWORD`) VALUES ('2', 'PROFESSOR', '2013-01-09', 'aa', 'Joaquin', '1', 'Gayoso', 'aa');
+
+
+#Sobre verion base de datos 1.0
+ALTER table language add NEWACTIVITYPOPUPPANELLANGUAGECONFIGURATION VARCHAR(255)
+ALTER TABLE `atnote`.`annotation_thread` CHANGE COLUMN `COMMENT` `COMMENT` LONGTEXT CHARACTER SET 'utf8' COLLATE 'utf8_spanish_ci' NULL DEFAULT NULL;
+ALTER TABLE `atnote`.`annotation` CHANGE COLUMN `COMMENT` `COMMENT` LONGTEXT CHARACTER SET 'utf8' COLLATE 'utf8_spanish_ci' NULL DEFAULT NULL;
+ALTER TABLE `atnote`.`language` CHANGE COLUMN `ADMINISTRACIONLANGUAGECONFIGURATION` `ADMINISTRACIONLANGUAGECONFIGURATION` LONGTEXT CHARACTER SET 'utf8' COLLATE 'utf8_spanish_ci' NULL DEFAULT NULL , CHANGE COLUMN `EDITORACTIVITYLANGUAGECONFIGURATION` `EDITORACTIVITYLANGUAGECONFIGURATION` LONGTEXT NULL DEFAULT NULL , CHANGE COLUMN `FINDERDEFAULTTYPELANGUAGECONFIGURATION` `FINDERDEFAULTTYPELANGUAGECONFIGURATION` LONGTEXT CHARACTER SET 'utf8' COLLATE 'utf8_spanish_ci' NULL DEFAULT NULL , CHANGE COLUMN `NEWACTIVITYPOPUPPANELLANGUAGECONFIGURATION` `NEWACTIVITYPOPUPPANELLANGUAGECONFIGURATION` LONGTEXT CHARACTER SET 'utf8' COLLATE 'utf8_spanish_ci' NULL DEFAULT NULL;
+ALTER table user_app add CONFIRMATIONCODE VARCHAR(255)
+ALTER TABLE `atnote`.`language` ADD ADMINACTIVITIESENTRYPOINTLANGUAGECONFIGURATION LONGTEXT
+ALTER TABLE `atnote`.`language` ADD SELECCIONCATALOGOPOPUPPANELLANGUAGECONFIGURATION LONGTEXT
+
+#2.0
+ALTER TABLE `atnote`.`language` ADD READINGACTIVITYVISIBILITYPOPUPPANELLANGUAGECONFIGURATION LONGTEXT
+ALTER TABLE `atnote`.`language` ADD BOOKUPLOADENTRYPOINTLANGUAGECONFIGURATION LONGTEXT
+Alter Table `atnote`.`language` ADD CATALOGADMINTRATIONENTRYPOINTLANGUAGECONFIGURATION LONGTEXT
