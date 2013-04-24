@@ -199,7 +199,7 @@ public class Login implements EntryPoint {
 		horizontalPanel.add(verticalPanel_5);
 		verticalPanel_5.setSize("67px", "28px");
 
-		Label lblNewLabel_1 = new Label(USER);
+		Label lblNewLabel_1 = new Label("Email");
 		lblNewLabel_1.setStyleName("gwt-LabelMargen2px");
 		verticalPanel_5.add(lblNewLabel_1);
 		lblNewLabel_1.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -675,6 +675,7 @@ public class Login implements EntryPoint {
 			LoadingPanel.getInstance().center();
 			LoadingPanel.getInstance().setLabelTexto(
 					ConstantsInformation.LOGGING);
+			//TODO revisar si estan confirmados.
 			bookReaderServiceHolder.login(nombre, contrasena,
 					new AsyncCallback<UserClient>() {
 

@@ -12,6 +12,7 @@ import lector.client.controler.Constants;
 import lector.client.controler.catalogo.client.File;
 import lector.client.reader.hilocomentarios.ReplyDialog;
 import lector.share.model.client.AnnotationClient;
+import lector.share.model.client.ProfessorClient;
 import lector.share.model.client.TextSelectorClient;
 import lector.share.model.client.TypeClient;
 
@@ -278,7 +279,7 @@ public enum CatalogTipo {
                     public void onClick(ClickEvent event) {
                     	MainEntryPoint.hidePopUpSelector();
 				MainEntryPoint.hideDENSelector();
-                        if (annotation.isEditable()||(annotation.getCreator().getId().equals(ActualState.getUser().getId())))
+                        if (annotation.isEditable()||(annotation.getCreator().getId().equals(ActualState.getUser().getId())||(ActualState.getUser() instanceof ProfessorClient)))
                         	{
                         	TextComentEdit TCE = new TextComentEdit(annotation,SE);
                         	TCE.center();

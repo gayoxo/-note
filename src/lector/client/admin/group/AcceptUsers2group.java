@@ -14,6 +14,7 @@ import lector.client.reader.LoadingPanel;
 import lector.share.model.client.StudentClient;
 import lector.share.model.client.UserClient;
 
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -40,8 +41,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 
 public class AcceptUsers2group extends PopupPanel {
 
+	private static String ACCEPT_BUTTON = "Accept";
 	private GroupAndUserPanel GAUP;
-	private ScrollPanel InsertionPanel;
+	private VerticalPanel InsertionPanel;
 //	private StackPanelMio stackPanel_1;
 	static GWTServiceAsync bookReaderServiceHolder = GWT
 	.create(GWTService.class);
@@ -95,9 +97,13 @@ public class AcceptUsers2group extends PopupPanel {
 		UnselectAll.setHTML("UnselectAll");
 		menuBar.addItem(UnselectAll);
 		
-		InsertionPanel = new ScrollPanel();
-		verticalPanel.add(InsertionPanel);
-		InsertionPanel.setHeight("434px");
+		ScrollPanel InsertionPanelScrollbar = new ScrollPanel();
+		verticalPanel.add(InsertionPanelScrollbar);
+		InsertionPanelScrollbar.setHeight("434px");
+		
+		InsertionPanel = new VerticalPanel();
+		InsertionPanelScrollbar.setWidget(InsertionPanel);
+		InsertionPanel.setSize("100%", "100%");
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -107,7 +113,7 @@ public class AcceptUsers2group extends PopupPanel {
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
 		horizontalPanel.add(verticalPanel_1);
 		
-		Button Acept = new Button("Acept");
+		Button Acept = new Button(ACCEPT_BUTTON);
 		Acept.addClickHandler(new ClickHandler() {
 			private ArrayList<String> userIdsName;
 
