@@ -45,7 +45,7 @@ public class Constants {
 	public static final String TAMANO_PANEL_EDICION="25px";
 	public static int TAMANO_PANEL_EDICION_INT=25;
 	public static final String PX = "px";
-	public static final int TAMANOBOTOBEDITOFF = 33;
+	public static final int TAMANOBOTOBEDITOFF = 42;
 	public static final int TAMANOBOTOBEDITON = 65;
 	
 	

@@ -196,13 +196,18 @@ public class SeleccionMenuActivityPopupPanel extends PopupPanel {
 	public void show() {
 		super.show();
 		EditorZone.setVisible(false);
-		GeneralPanel.setSize(PanelActivity.getOffsetWidth()+Constants.PX, PanelActivity.getOffsetHeight()+Constants.PX);
+		String navigator=getUserAgent();
+		String[] cut=navigator.split("firefox");
+		int Width=0;
+		if (cut.length>1)
+			Width=1;
+			GeneralPanel.setSize((PanelActivity.getOffsetWidth()+Width)+Constants.PX, PanelActivity.getOffsetHeight()+Constants.PX);
 		
 		if (ActualState.isLanguageActive())
 			{
 			GeneralPanel.setHeight(Constants.TAMANO_PANEL_EDICION_INT+40+Constants.PX);
 			EditorZone.setVisible(true);
-			GeneralPanel.setSize(PanelActivity.getOffsetWidth()+Constants.PX, PanelActivity.getOffsetHeight()+Constants.PX);
+			GeneralPanel.setSize((PanelActivity.getOffsetWidth()+Width)+Constants.PX, PanelActivity.getOffsetHeight()+Constants.PX);
 			closeEditPanel();
 			}
 	}
@@ -329,4 +334,8 @@ public class SeleccionMenuActivityPopupPanel extends PopupPanel {
 		EditButton.setHTML(EDIT);
 		
 	}
+	
+	public static native String getUserAgent() /*-{
+	return navigator.userAgent.toLowerCase();
+	}-*/;
 }
