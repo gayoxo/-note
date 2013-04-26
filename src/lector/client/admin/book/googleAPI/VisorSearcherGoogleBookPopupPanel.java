@@ -284,7 +284,7 @@ public class VisorSearcherGoogleBookPopupPanel extends PopupPanel {
 	}
 
 	public static void FromFile(String Entrada) {
-		if (Entrada.length()==0) 
+		if (Entrada==null||Entrada.length()==0) 
 			ParsearFieldsAItemsRESET();
 		else
 		{
