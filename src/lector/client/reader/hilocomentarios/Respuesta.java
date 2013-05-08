@@ -12,6 +12,7 @@ import lector.client.reader.SelectorPanel;
 import lector.share.model.AnnotationThread;
 import lector.share.model.TextSelector;
 import lector.share.model.client.AnnotationThreadClient;
+import lector.share.model.client.ProfessorClient;
 import lector.share.model.client.TextSelectorClient;
 
 import com.google.gwt.core.client.GWT;
@@ -176,7 +177,7 @@ public class Respuesta extends Composite {
 	                    if (panel.getOffsetHeight()>174)
 	                    {
 	                    	richTextArea2.setHeight("174px");
-	                    //	Window.alert("Tamaño reducido");
+	                    //	Window.alert("Tamaï¿½o reducido");
 	                    }
 	                  //  button.setVisible(true);
 //	                    richTextAreaBoton.setVisible(false);
@@ -271,7 +272,7 @@ public class Respuesta extends Composite {
 	        	}
 	        });
 	        menuBar.setVisible(false);
-	       if (!ActualState.getUser().getId().equals(annotation.getUserId()))  mntmNewItem_1.setEnabled(false);
+	       if (!ActualState.getUser().getId().equals(annotation.getUserId())&&(!(ActualState.getUser()instanceof ProfessorClient)))  mntmNewItem_1.setEnabled(false);
 	        mntmNewItem_1.setHTML("Delete");
 	        menuBar.addItem(mntmNewItem_1);
 	        

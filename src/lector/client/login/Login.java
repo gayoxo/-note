@@ -7,7 +7,6 @@ import lector.client.book.reader.GWTServiceAsync;
 import lector.client.book.reader.CaptchaService;
 import lector.client.book.reader.CaptchaServiceAsync;
 import lector.client.controler.ActualState;
-import lector.client.controler.CalendarNow;
 import lector.client.controler.Constants;
 import lector.client.controler.Controlador;
 import lector.client.controler.ConstantsError;
@@ -23,13 +22,10 @@ import lector.share.model.client.UserClient;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -49,7 +45,6 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -61,7 +56,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 public class Login implements EntryPoint {
 
 	private static final String LOGIN = "Log In";
-	private static final String USER = "User";
 	private static final String PASSWORD = "Password";
 	private static final String BOTON_SIGN_IN = "Sign in";
 	private static final String REGISTRATION = "Registration";
@@ -93,6 +87,7 @@ public class Login implements EntryPoint {
 	private UserClient newStudent;
 	private CheckBox KeepConected;
 	private final long SemillaPrimo = 999983;
+	private final long SemillaPrimo_2 = 5021;
 	// private AbsolutePanel PanelEdicion;
 	private DockLayoutPanel dockPanel;
 	private RootPanel rootPanel;
@@ -105,7 +100,7 @@ public class Login implements EntryPoint {
 
 		String UserCookie = Cookies.getCookie(Constants.COOKIE_NAME);
 		if (UserCookie != null) {
-			Long L = (Long.parseLong(UserCookie) / (CalendarNow.GetDateNowInt() * SemillaPrimo));
+			Long L = (Long.parseLong(UserCookie) / (SemillaPrimo_2 * SemillaPrimo));
 			LoadingPanel.getInstance().setLabelTexto(
 					ConstantsInformation.LOADING);
 			LoadingPanel.getInstance().center();
@@ -719,8 +714,7 @@ public class Login implements EntryPoint {
 									// Long.toString(result.getId()), expira);
 									Cookies.setCookie(Constants.COOKIE_NAME,
 											Long.toString(result.getId()
-													* CalendarNow
-															.GetDateNowInt()
+													* SemillaPrimo_2
 													* SemillaPrimo), expira);
 								}
 								Logger.GetLogger().info(
