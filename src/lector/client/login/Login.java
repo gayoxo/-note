@@ -53,6 +53,11 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.user.client.ui.CheckBox;
 
+/**
+ *  Clase que implementa el entry Point de login a la aplicacion
+ * @author Joaquin Gayoso-Cabada
+ *
+ */
 public class Login implements EntryPoint {
 
 	private static final String LOGIN = "Log In";
