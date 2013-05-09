@@ -128,6 +128,7 @@ public class Login implements EntryPoint {
 						@Override
 						public void onFailure(Throwable caught) {
 							LoadingPanel.getInstance().hide();
+							Cookies.removeCookie(Constants.COOKIE_NAME);
 						}
 					});
 		}

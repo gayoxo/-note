@@ -9,6 +9,7 @@ import lector.client.book.reader.GWTServiceAsync;
 import lector.client.controler.ActualState;
 import lector.client.reader.MainEntryPoint;
 import lector.client.reader.SelectorPanel;
+import lector.client.reader.TextComentEdit;
 import lector.share.model.AnnotationThread;
 import lector.share.model.TextSelector;
 import lector.share.model.client.AnnotationThreadClient;
@@ -31,6 +32,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DecoratorPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -124,14 +126,14 @@ public class Respuesta extends Composite {
 			});
 
 //	        richTextAreaBoton.addClickHandler(new ClickHandler() {
-	//
+//	
 //	            public void onClick(ClickEvent event) {
 //	                TextComentEdit TCE = new TextComentEdit(annotation,SE);
 //	                TCE.center();
-	//
+//	
 //	            }
 //	        });
-	//
+//	
 //	        richTextAreaBoton.addMouseOutHandler(new MouseOutHandler() {
 	//
 //	            public void onMouseOut(MouseOutEvent event) {
@@ -225,7 +227,11 @@ public class Respuesta extends Composite {
 	        decoratorPanel_1 = new DecoratorPanel();
 	        verticalPanel.add(decoratorPanel_1);
 	        decoratorPanel_1.setWidth("");
-	        decoratorPanel_1.setVisible(false);
+	   //     decoratorPanel_1.setVisible(false);
+	        
+	        
+	        
+	        
 //	        richTextArea.setHTML(annotation.getComment().toString());
 //	        richTextArea.setHeight("174px");
 //	        verticalPanel.add(richTextArea);
@@ -234,11 +240,25 @@ public class Respuesta extends Composite {
 	        
 	        richTextArea2 = new ScrollPanel();
 	        decoratorPanel_1.setWidget(richTextArea2);
+	        FocusPanel F=new FocusPanel();
+	        F.addClickHandler(new ClickHandler() {
+	        	public void onClick(ClickEvent event) {
+	        		 if (ActualState.getUser().getId().equals(annotation.getUserId())||((ActualState.getUser()instanceof ProfessorClient))){
+	        		ReplyDialogEdit TCE = new ReplyDialogEdit(annotation);
+	 	                TCE.center();
+	        		 }
+	        	}
+	        });
+	        F.setSize("100%", "100%");
+	        richTextArea2.setWidget(F);
 	        panel = new HTMLPanel(annotation.getComment().toString());
+	        panel.setStyleName("BlancoTransparente");
 	        richTextArea2.setSize("296px", "100%");
 	        
+
 	        
-	        richTextArea2.setWidget(panel);
+	        
+	        F.setWidget(panel);
 	        panel.setSize("100%", "100%");
 	        decoratorPanel_1.setVisible(false);
 	        

@@ -271,6 +271,7 @@ public enum CatalogTipo {
                 ScrollPanel.setSize("297px", "100%");
                 
                 panel = new HTMLPanel(annotation.getComment().toString());
+                panel.setStyleName("BlancoTransparente");
                 ScrollPanel.setWidget(panel);
                 panel.setSize("100%", "100%");
                 decoratorPanel_1.setVisible(false);
