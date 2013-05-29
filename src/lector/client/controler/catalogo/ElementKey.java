@@ -66,11 +66,8 @@ public class ElementKey extends Composite{
 	private ButtonKey Actulizador;
 	private ArrayList<ElementKey> Otros;
 	private String StlieOld;
-	private Image LargeN;
 	private VerticalPanel verticalPanel_1;
 	private HorizontalPanel horizontalPanel_1;
-	private Image Large1;
-	private Image Large2;
 	private Button BotonUp;
 	private Button BotonDown;
 	private ElementKey Yo;
@@ -82,6 +79,9 @@ public class ElementKey extends Composite{
 	private HorizontalPanel horizontalPanel_3;
 	private Button Icon;
 	private HorizontalPanel horizontalPanel_4;
+	private SimplePanel Large11;
+	private SimplePanel Large22;
+	private SimplePanel LargeNN;
 	
 	public ElementKey(EntityCatalogElements ent) {
 		
@@ -396,9 +396,9 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 						if (Actual==State.Close)
 						{
 					//	LargeP.setVisible(true);
-						LargeN.setVisible(true);
-						Large1.setVisible(true);
-						Large2.setVisible(true);
+						LargeNN.setVisible(true);
+						Large11.setVisible(true);
+						Large22.setVisible(true);
 						NextBotones.setVisible(true);
 						Mas.setText("-");
 						Actual=State.Open;
@@ -406,9 +406,9 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 						}else 
 						{
 						//	LargeP.setVisible(false);
-							LargeN.setVisible(false);
-							Large1.setVisible(false);
-							Large2.setVisible(false);
+							LargeNN.setVisible(false);
+							Large11.setVisible(false);
+							Large22.setVisible(false);
 							NextBotones.setVisible(false);
 							Mas.setText("+");
 							Actual=State.Close;
@@ -492,11 +492,14 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		verticalPanel_1 = new VerticalPanel();
 		horizontalPanel.add(verticalPanel_1);
 		
-		Large1 = new Image("TreeKey/11.jpg");
-		verticalPanel_1.add(Large1);
-		Large1.setSize("40px", "100%");
+		
+		Large11 = new SimplePanel();
+		Large11.setStyleName("backgroundKeyUp");
+		verticalPanel_1.add(Large11);
+		Large11.setSize("40px", "25px");
 		
 		horizontalPanel_1 = new HorizontalPanel();
+		horizontalPanel_1.setStyleName("backgroundKey");
 		horizontalPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		verticalPanel_1.add(horizontalPanel_1);
 		horizontalPanel_1.setHeight("100%");
@@ -511,11 +514,10 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		absolutePanel.add(horizontalPanel_3);
 		horizontalPanel_3.setSize("40px", "100%");
 		
-		LargeN = new Image("TreeKey/13.jpg");
-		horizontalPanel_3.add(LargeN);
-		horizontalPanel_1.setCellHorizontalAlignment(LargeN, HasHorizontalAlignment.ALIGN_CENTER);
-		horizontalPanel_1.setCellVerticalAlignment(LargeN, HasVerticalAlignment.ALIGN_MIDDLE);
-		LargeN.setSize("40px", "100%");
+		LargeNN = new SimplePanel();
+		horizontalPanel_3.add(LargeNN);
+		LargeNN.setSize("40px", "20px");
+		
 		
 //		Large = new VerticalPanel();
 //		horizontalPanel.add(Large);
@@ -537,10 +539,11 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		NextBotones.setVisible(true);
 		NextBotones.setSize("100%", "");
 		
-		Large2 = new Image("TreeKey/15.jpg");
-		verticalPanel_1.add(Large2);
-		verticalPanel_1.setCellVerticalAlignment(Large2, HasVerticalAlignment.ALIGN_BOTTOM);
-		Large2.setSize("40px", "106%");
+		Large22 = new SimplePanel();
+		Large22.setStyleName("backgroundKeyDown");
+		verticalPanel_1.add(Large22);
+		Large22.setSize("40px", "25px");
+		
 		
 	}
 
@@ -571,9 +574,9 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 
 	private void setOpen() {
 		//LargeP.setVisible(true);
-		LargeN.setVisible(true);
-		Large1.setVisible(true);
-		Large2.setVisible(true);
+		LargeNN.setVisible(true);
+		Large11.setVisible(true);
+		Large22.setVisible(true);
 		NextBotones.setVisible(true);
 		Mas.setText("-");
 		Actual=State.Open;
@@ -627,9 +630,9 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		NoSOns.setVisible(true);
 		Compact.setVisible(false);
 		//LargeP.setVisible(false);
-		LargeN.setVisible(false);
-		Large1.setVisible(false);
-		Large2.setVisible(false);
+		LargeNN.setVisible(false);
+		Large11.setVisible(false);
+		Large22.setVisible(false);
 		NextBotones.setVisible(false);
 		
 	}

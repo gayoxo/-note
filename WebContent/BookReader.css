@@ -1366,3 +1366,22 @@ background: transparent url('BotonesGrafo/BotonFile.jpg') no-repeat center cente
 }
 Background_White {
 }
+
+.backgroundKey {
+background: transparent url('TreeKey/16.jpg') no-repeat left center;
+     background-size: 20px 100%;
+     display: block;
+    float: left;
+}
+.backgroundKeyUp {
+background: transparent url('TreeKey/11.jpg') no-repeat left center;
+ display: block;
+    float: left;
+     background-size: 40px 25px;
+}
+.backgroundKeyDown {
+background: transparent url('TreeKey/15.jpg') no-repeat left center;
+ display: block;
+    float: left;
+     background-size: 40px 25px;
+}
