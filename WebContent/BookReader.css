@@ -1211,7 +1211,7 @@ img {
  text-align: center;
 }
 .BlancoTransparente {
-background-color: rgba(255, 255, 255, 0.50);
+	background-color: rgba(255, 255, 255, 0.50);
 }
 .gwt-LabelMargen2px {
   margin: 0px 5px 0px;
@@ -1363,4 +1363,6 @@ background: transparent url('BotonesGrafo/BotonFile.jpg') no-repeat center cente
 	font-size: 24px;
 	text-decoration: none;
 	background-color: White;
+}
+Background_White {
 }
