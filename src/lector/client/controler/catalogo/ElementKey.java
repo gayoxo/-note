@@ -5,16 +5,12 @@ import java.util.ArrayList;
 import lector.client.book.reader.GWTService;
 import lector.client.book.reader.GWTServiceAsync;
 import lector.client.controler.Constants;
-import lector.client.controler.EntitdadObject;
 import lector.client.controler.ConstantsError;
 import lector.client.controler.catalogo.client.EntityCatalogElements;
 import lector.client.controler.catalogo.client.File;
-import lector.client.controler.catalogo.client.Folder;
 import lector.share.model.client.CatalogoClient;
 import lector.share.model.client.EntryClient;
 import lector.share.model.client.TypeCategoryClient;
-import lector.share.model.client.TypeClient;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -25,12 +21,10 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -39,13 +33,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.i18n.client.HasDirection.Direction;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 
@@ -67,7 +55,7 @@ public class ElementKey extends Composite{
 	private ArrayList<ElementKey> Otros;
 	private String StlieOld;
 	private VerticalPanel verticalPanel_1;
-	private HorizontalPanel horizontalPanel_1;
+	private HorizontalPanel PanelOcultable;
 	private Button BotonUp;
 	private Button BotonDown;
 	private ElementKey Yo;
@@ -82,6 +70,7 @@ public class ElementKey extends Composite{
 	private SimplePanel Large11;
 	private SimplePanel Large22;
 	private SimplePanel LargeNN;
+	private HorizontalPanel horizontalPanel_5;
 	
 	public ElementKey(EntityCatalogElements ent) {
 		
@@ -396,20 +385,20 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 						if (Actual==State.Close)
 						{
 					//	LargeP.setVisible(true);
-						LargeNN.setVisible(true);
+							PanelOcultable.setVisible(true);
 						Large11.setVisible(true);
 						Large22.setVisible(true);
-						NextBotones.setVisible(true);
+						//NextBotones.setVisible(true);
 						Mas.setText("-");
 						Actual=State.Open;
 						Compact.setVisible(false);			
 						}else 
 						{
 						//	LargeP.setVisible(false);
-							LargeNN.setVisible(false);
+							PanelOcultable.setVisible(false);
 							Large11.setVisible(false);
 							Large22.setVisible(false);
-							NextBotones.setVisible(false);
+							//NextBotones.setVisible(false);
 							Mas.setText("+");
 							Actual=State.Close;
 							Compact.setVisible(true);	
@@ -498,25 +487,10 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		verticalPanel_1.add(Large11);
 		Large11.setSize("40px", "25px");
 		
-		horizontalPanel_1 = new HorizontalPanel();
-		horizontalPanel_1.setStyleName("backgroundKey");
-		horizontalPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		verticalPanel_1.add(horizontalPanel_1);
-		horizontalPanel_1.setHeight("100%");
-		
-		absolutePanel = new AbsolutePanel();
-		horizontalPanel_1.add(absolutePanel);
-		absolutePanel.setSize("40px", "100%");
-		
-		horizontalPanel_3 = new HorizontalPanel();
-		horizontalPanel_3.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		horizontalPanel_3.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		absolutePanel.add(horizontalPanel_3);
-		horizontalPanel_3.setSize("40px", "100%");
-		
-		LargeNN = new SimplePanel();
-		horizontalPanel_3.add(LargeNN);
-		LargeNN.setSize("40px", "20px");
+		horizontalPanel_5 = new HorizontalPanel();
+		horizontalPanel_5.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		verticalPanel_1.add(horizontalPanel_5);
+		horizontalPanel_5.setHeight("100%");
 		
 		
 //		Large = new VerticalPanel();
@@ -530,12 +504,32 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 //				LargeP.setSize("35px", "100%");
 		
 		Compact = new Image("ArbolLineChico.jpg");
-		horizontalPanel_3.add(Compact);
+		horizontalPanel_5.add(Compact);
 		Compact.setSize("10px", "55px");
 		Compact.setVisible(false);
 		
+		PanelOcultable = new HorizontalPanel();
+		horizontalPanel_5.add(PanelOcultable);
+		PanelOcultable.setStyleName("backgroundKey");
+		PanelOcultable.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		PanelOcultable.setHeight("100%");
+		
+		absolutePanel = new AbsolutePanel();
+		PanelOcultable.add(absolutePanel);
+		absolutePanel.setSize("40px", "100%");
+		
+		horizontalPanel_3 = new HorizontalPanel();
+		horizontalPanel_3.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		horizontalPanel_3.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		absolutePanel.add(horizontalPanel_3);
+		horizontalPanel_3.setSize("40px", "100%");
+		
+		LargeNN = new SimplePanel();
+		horizontalPanel_3.add(LargeNN);
+		LargeNN.setSize("40px", "20px");
+		
 		NextBotones = new VerticalPanelEspacial(this);
-		horizontalPanel_1.add(NextBotones);
+		PanelOcultable.add(NextBotones);
 		NextBotones.setVisible(true);
 		NextBotones.setSize("100%", "");
 		
@@ -574,10 +568,10 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 
 	private void setOpen() {
 		//LargeP.setVisible(true);
-		LargeNN.setVisible(true);
+		PanelOcultable.setVisible(true);
 		Large11.setVisible(true);
 		Large22.setVisible(true);
-		NextBotones.setVisible(true);
+		//NextBotones.setVisible(true);
 		Mas.setText("-");
 		Actual=State.Open;
 		Compact.setVisible(false);	
@@ -630,10 +624,10 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		NoSOns.setVisible(true);
 		Compact.setVisible(false);
 		//LargeP.setVisible(false);
-		LargeNN.setVisible(false);
+		PanelOcultable.setVisible(false);
 		Large11.setVisible(false);
 		Large22.setVisible(false);
-		NextBotones.setVisible(false);
+	//	NextBotones.setVisible(false);
 		
 	}
 	
