@@ -58,7 +58,7 @@ public class ElementKey extends Composite{
 	private HorizontalPanel PanelOcultable;
 	private Button BotonUp;
 	private Button BotonDown;
-	private ElementKey Yo;
+	//private ElementKey Yo;
 	static GWTServiceAsync bookReaderServiceHolder = GWT
 			.create(GWTService.class);
 	public static Finder finderAct;
@@ -76,7 +76,7 @@ public class ElementKey extends Composite{
 		
 		Entidad=ent;
 		Selected=false;
-		Yo=this;
+	//	Yo=this;
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -146,14 +146,14 @@ public class ElementKey extends Composite{
 					
 					@Override
 					public void onSuccess(Void result) {
-						finderAct.RefrescaLosDatos();
+						((FinderKeys)finderAct).RefrescaLosDatos();
 						
 					}
 					
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert(ConstantsError.ERROR_ON_MOVE);
-						finderAct.RefrescaLosDatos();
+						((FinderKeys)finderAct).RefrescaLosDatos();
 					}
 				});
 				
@@ -164,14 +164,14 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 					
 					@Override
 					public void onSuccess(Void result) {
-						finderAct.RefrescaLosDatos();
+						((FinderKeys)finderAct).RefrescaLosDatos();
 						
 					}
 					
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert(ConstantsError.ERROR_ON_MOVE);
-						finderAct.RefrescaLosDatos();
+						((FinderKeys)finderAct).RefrescaLosDatos();
 					}
 				});
 			}
@@ -245,14 +245,14 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 					
 					@Override
 					public void onSuccess(Void result) {
-						finderAct.RefrescaLosDatos();
+						((FinderKeys)finderAct).RefrescaLosDatos();
 						
 					}
 					
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert(ConstantsError.ERROR_ON_MOVE);
-						finderAct.RefrescaLosDatos();
+						((FinderKeys)finderAct).RefrescaLosDatos();
 					}
 				});
 				
@@ -263,14 +263,14 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 					
 					@Override
 					public void onSuccess(Void result) {
-						finderAct.RefrescaLosDatos();
+						((FinderKeys)finderAct).RefrescaLosDatos();
 						
 					}
 					
 					@Override
 					public void onFailure(Throwable caught) {
 						Window.alert(ConstantsError.ERROR_ON_MOVE);
-						finderAct.RefrescaLosDatos();
+						((FinderKeys)finderAct).RefrescaLosDatos();
 					}
 				});
 			}

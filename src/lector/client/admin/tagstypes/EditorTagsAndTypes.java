@@ -210,10 +210,13 @@ public class EditorTagsAndTypes implements EntryPoint {
 		menuBar.addItem(mntmMerge);
 
 		MenuItem mntmMove = new MenuItem("Move", false, new Command() {
+			private int count;
+
 			public void execute() {
 				if (!(finder.getTopPath() instanceof File))
 				{
 				int mover = Selected.getWidgetCount();
+				count=mover;
 				for (int i = 0; i < mover; i++) {
 
 					BotonesStackPanelAdministracionMio Delete = ((BotonesStackPanelAdministracionMio) Selected
@@ -243,7 +246,9 @@ public class EditorTagsAndTypes implements EntryPoint {
 					}
 
 					public void onSuccess(Void result) {
-						LoadBasicTypes();
+						count--;
+						if (count<=0)
+							LoadBasicTypes();
 
 					}
 				};
