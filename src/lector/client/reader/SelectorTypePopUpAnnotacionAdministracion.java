@@ -25,7 +25,7 @@ public class SelectorTypePopUpAnnotacionAdministracion extends PopupPanel {
 	protected MenuBar menuBar;
 
 	public SelectorTypePopUpAnnotacionAdministracion(HorizontalPanel penelBotonesTipo,CatalogoClient Cata, Finder refresh) {
-		super(true);
+		super(false);
 		setModal(true);
 		SimplePanel verticalPanel = new SimplePanel();
 		finderrefresh=refresh;

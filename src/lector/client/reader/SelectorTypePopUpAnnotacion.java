@@ -48,7 +48,7 @@ public class SelectorTypePopUpAnnotacion extends PopupPanel {
 	private static HorizontalPanel HP;
 
 	public SelectorTypePopUpAnnotacion(HorizontalPanel penelBotonesTipo,CatalogoClient Catain, CatalogTipo catalog2) {
-		super(true);
+		super(false);
 		CT=catalog2;
 		setModal(true);
 		panelBotonesTipo=penelBotonesTipo;
