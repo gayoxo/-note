@@ -39,6 +39,10 @@ public class CatalogSeleccionMenuPopupPanel extends PopupPanel {
 	private static final String SELECTBUTTON_RESET = "Select";
 	private static final String DELETEBUTTON_RESET = "Delete";
 	
+	private static final int NCampos=2;
+	
+	private static final int DecoradorWidth = 2;
+	
 	private Button SelectButton;
 	private Button Deletebutton;
 	private Button EditButton;
@@ -186,4 +190,15 @@ public class CatalogSeleccionMenuPopupPanel extends PopupPanel {
 		verticalPanel.add(ChangeVisivilityButton);
 	}
 
+//	@Override
+//	public void center() {
+//		super.center();
+//		EditorZone.setVisible(false);
+//		if (ActualState.isLanguageActive())
+//			{
+//			EditorZone.setVisible(true);
+//			closeEditPanel();
+//			}
+//	}
+	
 }

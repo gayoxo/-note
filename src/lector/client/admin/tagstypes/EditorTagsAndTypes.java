@@ -1,18 +1,16 @@
 package lector.client.admin.tagstypes;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import lector.client.admin.generalPanels.BotonesStackPanelAdministracionMio;
 import lector.client.book.reader.GWTService;
 import lector.client.book.reader.GWTServiceAsync;
-import lector.client.controler.Constants;
 import lector.client.controler.Controlador;
 import lector.client.controler.EntitdadObject;
 import lector.client.controler.ConstantsError;
 import lector.client.controler.ConstantsInformation;
-import lector.client.controler.catalogo.Finder;
 import lector.client.controler.catalogo.FinderKeys;
-import lector.client.controler.catalogo.StackPanelMio;
 import lector.client.controler.catalogo.client.EntityCatalogElements;
 import lector.client.controler.catalogo.client.File;
 import lector.client.controler.catalogo.client.Folder;
@@ -26,8 +24,6 @@ import lector.share.model.client.EntryClient;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -35,13 +31,11 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
@@ -292,16 +286,21 @@ public class EditorTagsAndTypes implements EntryPoint {
 
 		MenuItem mntmNewItem = new MenuItem("Delete", false, new Command() {
 
+			private Stack<BotonesStackPanelAdministracionMio> ListaBorrar;
+
 			public void execute() {
 				int Borrar = Selected.getWidgetCount();
+				ListaBorrar=new Stack<BotonesStackPanelAdministracionMio>();
 				for (int i = 0; i < Borrar; i++) {
 
 					BotonesStackPanelAdministracionMio Delete = ((BotonesStackPanelAdministracionMio) Selected
 							.getWidget(i));
-
-					BorrarTypos((EntityCatalogElements)Delete.getEntidad());
+					ListaBorrar.push(Delete);
 
 				}
+				
+				if (!ListaBorrar.isEmpty())
+					BorrarTypos((EntityCatalogElements)ListaBorrar.pop().getEntidad());
 
 			}
 
@@ -315,6 +314,8 @@ public class EditorTagsAndTypes implements EntryPoint {
 					}
 
 					public void onSuccess(Void result) {
+						if (!ListaBorrar.isEmpty())
+							BorrarTypos((EntityCatalogElements)ListaBorrar.pop().getEntidad());
 						LoadingPanel.getInstance().hide();
 						LoadBasicTypes();
 
