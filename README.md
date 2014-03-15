@@ -27,7 +27,7 @@ Java 6.0 or up.
 
 activation.jar
 
-asm-3.1.jar
+asm-4.2.jar
 
 commons-codec-1.6.jar
 
