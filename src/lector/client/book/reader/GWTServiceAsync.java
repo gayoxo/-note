@@ -263,5 +263,8 @@ public interface GWTServiceAsync {
 	void deleteUserWithPassword(Long userId, String password,
 			AsyncCallback<Boolean> callback);
 
+	void changeVisibility(Boolean value, Long Id,
+			AsyncCallback<Void> asyncCallback);
+
 
 }

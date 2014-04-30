@@ -74,12 +74,11 @@ public class ChangeVisivilityPopupPanel extends PopupPanel {
 			public void execute() {
 				LoadingPanel.getInstance().center();
 				LoadingPanel.getInstance().setLabelTexto("Loading...");
-				C.setIsPrivate(chckbxNewCheckBox.getValue());
 				Logger.GetLogger().info(
 						this.getClass().getName(),
 						ActualState.getUser().toString(),
 						"Change visivility of catalog " + C.getCatalogName() + " to " + C.getIsPrivate());
-				bookReaderServiceHolder.saveCatalog(C, new AsyncCallback<Void>() {
+				bookReaderServiceHolder.changeVisibility(chckbxNewCheckBox.getValue(),C.getId(), new AsyncCallback<Void>() {
 					
 					@Override
 					public void onSuccess(Void result) {
@@ -112,6 +111,8 @@ public class ChangeVisivilityPopupPanel extends PopupPanel {
 		chckbxNewCheckBox = new CheckBox("New check box");
 		chckbxNewCheckBox.setHTML("Private");
 		verticalPanel.add(chckbxNewCheckBox);
+		if (C.getIsPrivate())
+			chckbxNewCheckBox.setValue(true);
 	}
 
 }

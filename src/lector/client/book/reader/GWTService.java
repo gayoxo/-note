@@ -22,18 +22,12 @@ import lector.share.model.IlegalFolderFusionException;
 import lector.share.model.LanguageNotFoundException;
 import lector.share.model.NotAuthenticatedException;
 import lector.share.model.NullParameterException;
-import lector.share.model.Professor;
 import lector.share.model.ProfessorNotFoundException;
 import lector.share.model.ReadingActivityNotFoundException;
-import lector.share.model.Student;
 import lector.share.model.StudentNotFoundException;
-import lector.share.model.Tag;
-import lector.share.model.GroupApp;
 import lector.share.model.Language;
-import lector.share.model.ReadingActivity;
 import lector.share.model.TagNotFoundException;
 import lector.share.model.TwinBrotherException;
-import lector.share.model.UserApp;
 import lector.share.model.UserNotFoundException;
 import lector.share.model.client.AnnotationClient;
 import lector.share.model.client.AnnotationThreadClient;
@@ -123,7 +117,7 @@ public interface GWTService extends RemoteService {
 
 	public void deleteGroup(Long groupId) throws GeneralException;
 
-	/* Metodo Nuevo, para añadir usuarios a un grupo, en la lista para validar */
+	/* Metodo Nuevo, para aï¿½adir usuarios a un grupo, en la lista para validar */
 	public void addStudentToBeValidated(Long userId, Long groupId)
 			throws GeneralException;
 
@@ -376,6 +370,8 @@ public interface GWTService extends RemoteService {
 	public void deleteBookById(Long id) throws GeneralException;
 
 	void renameType(Long typeIds, String newTagName);
+
+	void changeVisibility(Boolean value, Long Id);
 
 	// public ArrayList<String> getFileNamesByIds(ArrayList<Long> ids);
 

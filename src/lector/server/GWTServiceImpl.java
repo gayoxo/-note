@@ -30,6 +30,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import lector.client.book.reader.ExportService;
 import lector.client.book.reader.GWTService;
@@ -4476,5 +4481,31 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 	long end = Timestamp.valueOf("2013-01-01 00:00:00").getTime();
 	long diff = end - offset + 1;
 	Timestamp rand = new Timestamp(offset + (long) (Math.random() * diff));
+
+	@Override
+	public void changeVisibility(Boolean value,Long Id) {
+		EntityManager em = emf.createEntityManager();
+		try {
+			userTransaction.begin();
+			Catalogo salvar=em.find(Catalogo.class, Id);
+			if (value)
+				salvar.setIsPrivate((short)1);
+			else
+				salvar.setIsPrivate((short)0);
+			em.merge(salvar);
+			userTransaction.commit();
+			em.close();
+			
+			
+		} catch (Exception e) {
+			ServiceManagerUtils.rollback(userTransaction);
+			e.printStackTrace();
+			throw new RuntimeException(
+					"Exception in sss method vvvdeleteBookById      "
+							+ e.getMessage());
+		}
+		
+		return;
+	}
 
 }
