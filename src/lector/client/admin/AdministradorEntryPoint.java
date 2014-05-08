@@ -10,6 +10,7 @@ import lector.client.controler.ConstantsError;
 import lector.client.controler.ConstantsInformation;
 import lector.client.logger.Logger;
 import lector.share.model.Language;
+import lector.share.model.client.CatalogoClient;
 import lector.share.model.client.ReadingActivityClient;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -477,6 +478,7 @@ public class AdministradorEntryPoint implements EntryPoint {
 								ActualState.setReadingactivity(null);
 								if (checkComplete(result)) {
 									ActualState.setReadingactivity(result);
+									loadCatalog();
 									Controlador.change2Reader();
 
 								} else {
@@ -501,6 +503,46 @@ public class AdministradorEntryPoint implements EntryPoint {
 								Window.alert(ConstantsError.ERROR_ACTIVITY_DONT_EXIST_OR_ARE_UNREACHEABLE);
 
 							}
+							
+							protected void loadCatalog()
+							{
+								bookReaderServiceHolder.loadCatalogById(ActualState.getReadingactivity().getCloseCatalogo().getId(), new AsyncCallback<CatalogoClient>() {
+									
+									public void onSuccess(CatalogoClient result) {
+										ActualState.setReadingActivityCloseCatalog(result);
+										loadOpenCatalog();
+										
+									}
+									
+									public void onFailure(Throwable caught) {
+										Window.alert("Book not supported yet");
+										throw new UnsupportedOperationException(
+												"Not supported yet.");
+										
+									}
+								});
+							}
+							
+							protected void loadOpenCatalog()
+							{
+								bookReaderServiceHolder.loadCatalogById(ActualState.getReadingactivity().getOpenCatalogo().getId(), new AsyncCallback<CatalogoClient>() {
+									
+									public void onSuccess(CatalogoClient result) {
+										ActualState.setReadingActivityOpenCatalog(result);
+										Controlador.change2Reader();
+										
+									}
+									
+									public void onFailure(Throwable caught) {
+										Window.alert("Book not supported yet");
+										throw new UnsupportedOperationException(
+												"Not supported yet.");
+										
+									}
+								});
+							}
+							
+							
 						});
 			}
 		});

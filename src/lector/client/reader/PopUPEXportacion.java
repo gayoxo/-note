@@ -225,6 +225,7 @@ exportServiceHolder.loadTemplateById(Template.getId(), new AsyncCallback<Templat
 	}
 
 	protected void LoadTemplate() {
+		Actual.clear();
 		if (!Template.getCategories().isEmpty())
 		{
 			List<TemplateCategoryClient> Lista=Template.getCategories();

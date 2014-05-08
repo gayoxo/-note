@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -119,10 +120,10 @@ public class CatalogAdmintrationEntryPoint implements EntryPoint {
 		BackMenuItem.setHTML(BACKMENUITEM);
 		menuBar.addItem(BackMenuItem);
 		
-		VerticalPanel verticalPanel = new VerticalPanel();
+		ScrollPanel verticalPanel = new ScrollPanel();
 		PanelFondoGeneral.add(verticalPanel);
 		verticalPanel.setStyleName("fondoLogo");
-		verticalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+//		verticalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setSize("100%", "100%");
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
@@ -147,6 +148,9 @@ public class CatalogAdmintrationEntryPoint implements EntryPoint {
 		Actual.setStyleName("BlancoTransparente");
 		Actual.setWidth("400px");
 		Actual.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		
+		
+		
 		
 
 		LoadingPanel.getInstance().center();

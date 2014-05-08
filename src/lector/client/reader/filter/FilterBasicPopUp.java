@@ -238,6 +238,9 @@ public class FilterBasicPopUp extends PopupPanel {
 					ArrayList<String> types, ArrayList<TypeClient> salida) {
 				if (existeEn(entryUni, types))
 					AddHijos(entryUni,salida);
+				for (EntryClient entryUni2 : entryUni.getChildren()) {
+					EvaluaEntry(entryUni2,types,salida);
+				}
 				
 			}
 

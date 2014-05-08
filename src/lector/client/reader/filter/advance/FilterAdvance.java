@@ -92,7 +92,9 @@ public class FilterAdvance implements EntryPoint{
 				for (int i = 0; i < Rules.getWidgetCount(); i++) {
 					auxRul.add((Rule)Rules.getWidget(i));
 				}
-				new FilterAsyncSystem(auxRul);
+				if (!auxRul.isEmpty())
+					new FilterAsyncSystem(auxRul);
+					
 			}
 		});
 		menuBar.addItem(mntmFilter);

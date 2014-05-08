@@ -1555,10 +1555,19 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 	public List<AnnotationClient> getAnnotationsByTypeClientIdsForProfessor(
 			List<Long> ids, Long readingActivityId, Long userId)
 			throws GeneralException, TagNotFoundException {
+		
 		EntityManager entityManager = emf.createEntityManager();
+		List<Annotation> annotationActivityFilter = new ArrayList<Annotation>();
+		
+		if (ids.isEmpty())
+		{
+			ReadingActivity R=entityManager.find(ReadingActivity.class, readingActivityId);
+			annotationActivityFilter.addAll(R.getAnnotations());
+		}
+		else
+		{
 		List<Tag> list;
 		List<Annotation> annotationList = new ArrayList<Annotation>();
-		List<Annotation> annotationActivityFilter = new ArrayList<Annotation>();
 		String sql = "SELECT t FROM Tag t WHERE t.id=" + ids.get(0);
 		for (int i = 1; i < ids.size(); i++) {
 			sql += " OR t.id=" + ids.get(i);
@@ -1588,6 +1597,8 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
 		}
 
+		}
+		
 		if (entityManager.isOpen()) {
 			entityManager.close();
 		}
@@ -1600,9 +1611,24 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 			List<Long> ids, Long readingActivityId, Long studentId)
 			throws GeneralException, TagNotFoundException {
 		EntityManager entityManager = emf.createEntityManager();
+		List<Annotation> annotationStudentFilter = new ArrayList<Annotation>();
+		
+		if (ids.isEmpty())
+		{
+			ReadingActivity R=entityManager.find(ReadingActivity.class, readingActivityId);
+			List<Annotation> annotationActivityFilter = new ArrayList<Annotation>();
+			annotationActivityFilter.addAll(R.getAnnotations());
+			for (Annotation annotation : annotationActivityFilter) {
+				if (annotation.getCreator().getId().equals(studentId)
+						|| annotation.getVisibility() == 1) {
+					annotationStudentFilter.add(annotation);
+				}
+			}
+		}
+		else  {
 		List<Tag> list;
 		List<Annotation> annotationList = new ArrayList<Annotation>();
-		List<Annotation> annotationStudentFilter = new ArrayList<Annotation>();
+		
 		String sql = "SELECT t FROM Tag t WHERE t.id=" + ids.get(0);
 		for (int i = 1; i < ids.size(); i++) {
 			sql += " OR t.id=" + ids.get(i);
@@ -1639,6 +1665,8 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
 		}
 
+		}
+		
 		if (entityManager.isOpen()) {
 			entityManager.close();
 		}
