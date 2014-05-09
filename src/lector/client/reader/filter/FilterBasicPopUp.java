@@ -3,25 +3,17 @@ package lector.client.reader.filter;
 import java.util.ArrayList;
 
 
-import lector.client.book.reader.GWTService;
-import lector.client.book.reader.GWTServiceAsync;
 import lector.client.controler.ActualState;
-import lector.client.controler.Constants;
 import lector.client.controler.Controlador;
-import lector.client.controler.EntitdadObject;
-import lector.client.controler.catalogo.client.Folder;
 import lector.client.reader.MainEntryPoint;
 import lector.share.model.Language;
-import lector.share.model.UserApp;
 import lector.share.model.client.CatalogoClient;
 import lector.share.model.client.EntryClient;
 import lector.share.model.client.GroupClient;
-import lector.share.model.client.StudentClient;
 import lector.share.model.client.TypeCategoryClient;
 import lector.share.model.client.TypeClient;
 import lector.share.model.client.UserClient;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -30,17 +22,12 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class FilterBasicPopUp extends PopupPanel {
@@ -50,12 +37,9 @@ public class FilterBasicPopUp extends PopupPanel {
 	private PopupPanel Me=this;
 	private Language Lang;
 	private static TextBox textBox;
-	private GWTServiceAsync bookReaderServiceHolder = GWT
-	.create(GWTService.class);
 	private ArrayList<TypeClient> filtro = new ArrayList<TypeClient>();
 	private Button Advance;
 	private ArrayList<String> Types;
-	private ArrayList<UserApp> GroupUser;
 	
 	public FilterBasicPopUp() {
 		super(true);

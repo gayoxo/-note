@@ -356,7 +356,7 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 
 		// Stilos
 		RootMenu.setStyleName("Root");
-		RootTXOriginal.setStyleName("Root");
+		RootTXOriginal.setStyleName("RootMaxMin");
 		RootTXOriginal.setSize("100%", "100%");
 
 		isSelectionMode = false;
@@ -961,9 +961,9 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 		ArrayList<AnnotationRanked> resultout = new ArrayList<AnnotationRanked>();
 		if (filtroTypes.isEmpty())
 			{
-			for (AnnotationClient annotationRanked : result) {
-				resultout.add(new AnnotationRanked(annotationRanked));
-			}
+//			for (AnnotationClient annotationRanked : result) {
+//				resultout.add(new AnnotationRanked(annotationRanked));
+//			}
 			return resultout;
 			}
 		
@@ -1081,15 +1081,54 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 			{
 				ArrayList<AnnotationRanked> ResultRankedTipe = setFilerByType(result);
 				ArrayList<AnnotationRanked> ResultRankedUser = setfilterByUser(result);
+				ArrayList<AnnotationRanked> ResultRankedWords = setfilterByContain(result);
 				setfilterinfo(true);
-				return combine(ResultRankedTipe,ResultRankedUser);
+				ArrayList<AnnotationRanked> SalidaRank1=combine(ResultRankedTipe,ResultRankedUser);
+				ArrayList<AnnotationRanked> SalidaRank2=combine(SalidaRank1,ResultRankedWords);
+				return OrdenaResultado(SalidaRank2);
 			}
-			else return (ArrayList<AnnotationClient>) result;
+			else
+				return (ArrayList<AnnotationClient>) result;
 		}
 			
 	}
 
-	private static ArrayList<AnnotationClient> combine(ArrayList<AnnotationRanked> resultRankedTipe,
+	private static ArrayList<AnnotationRanked> setfilterByContain(
+			List<AnnotationClient> result) {
+		
+		ArrayList<AnnotationRanked> resultout = new ArrayList<AnnotationRanked>();
+		if (filtroWords.isEmpty())
+			{
+			return resultout;
+			}
+
+		if (result != null) {
+			for (int i = 0; i < result.size(); i++) {
+				String A = result.get(i).getComment();
+				int resulInt=isInWords(A);
+				if (resulInt>0) {
+					AnnotationRanked resultRanked = new AnnotationRanked(result.get(i));
+					resultRanked.setRanking(resulInt);
+					resultout.add(resultRanked);
+				}
+			}
+			
+		}
+
+		
+		return resultout;
+	}
+
+	private static int isInWords(String a) {
+		int Salida=0;
+		for (String word : filtroWords) {
+			if (a.toUpperCase().contains(word.toUpperCase()))
+				Salida++;
+		}
+		return Salida;
+	}
+
+	private static ArrayList<AnnotationRanked> combine(ArrayList<AnnotationRanked> resultRankedTipe,
 			ArrayList<AnnotationRanked> resultRankedUser) {
 		for (AnnotationRanked annotationRanked : resultRankedUser) {
 			boolean found = false;
@@ -1097,13 +1136,13 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 				if (annotationRanked.getAnotacionRankeada().getId().equals(annotationRanked1.getAnotacionRankeada().getId()))
 					{
 					found=true;
-					annotationRanked1.setRanking(annotationRanked1.getRanking()+1f);
+					annotationRanked.setRanking(annotationRanked1.getRanking()+annotationRanked.getRanking());
 					break;
 					}
 			}
 			if (!found) resultRankedTipe.add(annotationRanked);
 		}
-		return  OrdenaResultado(resultRankedTipe);
+		return  resultRankedTipe;
 	}
 
 

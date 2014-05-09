@@ -1385,3 +1385,7 @@ background: transparent url('TreeKey/15.jpg') no-repeat left center;
     float: left;
      background-size: 40px 25px;
 }
+
+.RootMaxMin {
+min-width: 1392px;
+}
