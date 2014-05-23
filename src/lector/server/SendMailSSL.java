@@ -40,13 +40,13 @@ public class SendMailSSL {
 		Session session = Session.getDefaultInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("cruiz84@gmail.com",
-								"15148785a");// SenderID and Password.
+						return new PasswordAuthentication("atnotefdiucm@gmail.com",
+								"gvC59oP2");// SenderID and Password.
 					}
 				});
 		try {
 			MimeMessage message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("cruiz84@gmail.com"));// Sender Id.
+			message.setFrom(new InternetAddress("atnotefdiucm@gmail.com"));// Sender Id.
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
 					to));
 			message.setSubject(subject);
