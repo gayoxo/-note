@@ -3610,6 +3610,8 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 			GroupNotFoundException {
 		List<Long> groups = getGroupIds(getGroupsOfStudent(userId));
 
+		if (groups.isEmpty())
+			return new ArrayList<ReadingActivityClient>();
 		return ServiceManagerUtils
 				.produceReadingActivityClients(getReadingActivitiesByGroupIds(groups));
 	}

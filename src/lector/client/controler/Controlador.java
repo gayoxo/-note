@@ -28,6 +28,8 @@ import lector.client.login.UserEdition;
 import lector.share.model.client.BookClient;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ClosingHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class Controlador implements EntryPoint {
@@ -63,6 +65,15 @@ public class Controlador implements EntryPoint {
      * @wbp.parser.entryPoint
      */
     public void onModuleLoad() {
+    	
+    	ClosingHandler CloseEvent = new Window.ClosingHandler() {
+		    public void onWindowClosing(Window.ClosingEvent closingEvent) {		    	
+			       closingEvent.setMessage("Are you sure to close the window?");
+
+			    }
+			};
+			
+		Window.addWindowClosingHandler(CloseEvent);	
         Actual = WelcomePage;
         Actual.onModuleLoad();
     }

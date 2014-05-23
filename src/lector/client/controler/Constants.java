@@ -54,9 +54,9 @@ public class Constants {
 	public static final String P100 = "100%";
 	
 	//EMAILS
-	public static final String MAIL_SENDER = "at.note.mail.service";
-	public static final String SENDER_PASS = "1234567ba";
-	public static final String MAIL_SENDER_ADDRESS = "at.note.mail.service@gmail.com";
+	public static final String MAIL_SENDER = "atnotefdiucm";
+	public static final String SENDER_PASS = "gvC59oP2";
+	public static final String MAIL_SENDER_ADDRESS = "atnotefdiucm@gmail.com";
 	public static final String FROM_NAME = "CENTRO DE REGISTRO ATNOTE";
 	public static final String MAIL_SUBJECT = "Gracias por registrarse en @note...";
 	public static final String MAIL_BODY_TEXT = "Gracias por registrarse en @note. <br /> Este correo usted lo ha recibido" +
