@@ -240,6 +240,15 @@ public class Login implements EntryPoint {
 
 		passwordLogin = new PasswordTextBox();
 		horizontalPanel_2.add(passwordLogin);
+		passwordLogin.addKeyPressHandler(new KeyPressHandler() {
+			public void onKeyPress(KeyPressEvent event) {
+				if (KeyCodes.KEY_ENTER == event.getNativeEvent().getKeyCode()) {
+					btnNewButton.setEnabled(false);
+					revisarTextboxAndEnter();
+				}
+			}
+
+		});
 
 		HorizontalPanel horizontalPanel_13 = new HorizontalPanel();
 		horizontalPanel_13.setSpacing(10);

@@ -1,6 +1,5 @@
-package lector.client.reader;
+package lector.share.model;
 
-import lector.share.model.ExportObject;
 
 public class ExportObjectTemplate extends ExportObject {
 

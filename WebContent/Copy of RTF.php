@@ -9,11 +9,13 @@ header('Content-Disposition: inline; filename='.$number.'.rtf');
 
 
 
-$fileContent = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang3082\\deflangfe3082{\\fonttbl{\\f0\\froman\\fprq2\\fcharset0 Times New Roman;}{\\f1\\fnil\\fcharset0 Calibri;}}
-{\\colortbl ;\\red0\\green0\\blue0;}
-\\viewkind4\\uc1\\pard\\nowidctlpar\\qj\\kerning36\\b\\f0\\fs36 Export:";
+$fileContent = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang3082\\deflangfe3082{\\fonttbl{\\f0\\froman\\fprq2\\fcharset0 Times New Roman;}{\\f1\\fswiss\\fcharset0 Arial;}}
+{\stylesheet{ Normal;}{\s1 heading 1;}{\s2 heading 2;}{\s3 heading 3;}}
+{\\colortbl ;\\red0\\green0\\blue0;\\red0\\green0\\blue255;}
+{\\*\\generator Msftedit 5.41.15.1515;}\\viewkind4\\uc1\\trowd\\trgaph15\\trleft-45\\trpaddl15\\trpaddr15\\trpaddfl3\\trpaddfr3
+\\clvertalc\\cellx3686\\clvertalc\\cellx10822\\pard\\intbl\\nowidctlpar\\sb100\\sa100\\kerning36\\b\\f0\\fs36 Export:";
 $fileContent.=$number;
-$fileContent.="\\tab\\lang10\\kerning0\\b0\\f1\\fs22{\\pict\\wmetafile8\\picwgoal4350\\pichgoal2115 
+$fileContent.="\\fs48\\cell\\pard\\intbl\\nowidctlpar\\qc\\kerning0\\b0\\f1\\fs20{\\pict\\wmetafile8\\picwgoal5136\\pichgoal2568 
 010009000003a0510a0000003db7050000001610000026060f002220574d464301000000000001
 008bcc000000004a00000000200000a4070900a4270900010000006c0000000000000000000000
 ba020000480100000000000000000000535500000d28000020454d4600000100a42709000e0000
@@ -34694,8 +34696,7 @@ ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0c000000400929
 00aa000000000000004901bb0200000000040000002701ffff030000000000
-}\\lang3082\\f0\\fs24\\par
-\\pard\\nowidctlpar\\par";
+}\\f0\\fs24\\cell\\row\\pard\\nowidctlpar\\par";
 
 /*  Comenzamos a armar el documento  */
 $output=$fileContent;

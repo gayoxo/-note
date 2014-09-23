@@ -306,7 +306,8 @@ public class MyActivities implements EntryPoint {
 						ButtonActivityReader B = (ButtonActivityReader) event.getSource();
 						RA=B.getRA();
 						ActualState.setReadingactivity(RA);
-						MainEntryPoint.CleanFilter();			
+						MainEntryPoint.CleanFilter();	
+						MainEntryPoint.setCurrentPageNumber(0);
 						loadCatalog();
 						 }
 				});

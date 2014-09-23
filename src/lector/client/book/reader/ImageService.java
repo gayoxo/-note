@@ -7,11 +7,8 @@ package lector.client.book.reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import lector.share.model.Book;
 import lector.share.model.BookNotFoundException;
 import lector.share.model.ExportObject;
-import lector.share.model.LocalBook;
-import lector.share.model.TextSelector;
 import lector.share.model.client.BookClient;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -34,8 +31,9 @@ public interface ImageService extends RemoteService {
 
 	public String loadRTFStringForExportUni(ExportObject exportObject);
 
-	// public LocalBook loadBookBlobById(Long id);
-	//
-	// public void saveBookBlob(LocalBook bookBlob);
+	String loadHTMLStringForExport(ArrayList<ExportObject> lista);
+
+	String loadRTFStringForExport(ArrayList<ExportObject> lista);
+
 
 }

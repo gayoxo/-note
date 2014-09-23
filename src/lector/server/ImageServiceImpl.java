@@ -3,6 +3,7 @@ package lector.server;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,10 +27,13 @@ import lector.share.model.Annotation;
 import lector.share.model.Book;
 import lector.share.model.BookNotFoundException;
 import lector.share.model.ExportObject;
+import lector.share.model.ExportObjectTemplate;
 import lector.share.model.Tag;
 import lector.share.model.TextSelector;
 import lector.share.model.client.BookClient;
 import lector.share.model.client.TextSelectorClient;
+
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
@@ -142,7 +146,8 @@ public class ImageServiceImpl extends RemoteServiceServlet implements
 			sb.append("\n{\\*\\shppict{\\pict").append("\\picw")
 					.append(newImage.getWidth()).append("\\pich")
 					.append(newImage.getHeight()).append("\\")
-					.append(contentType.replaceAll("image/", ""))
+//					.append(contentType.replaceAll("image/", ""))
+					.append("jpeg")
 					.append("blip\n"); // for PNG images, use \pngblip
 
 			String A = getHex(newImageData);
@@ -182,33 +187,33 @@ public class ImageServiceImpl extends RemoteServiceServlet implements
 
 	}
 
-	private byte[] getImageDataService(String id) {
-		URL url;
-		URLConnection connection;
-		String line;
-		StringBuilder builder = new StringBuilder();
-		BufferedReader reader;
-		try {
-			url = new URL(
-					"http://a-note.appspot.com/rs/AtNote/google/book/image"
-							+ id);
-			connection = url.openConnection();
-			connection.addRequestProperty("Referer",
-					"http://kido180020783.appspot.com/");
-			reader = new BufferedReader(new InputStreamReader(
-					connection.getInputStream()));
-			while ((line = reader.readLine()) != null) {
-				builder.append(line);
-			}
-		} catch (MalformedURLException ex) {
-			Logger.getLogger(GWTServiceImpl.class.getName()).log(Level.SEVERE,
-					null, ex);
-		} catch (IOException ex) {
-			Logger.getLogger(GWTServiceImpl.class.getName()).log(Level.SEVERE,
-					null, ex);
-		}
-		return builder.toString().getBytes();
-	}
+//	private byte[] getImageDataService(String id) {
+//		URL url;
+//		URLConnection connection;
+//		String line;
+//		StringBuilder builder = new StringBuilder();
+//		BufferedReader reader;
+//		try {
+//			url = new URL(
+//					"http://a-note.appspot.com/rs/AtNote/google/book/image"
+//							+ id);
+//			connection = url.openConnection();
+//			connection.addRequestProperty("Referer",
+//					"http://kido180020783.appspot.com/");
+//			reader = new BufferedReader(new InputStreamReader(
+//					connection.getInputStream()));
+//			while ((line = reader.readLine()) != null) {
+//				builder.append(line);
+//			}
+//		} catch (MalformedURLException ex) {
+//			Logger.getLogger(GWTServiceImpl.class.getName()).log(Level.SEVERE,
+//					null, ex);
+//		} catch (IOException ex) {
+//			Logger.getLogger(GWTServiceImpl.class.getName()).log(Level.SEVERE,
+//					null, ex);
+//		}
+//		return builder.toString().getBytes();
+//	}
 
 	static final String HEXES = "0123456789ABCDEF";
 
@@ -287,6 +292,7 @@ public class ImageServiceImpl extends RemoteServiceServlet implements
 	private String produceCutImagesList(String imageURL,
 			List<TextSelectorClient> anchors, int imageWidth, int imageHeight,
 			boolean isRTF) {
+		
 		List<String> images = new ArrayList<String>();
 		// if (imageURL.startsWith("/serve")) {
 		// for (TextSelector anchor : anchors) {
@@ -337,6 +343,195 @@ public class ImageServiceImpl extends RemoteServiceServlet implements
 				+ "\\clvmrg\\clvertalc\\clbrdrl\\brdrw15\\brdrs\\brdrcf2\\clbrdrt\\brdrw15\\brdrs\\brdrcf2\\clbrdrr\\brdrw15\\brdrs\\brdrcf2\\clbrdrb\\brdrw15\\brdrs\\brdrcf2 \\cellx2066\\clvertalc\\clbrdrl\\brdrw15\\brdrs\\brdrcf2\\clbrdrt\\brdrw15\\brdrs\\brdrcf2\\clbrdrr\\brdrw15\\brdrs\\brdrcf2\\clbrdrb\\brdrw15\\brdrs\\brdrcf2 \\cellx4722\\clvertalc\\clbrdrr\\brdrw15\\brdrs\\brdrcf2\\clbrdrb\\brdrw15\\brdrs\\brdrcf2 \\cellx7151\\pard\\intbl\\nowidctlpar\\cell\\cf0\\fs24\\cell\\fs20\\cell\\row\\pard\\nowidctlpar\\fs24\\par");
 		
 		return rtf.toString();
+	}
+
+	@Override
+	public String loadHTMLStringForExport(ArrayList<ExportObject> lista) {
+		
+		StringBuffer html = new StringBuffer();
+		EntityManager entityManager = emf.createEntityManager();
+		
+		html= new StringBuffer(
+				"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head>");
+		html.append("<title>Export:");
+		html.append(System.currentTimeMillis());
+		html.append("</title><body>");
+		byte[] newImageData = null;
+		try {
+			String URL = "http://a-note.fdi.ucm.es/GlassAtNote/logo_200_400.jpg";
+			String contentType = getImageContentType(URL);
+			BufferedImage processedImage = ImageIO.read(new URL(URL));
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(processedImage, "jpg", baos );
+			baos.flush();
+			newImageData = baos.toByteArray();
+			baos.close();
+			
+			Base64 base64codec = new Base64();
+			base64codec.encode(newImageData);
+			String encodedText = new String(Base64.encodeBase64(newImageData));
+			encodedText = "data:" + contentType + ";base64," + encodedText;
+			String htmlReturn = "<img src=\"" + encodedText + " alt=\"atnote\" height=\"200\" width=\"400\" \">";
+			
+			html.append(htmlReturn);
+		html.append("<h1>Export:");
+		html.append(System.currentTimeMillis());
+		html.append("</h1>");
+			
+		} catch (Exception e) {
+			// error de carga
+			e.printStackTrace();
+		}
+		
+		
+		for (ExportObject E : lista) {
+			if (E instanceof ExportObjectTemplate)
+			{
+				ExportObjectTemplate EE=(ExportObjectTemplate) E;
+				if (EE.getProfundidad()>3) EE.setProfundidad(3);
+				StringBuffer SB=new StringBuffer();
+				SB.append("<h");
+				SB.append(EE.getProfundidad());
+				SB.append("> ");
+				SB.append(EE.getText());
+				SB.append(" </h");
+				SB.append(EE.getProfundidad());
+				SB.append("> ");
+				html.append(SB.toString());
+				
+			}
+			else
+			{
+
+				html.append("<hr>");
+				String imageURL = E.getImageURL();
+				Annotation annotation = entityManager.find(Annotation.class,
+						E.getAnnotation().getId());
+				List<TextSelector> anchors = annotation.getTextSelectors();
+				List<TextSelectorClient> anchorsClient = ServiceManagerUtils
+						.produceTextSelectors(anchors);
+				int imageWidth = E.getWidth();
+				int imageHeight = E.getHeight();
+				html.append("<p>"
+						+ produceCutImagesList(imageURL, anchorsClient, imageWidth,
+								imageHeight, false));
+				String clear;
+				clear = E.getAnnotation().getComment();
+
+
+				html.append(clear);
+
+				List<String> fileNames = getTypesNames(annotation.getTags());
+				html.append("<p><i> Tags:</i>");
+				for (int j = 0; j < fileNames.size(); j++) {
+					if (j!=0)
+						html.append( ", ");
+					html.append('"'+fileNames.get(j)+'"');
+				}
+
+				html.append("<br>");
+				html.append("<i> CreatedBy:</i> " + E.getAuthorName()
+						+ " at " + E.getDate());
+				html.append("</p></p>");
+				/* } */
+
+				// try {
+				// String htmlUTF = new String(html.toString().getBytes(), "UTF-8");
+				// return htmlUTF;
+				// } catch (UnsupportedEncodingException e) {
+				//
+				// return html.toString();
+				// }
+			}
+		}
+		
+		html.append("</body></html>");
+		return html.toString();
+	}
+
+	@Override
+	public String loadRTFStringForExport(ArrayList<ExportObject> lista) {
+		
+StringBuffer rtf=new StringBuffer();
+		
+		for (ExportObject exportObject : lista) {
+			
+			if (exportObject instanceof ExportObjectTemplate)
+			{
+				ExportObjectTemplate EE=(ExportObjectTemplate) exportObject;
+				if (EE.getProfundidad()>3) EE.setProfundidad(3);
+				StringBuffer SB=new StringBuffer();
+				SB.append("\\pard\\s");
+				SB.append(EE.getProfundidad());
+				SB.append("\\sb100\\sa100\\kerning");
+				switch (EE.getProfundidad()) {
+				case 1:
+					SB.append("36\\b\\f0\\fs48 ");
+					break;
+				case 2:
+					SB.append("0\\fs36 ");
+					break;
+				case 3:
+					SB.append("0\\fs27 ");
+					break;
+				default:
+					SB.append("0\\fs27 ");
+					break;
+				}
+				SB.append(EE.getText());
+				SB.append("\\par");
+				rtf.append(SB.toString());
+				
+			}
+			else
+			{
+			
+			String imageURL = exportObject.getImageURL();
+			EntityManager entityManager = emf.createEntityManager();
+			Annotation annotation = entityManager.find(Annotation.class,
+					exportObject.getAnnotation().getId());
+			List<TextSelectorClient> anchors = exportObject.getAnnotation().getTextSelectors();
+			int imageWidth = exportObject.getWidth();
+			int imageHeight = exportObject.getHeight();
+			String clear = exportObject.getAnnotation().getComment();
+			clear=clear.replace("<div>", "\\par ");
+			clear=ParserHTML2RTF.parser(clear);
+//			String Links =findLinks(clear);
+//			String Image =StractImage(clear);
+//			clear=clear.replace("<div>", "\\par ");
+//			clear=clear.replaceAll("\\<a.*?/a\\>", "");
+//			clear=clear.replaceAll("\\<.*?\\>","");
+//			clear=clear+Links+Image;
+			rtf.append("\\pard\\nowidctlpar\\sl240\\slmult1{\\pict\\wmetafile8\\picw60960\\pich81280\\picwgoal3930\\pichgoal5715"
+					+ produceCutImagesList(imageURL, anchors, imageWidth,
+							imageHeight,true)
+					+ "}\\cf1\\fs27"
+					+ clear
+					+"\\par"
+					+ "\\i Tags: \\i0 "
+					+ ProduceList(getTypesNames(annotation.getTags()))
+					+"\\par"
+					+"\\i CreatedBy: \\i0"
+					+ exportObject.getAuthorName()
+					+ " at "
+					+ exportObject.getDate()
+					+ "\\cf0\\fs24\\par\\par");
+			
+		}
+		}
+		return rtf.toString();
+
+	}
+
+	private String ProduceList(List<String> typesNames) {
+		StringBuffer SB=new StringBuffer();
+		for (int i = 0; i < typesNames.size(); i++) {
+			if (i!=0)
+				SB.append(",");
+			SB.append('"'+typesNames.get(i)+'"');
+			
+		}
+		return SB.toString();
 	}
 
 }

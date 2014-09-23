@@ -7,11 +7,7 @@ package lector.client.book.reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import lector.share.model.Book;
-
 import lector.share.model.ExportObject;
-import lector.share.model.LocalBook;
-import lector.share.model.TextSelector;
 import lector.share.model.client.BookClient;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -32,5 +28,11 @@ public interface ImageServiceAsync {
 
 	void loadRTFStringForExportUni(ExportObject exportObject,
 			AsyncCallback<String> callback);
+
+	void loadHTMLStringForExport(ArrayList<ExportObject> lista,
+			AsyncCallback<String> asyncCallback);
+
+	void loadRTFStringForExport(ArrayList<ExportObject> lista,
+			AsyncCallback<String> asyncCallback);
 
 }

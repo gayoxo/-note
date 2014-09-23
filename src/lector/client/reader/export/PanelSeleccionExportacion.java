@@ -68,7 +68,8 @@ public class PanelSeleccionExportacion extends PopupPanel {
 			public void onClick(ClickEvent event) {
 				((Button) event.getSource()).setStyleName("gwt-ButtonCenter");
 				arbitroLlamadasHTML A=new arbitroLlamadasHTML(pendientes);
-				A.llamadaBucle();
+//				A.llamadaBucle();
+				A.llamadaBucle2();
 				hide();
 			}
 		});
@@ -107,7 +108,7 @@ public class PanelSeleccionExportacion extends PopupPanel {
 			public void onClick(ClickEvent event) {
 				((Button) event.getSource()).setStyleName("gwt-ButtonCenter");
 				arbitroLlamadasRTF A=new arbitroLlamadasRTF(pendientes);
-				A.llamadaBucle();
+				A.llamadaBucle2();
 				hide();
 			}
 		});

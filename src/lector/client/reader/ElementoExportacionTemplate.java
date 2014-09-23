@@ -3,6 +3,7 @@ package lector.client.reader;
 import java.util.ArrayList;
 
 import lector.share.model.ExportObject;
+import lector.share.model.ExportObjectTemplate;
 import lector.share.model.TemplateCategory;
 import lector.share.model.client.TemplateCategoryClient;
 
