@@ -29,10 +29,10 @@ public class PanelGrafo extends Composite {
 	private Button btnNewButton;
 	private Button btnNewButton_1;
 	private Button btnNewButton_2;
-	private CatalogoClient Catalogo;
+//	private CatalogoClient Catalogo;
 	private Arbolgrafo AG;
-	private static float multiplicador=1.3f; 
-	private boolean storedSizes=false;
+	private static int multiplicador=0; 
+//	private boolean storedSizes=false;
 
 	public PanelGrafo() {
 		
@@ -43,8 +43,8 @@ public class PanelGrafo extends Composite {
 		initWidget(inicial);
 		
 		
-		if (multiplicador<=1.0f) 
-			multiplicador=1.0f;
+		if (multiplicador<0) 
+			multiplicador=0;
 		
 		simplePanel = new SimplePanel();
 		AB.add(simplePanel,0,0);
@@ -56,16 +56,15 @@ public class PanelGrafo extends Composite {
 		btnNewButton = new Button("Mas");
 		btnNewButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if (!storedSizes)
-				{
-				AG.storeBGSize();
-				storedSizes=true;
-				}
-				multiplicador=multiplicador+0.1f;
+//				if (!storedSizes)
+//				{
+//				AG.storeBGSize();
+//				storedSizes=true;
+//				}
+				multiplicador=multiplicador+1;
+				if (multiplicador>9) multiplicador=9;
 				//Go(Catalogo);
-				AG.changeMultiplicador();
-				AB.setSize(verticalPanel_1.getOffsetWidth()+"px", verticalPanel_1.getOffsetHeight()+"px");
-				Pinta();
+				refreshsize();
 			}
 
 		});
@@ -80,17 +79,15 @@ public class PanelGrafo extends Composite {
 		btnNewButton_1 = new Button("Menos");
 		btnNewButton_1.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if (!storedSizes)
-				{
-				AG.storeBGSize();
-				storedSizes=true;
-				}
-				multiplicador=multiplicador-0.1f;
-				if (multiplicador<0.3f) multiplicador=0.3f;
+//				if (!storedSizes)
+//				{
+//				AG.storeBGSize();
+//				storedSizes=true;
+//				}
+				multiplicador=multiplicador-1;
+				if (multiplicador<0) multiplicador=0;
 //				Go(Catalogo);
-				AG.changeMultiplicador();
-				AB.setSize(verticalPanel_1.getOffsetWidth()+"px", verticalPanel_1.getOffsetHeight()+"px");
-				Pinta();
+				refreshsize();
 				
 			}
 		});
@@ -106,16 +103,13 @@ public class PanelGrafo extends Composite {
 		btnNewButton_2 = new Button("Reset");
 		btnNewButton_2.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				if (!storedSizes)
-					{
-					AG.storeBGSize();
-					storedSizes=true;
-					}
-				multiplicador=1.0f;
-//				Go(Catalogo);
-				AG.changeMultiplicador();
-				AB.setSize(verticalPanel_1.getOffsetWidth()+"px", verticalPanel_1.getOffsetHeight()+"px");
-				Pinta();
+//				if (!storedSizes)
+//					{
+//					AG.storeBGSize();
+//					storedSizes=true;
+//					}
+				multiplicador=0;
+				refreshsize();
 			}
 		});
 		btnNewButton_2.setText("Reset");
@@ -148,27 +142,33 @@ public class PanelGrafo extends Composite {
 
 	public void Go(CatalogoClient Entrada) {
 		
-		storedSizes=false;
-		Catalogo=Entrada;
+//		storedSizes=false;
+//		Catalogo=Entrada;
 		verticalPanel_1.clear();
 		
 		Arbolgrafo.clear();
 		AG=new Arbolgrafo();
-		AG.StartArbolgrafo(Entrada);
+		AG.StartArbolgrafo(Entrada,this);
 		
 		verticalPanel_1.add(AG);
+		resetSize();
 		
-		AB.setSize(verticalPanel_1.getOffsetWidth()+"px", verticalPanel_1.getOffsetHeight()+"px");
 		
+		
+	}
+
+	private void resetSize() {
+		AB.setSize(verticalPanel_1.getOffsetWidth()+100+"px", verticalPanel_1.getOffsetHeight()+100+"px");
 		
 	}
 
 	public void Pinta() {
 		
 		simplePanel.clear();
-		canvas = new GWTCanvas(verticalPanel_1.getOffsetWidth(), verticalPanel_1.getOffsetHeight());
+		canvas = new GWTCanvas(verticalPanel_1.getOffsetWidth()+100, verticalPanel_1.getOffsetHeight()+100);
 
-		canvas.setLineWidth(2*multiplicador);
+		float multiplicadorC=1f+(multiplicador+1)/10;
+		canvas.setLineWidth(2*multiplicadorC);
 		canvas.setStrokeStyle(new Color(92, 144, 188));
 		
 		simplePanel.setWidget(canvas);
@@ -262,18 +262,18 @@ public class PanelGrafo extends Composite {
 	}
 	
 	
-	public static float getMultiplicador() {
+	public static int getMultiplicador() {
 		return multiplicador;
 	}
 
 	public void refreshsize() {
-		if (!storedSizes)
-		{
-		AG.storeBGSize();
-		storedSizes=true;
-		}
+//		if (!storedSizes)
+//		{
+//		AG.storeBGSize();
+//		storedSizes=true;
+//		}
 		AG.changeMultiplicador();
-		AB.setSize(verticalPanel_1.getOffsetWidth()+"px", verticalPanel_1.getOffsetHeight()+"px");
+		resetSize();
 		Pinta();
 		
 	}

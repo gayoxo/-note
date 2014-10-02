@@ -51,19 +51,18 @@ public class Arbolgrafo extends Composite implements ElementoGrafo{
 	
 	private static ClickHandler AccionAsociada;
 	private static BotonesStackPanelMio ButonTipo;
-	private static String AnclajeFinalLineaAncho= "10px";
-	private int BGWOriginal;
-	private int BGHOriginal;
+	private static String AnclajeFinalLineaAncho= "5px";
 	private HorizontalPanel horizontalPanel;
 	private SimplePanel PanelEnlaceNodo;
-	private String TextSize;
+	private String StyleBase;
+	private PanelGrafo PanelGrafo;
 	
 
 public Arbolgrafo() {
 	ConstruccionEstandar();
 }
 	
-	public void StartArbolgrafo(CatalogoClient entrada) {
+	public void StartArbolgrafo(CatalogoClient entrada, PanelGrafo panelGrafo) {
 		
 		if (ButonTipo!=null)
 			BG=(BotonGrafo) ButonTipo.Clone();
@@ -73,12 +72,15 @@ public Arbolgrafo() {
 			BG.addClickHandler(AccionAsociada);
 		BG.setCatalogo(entrada);
 		BG.getEntry().setId(Constants.CATALOGID);
-		BG.setStyleName("gwt-ButtonCenterGrafoFolder");
+		StyleBase="gwt-ButtonCenterGrafoFolder0";
+		BG.setStyleName(StyleBase);
+		
+		PanelGrafo=panelGrafo;
 		
 		BG.addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolder");
+				((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolderSelect");
 				
 			}
 		});
@@ -86,12 +88,14 @@ public Arbolgrafo() {
 		BG.addMouseDownHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent event) {
 				((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolderPush");
+				PanelGrafo.Pinta();
 			}
 		});
 		
 		BG.addMouseOutHandler(new MouseOutHandler() {
 			public void onMouseOut(MouseOutEvent event) {
-				((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolder");
+				((Button)event.getSource()).setStyleName(StyleBase);
+				PanelGrafo.Pinta();
 		}
 		});
 		
@@ -99,7 +103,7 @@ public Arbolgrafo() {
 			public void onMouseOver(MouseOverEvent event) {
 				
 				((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolderOver");
-			
+				PanelGrafo.Pinta();
 		}
 		});
 		
@@ -183,7 +187,8 @@ public Arbolgrafo() {
 		Linea.setSize("100%", "");
 		
 		PaneLHijos = new HorizontalPanel();
-		PaneLHijos.setSpacing(5);
+		//TOD AQUI
+		PaneLHijos.setSpacing(0);
 		PaneLHijos.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.add(PaneLHijos);
 		PaneLHijos.setWidth("100%");
@@ -233,7 +238,7 @@ public Arbolgrafo() {
 		
 		entrada.getPaneLHijos().add(Next);
 		LevelActualquitados.add(Next);
-		Next.evaluaSubArbol(entrada.getHijoEntry());
+		Next.evaluaSubArbol(entrada.getHijoEntry(),PanelGrafo);
 		Lineas.add(new LineasUTB(entrada.getLineaCuelgue(), Next.getBG()));
 		}
 		else{
@@ -258,8 +263,9 @@ public Arbolgrafo() {
 		
 	}
 
-	private void evaluaSubArbol(EntryClient entryClient) {
+	private void evaluaSubArbol(EntryClient entryClient,PanelGrafo panelGrafo) {
 		
+		PanelGrafo=panelGrafo;
 		if (ButonTipo!=null)
 			BG=(BotonGrafo) ButonTipo.Clone();
 		else 
@@ -272,14 +278,15 @@ public Arbolgrafo() {
 		BG.setSize("100%", "100%");
 		//BG.setSize((BG.getOffsetWidth()*PanelGrafo.getMultiplicador())+"px",(BG.getOffsetHeight()*PanelGrafo.getMultiplicador())+"px");
 	//	PanelNodo.setHeight(50*PanelGrafo.getMultiplicador()+"px");
+		StyleBase="gwt-ButtonCenterGrafoFile";
 		if (entryClient instanceof TypeClient)
 			{
 			BG.setHTML(entryClient.getName());
-			BG.setStyleName("gwt-ButtonCenterGrafoFile");
+			BG.setStyleName(StyleBase);
 			BG.addClickHandler(new ClickHandler() {
 				
 				public void onClick(ClickEvent event) {
-					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFile");
+					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFileSelect");
 					
 				}
 			});
@@ -287,12 +294,14 @@ public Arbolgrafo() {
 			BG.addMouseDownHandler(new MouseDownHandler() {
 				public void onMouseDown(MouseDownEvent event) {
 					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFilePush");
+					PanelGrafo.Pinta();
 				}
 			});
 			
 			BG.addMouseOutHandler(new MouseOutHandler() {
 				public void onMouseOut(MouseOutEvent event) {
-					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFile");
+					((Button)event.getSource()).setStyleName(StyleBase);
+					PanelGrafo.Pinta();
 			}
 			});
 			
@@ -300,17 +309,19 @@ public Arbolgrafo() {
 				public void onMouseOver(MouseOverEvent event) {
 					
 					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFileOver");
+					PanelGrafo.Pinta();
 				
 			}
 			});
 			}
 		else if (entryClient instanceof TypeCategoryClient){
+			StyleBase="gwt-ButtonCenterGrafoFolder0";
 			BG.setHTML(entryClient.getName());
-			BG.setStyleName("gwt-ButtonCenterGrafoFolder");
+			BG.setStyleName(StyleBase);
 	BG.addClickHandler(new ClickHandler() {
 				
 				public void onClick(ClickEvent event) {
-					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolder");
+					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolderSelect");
 					
 				}
 			});
@@ -318,12 +329,14 @@ public Arbolgrafo() {
 			BG.addMouseDownHandler(new MouseDownHandler() {
 				public void onMouseDown(MouseDownEvent event) {
 					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolderPush");
+					PanelGrafo.Pinta();
 				}
 			});
 			
 			BG.addMouseOutHandler(new MouseOutHandler() {
 				public void onMouseOut(MouseOutEvent event) {
-					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolder");
+					((Button)event.getSource()).setStyleName(StyleBase);
+					PanelGrafo.Pinta();
 			}
 			});
 			
@@ -331,6 +344,7 @@ public Arbolgrafo() {
 				public void onMouseOver(MouseOverEvent event) {
 					
 					((Button)event.getSource()).setStyleName("gwt-ButtonCenterGrafoFolderOver");
+					PanelGrafo.Pinta();
 				
 			}
 			});
@@ -405,7 +419,9 @@ public Arbolgrafo() {
 	
 	public void changeMultiplicador()
 	{
-		PanelNodo.setSize((BGWOriginal*PanelGrafo.getMultiplicador())+"px",(BGHOriginal*PanelGrafo.getMultiplicador())+"px");
+//		PanelNodo.setSize((BGWOriginal*PanelGrafo.getMultiplicador())+"px",(BGHOriginal*PanelGrafo.getMultiplicador())+"px");
+		removeStyleBG();
+		addnewStylesBG();
 //		BG.getElement().getStyle().setFontSize(Integer.parseInt(TextSize)*PanelGrafo.getMultiplicador(),Unit.PX);
 		for (Widget W : PaneLHijos) {
 			if (W instanceof Arbolgrafo)
@@ -413,16 +429,55 @@ public Arbolgrafo() {
 		}
 	}
 	
-	public void storeBGSize()
-	{
-		BGWOriginal=PanelNodo.getOffsetWidth();
-		BGHOriginal=PanelNodo.getOffsetHeight();
-//		Style Style = BG.getElement().getStyle();
-//		TextSize=BG.getElement().getStyle().getFontSize();
-		for (Widget W : PaneLHijos) {
-			if (W instanceof Arbolgrafo)
-				((Arbolgrafo) W).storeBGSize();
+	private void addnewStylesBG() {
+
+		
+		EntryClient entryClient = BG.getEntry();
+		if (entryClient instanceof TypeClient)
+		{
+		StyleBase="gwt-ButtonCenterGrafoFile"+lector.client.controler.catalogo.graph.PanelGrafo.getMultiplicador();
+		BG.setStyleName(StyleBase);		
 		}
+	else if (entryClient instanceof TypeCategoryClient){
+		StyleBase="gwt-ButtonCenterGrafoFolder"+lector.client.controler.catalogo.graph.PanelGrafo.getMultiplicador();
+		BG.setStyleName(StyleBase);
+		}
+		
 	}
+
+	private void removeStyleBG() {
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile0");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile1");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile2");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile3");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile4");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile5");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile6");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile7");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile8");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFile9");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder0");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder1");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder2");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder3");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder4");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder5");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder6");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder7");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder8");
+		BG.removeStyleName("gwt-ButtonCenterGrafoFolder9");
+	}
+
+//	public void storeBGSize()
+//	{
+//		BGWOriginal=PanelNodo.getOffsetWidth();
+//		BGHOriginal=PanelNodo.getOffsetHeight();
+////		Style Style = BG.getElement().getStyle();
+////		TextSize=BG.getElement().getStyle().getFontSize();
+//		for (Widget W : PaneLHijos) {
+//			if (W instanceof Arbolgrafo)
+//				((Arbolgrafo) W).storeBGSize();
+//		}
+//	}
 	
 }

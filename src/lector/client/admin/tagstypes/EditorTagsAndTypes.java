@@ -41,6 +41,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class EditorTagsAndTypes implements EntryPoint {
 
+	private static final String SHOW_GRAPH = "Show Graph";
 	private static String MERGE_BUTTON="Merge";
 	private static String AVAILABLE_SECCION="Available";
 	private static String SELECTED_SECCION="Selected";
@@ -136,7 +137,7 @@ public class EditorTagsAndTypes implements EntryPoint {
 				VG.Lanza();
 			}
 		});
-		mntmNewItem_1.setHTML("Show Graph");
+		mntmNewItem_1.setHTML(SHOW_GRAPH);
 		menuBar.addItem(mntmNewItem_1);
 
 		MenuItem mntmNewItem_3 = new MenuItem("New", false, new Command() {
