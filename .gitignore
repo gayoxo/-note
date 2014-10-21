@@ -1,7 +1,7 @@
 *.class
 
 # Package Files #
-*.jar
+gwt-servlet.jar
 *.war
 *.tmp
 *.symbolMap
