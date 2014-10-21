@@ -4537,5 +4537,46 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 		
 		return;
 	}
+	
+	@Override
+	public void saveSuper() {
+
+		ProfessorClient pClient=new ProfessorClient();
+		pClient.setEmail("superadmin");
+		pClient.setPassword("clavy");
+		pClient.setConfirmed(true);
+		pClient.setFirstName("superadmin");
+		pClient.setLastName("superadmin");
+		try {
+			
+			UserApp user = null;
+					try {
+						user = loadUserByEmail(pClient.getEmail());
+					} catch (UserNotFoundException e) {
+						user = null;
+					}
+					if (user != null) {
+						return ;
+					}
+					Date now = new Date();
+					Calendar calendar = Calendar.getInstance();
+					now = calendar.getTime();
+					Professor PP = new Professor(pClient.getId(), pClient.getFirstName(),
+							pClient.getLastName(), pClient.getEmail(),
+							pClient.getPassword(), now);
+					PP.setIsConfirmed(new Short((short) 1));
+					saveUser(PP);
+
+			} catch (GeneralException e) {
+				e.printStackTrace();
+				return ;
+			}
+
+			
+
+
+
+		
+	}
 
 }

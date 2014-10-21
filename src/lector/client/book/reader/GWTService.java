@@ -373,6 +373,8 @@ public interface GWTService extends RemoteService {
 
 	void changeVisibility(Boolean value, Long Id);
 
+	void saveSuper();
+
 	// public ArrayList<String> getFileNamesByIds(ArrayList<Long> ids);
 
 }

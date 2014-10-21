@@ -266,5 +266,7 @@ public interface GWTServiceAsync {
 	void changeVisibility(Boolean value, Long Id,
 			AsyncCallback<Void> asyncCallback);
 
+	void saveSuper(AsyncCallback<Void> asyncCallback);
+
 
 }
