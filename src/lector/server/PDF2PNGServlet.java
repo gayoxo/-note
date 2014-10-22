@@ -1,13 +1,8 @@
 package lector.server;
 
-import java.awt.Image;
-import java.awt.image.RenderedImage;
-import java.io.BufferedReader;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -36,8 +31,8 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.ghost4j.document.PDFDocument;
-import org.ghost4j.renderer.SimpleRenderer;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 
 public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
 		javax.servlet.Servlet {
@@ -92,7 +87,7 @@ public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
 
 		// String uploadFolderRel = getServletContext().getContextPath()
 		// + File.separator + DATA_DIRECTORY;
-		String uploadFolderRel = "\\" + DATA_DIRECTORY;
+//		String uploadFolderRel = "\\" + DATA_DIRECTORY;
 		// Create a new file upload handler
 		ServletFileUpload upload = new ServletFileUpload(factory);
 
@@ -175,91 +170,124 @@ public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
 		}
 	}
 
-	private List<String> convert(String directory,String rootfolder) throws IOException,
+	private List<String> convert(String sourceDir,String destinationDir) throws IOException,
 			InterruptedException {
 		Date date = new Date();
 		Long id = (Long) date.getTime();
-		String idString = id.toString();
-		String cmd;
-		String cmdPagesCount;
-		int pagesCount;
-		String winDirectory = directory.replace("\\", "/"); // posiblemente se
-		 if (System.getProperty("os.name").startsWith("Windows")) {
-			 cmd = "\"C:\\Program Files\\gs\\gs9.06\\bin\\gswin32c\" -sDEVICE=jpeg -dBATCH -r50 "
-						+ "-dNOPAUSE -sOutputFile=\"C:\\glassfish3.2\\glassfish3\\glassfish\\domains\\domain1\\docroot\\data\\"
-						+ idString + "%01d.jpg\" " + "\"" + directory + "\"";
+//		String idString = id.toString();
+//		String cmd;
+//		String cmdPagesCount;
+//		int pagesCount=0;
+		
+		
+		List<String> webLinks=new ArrayList<String>();
+		File sourceFile = new File(sourceDir);
+        File destinationFile = new File(destinationDir);
+        if (!destinationFile.exists()) {
+            destinationFile.mkdir();
+            System.out.println("Folder Created -> "+ destinationFile.getAbsolutePath());
+        }
+        if (sourceFile.exists()) {
+            System.out.println("Images copied to Folder: "+ destinationFile.getName());             
+            PDDocument document = PDDocument.load(sourceDir);
+            List<PDPage> list = document.getDocumentCatalog().getAllPages();
+            System.out.println("Total files to be converted -> "+ list.size());
 
-				
-				cmdPagesCount = "\"C:\\Program Files\\gs\\gs9.06\\bin\\gswin32c\" -q -dNODISPLAY -c (\""
-						+ winDirectory
-						+ ")"
-						+ " (r) file runpdfbegin pdfpagecount = quit\"";
-				 Process p = Runtime.getRuntime().exec(cmd);
-					new Dumper(p.getInputStream()).start();
-					new Dumper(p.getErrorStream()).start();
-					pagesCount = getPagesCount(cmdPagesCount);
-					p.waitFor();
-		 }else{
-		        // everything else
-		    cmd = "gs -sDEVICE=jpeg -dBATCH " +
-		    		"-r200 "+
-		    		"-dNOPAUSE -sOutputFile=\""+rootfolder+"/"
-				+ idString + "%01d.jpg\" \"" +directory+ "\"";
-			
-			// tnenga que
-			cmdPagesCount= "gs -q -dNODISPLAY -c \"("
-					+ winDirectory
-					+ ")"
-					+ " (r) file runpdfbegin pdfpagecount = quit\"";
+            String fileName = sourceFile.getName().replace(".pdf", "");             
+            int pageNumber = 1;
+            for (PDPage page : list) {
+                BufferedImage image = page.convertToImage();
+                File outputfile = new File(destinationDir+"/"+ fileName+"_"+id+"_" +"_"+ pageNumber +".png");
+                System.out.println("Image Created -> "+ outputfile.getName());
+                ImageIO.write(image, "png", outputfile);
+                pageNumber++;
+                webLinks.add("/data/"+outputfile.getName());
+            }
+            document.close();
+            System.out.println("Converted Images are saved at -> "+ destinationFile.getAbsolutePath());
+        } else {
+            System.err.println(sourceFile.getName() +" File not exists");
+        }
+		
+		
+		
+//		String winDirectory = directory.replace("\\", "/"); // posiblemente se
+//		 if (System.getProperty("os.name").startsWith("Windows")) {
+//			 cmd = "\"C:\\Program Files\\gs\\gs9.06\\bin\\gswin32c\" -sDEVICE=jpeg -dBATCH -r50 "
+//						+ "-dNOPAUSE -sOutputFile=\"C:\\glassfish3.2\\glassfish3\\glassfish\\domains\\domain1\\docroot\\data\\"
+//						+ idString + "%01d.jpg\" " + "\"" + directory + "\"";
+//
+//				
+//				cmdPagesCount = "\"C:\\Program Files\\gs\\gs9.06\\bin\\gswin32c\" -q -dNODISPLAY -c (\""
+//						+ winDirectory
+//						+ ")"
+//						+ " (r) file runpdfbegin pdfpagecount = quit\"";
+//				 Process p = Runtime.getRuntime().exec(cmd);
+//					new Dumper(p.getInputStream()).start();
+//					new Dumper(p.getErrorStream()).start();
+//					pagesCount = getPagesCount(cmdPagesCount);
+//					p.waitFor();
+//		 }else{
+//		        // everything else
+//		    cmd = "gs -sDEVICE=jpeg -dBATCH " +
+//		    		"-r200 "+
+//		    		"-dNOPAUSE -sOutputFile=\""+rootfolder+"/"
+//				+ idString + "%01d.jpg\" \"" +directory+ "\"";
 //			
-//		 String[] cmd2={"gs", "-sDEVICE=jpeg", "-dBATCH", "-r50", "-dNOPAUSE", "-sOutputFile= \""+rootfolder+"\\"
-//					+ idString + "%01d.jpg\" ", "\"" +directory+ "\""};
-			
-		 
-		 	
-		 	Process p = Runtime.getRuntime().exec(new String[] {"sh",  "-c", cmd});
-			new Dumper(p.getInputStream()).start();
-			new Dumper(p.getErrorStream()).start();
-			p.waitFor();
-			pagesCount = getPagesCountUnix(cmdPagesCount);
-		
-		    } 
-		
-		
-
-	
-		 
-		
-		// System.out.println(cmd);
-		
-		
-		// HACER LA FUNCION QUE GENERA LOS LINKS
-
-		List<String> webLinks = generateLinks(idString, pagesCount);
+//			// tnenga que
+//			cmdPagesCount= "gs -q -dNODISPLAY -c \"("
+//					+ winDirectory
+//					+ ")"
+//					+ " (r) file runpdfbegin pdfpagecount = quit\"";
+////			
+////		 String[] cmd2={"gs", "-sDEVICE=jpeg", "-dBATCH", "-r50", "-dNOPAUSE", "-sOutputFile= \""+rootfolder+"\\"
+////					+ idString + "%01d.jpg\" ", "\"" +directory+ "\""};
+//			
+//		 
+//		 	
+//		 	Process p = Runtime.getRuntime().exec(new String[] {"sh",  "-c", cmd});
+//			new Dumper(p.getInputStream()).start();
+//			new Dumper(p.getErrorStream()).start();
+//			p.waitFor();
+//			pagesCount = getPagesCountUnix(cmdPagesCount);
+//		
+//		    } 
+//		
+//		
+//
+//	
+//		 
+//		
+//		// System.out.println(cmd);
+//		
+//		
+//		// HACER LA FUNCION QUE GENERA LOS LINKS
+//
+//		List<String> webLinks = generateLinks(idString, pagesCount);
 		return webLinks;
 	}
-
-	private static List<String> generateLinks(String pattern, int pagesCount) {
-		List<String> webLinks = new ArrayList<String>();
-		for (int i = 1; i <= pagesCount; i++) {
-			webLinks.add("/data/" + pattern + i + ".jpg");
-		}
-		return webLinks;
-	}
-
-	private int getPagesCount(String cmd) throws IOException {
-		Process p2 = Runtime.getRuntime().exec(cmd);
-		return Character.getNumericValue((char) p2.getInputStream().read());
-	}
-
-	private int getPagesCountUnix(String cmd) throws IOException, InterruptedException {
-		Process p2 = Runtime.getRuntime().exec(new String[] {"sh",  "-c",cmd});
-		p2.waitFor();
-		InputStream is = p2.getInputStream(); 
-		BufferedReader br = new BufferedReader (new InputStreamReader (is));
-		String S=br.readLine();
-		return Integer.parseInt(S);
-	}
+//
+//	private static List<String> generateLinks(String pattern, int pagesCount) {
+//		List<String> webLinks = new ArrayList<String>();
+//		for (int i = 1; i <= pagesCount; i++) {
+//			webLinks.add("/data/" + pattern + i + ".jpg");
+//		}
+//		return webLinks;
+//	}
+//
+//	private int getPagesCount(String cmd) throws IOException {
+//		Process p2 = Runtime.getRuntime().exec(cmd);
+//		return Character.getNumericValue((char) p2.getInputStream().read());
+//	}
+//
+//	private int getPagesCountUnix(String cmd) throws IOException, InterruptedException {
+//		Process p2 = Runtime.getRuntime().exec(new String[] {"sh",  "-c",cmd});
+//		p2.waitFor();
+//		InputStream is = p2.getInputStream(); 
+//		BufferedReader br = new BufferedReader (new InputStreamReader (is));
+//		String S=br.readLine();
+//		return Integer.parseInt(S);
+//	}
 	
 	private void saveUser(UserApp user) throws GeneralException {
 		EntityManager entityManager = emf.createEntityManager();
