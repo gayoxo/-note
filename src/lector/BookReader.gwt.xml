@@ -20,9 +20,9 @@
 	<!-- Specify the paths for translatable code                    -->
 	<source path='client' />
 	<source path='share' />
-	<!--   -->
+	<!--  
 	<entry-point class="lector.client.controler.Generador_Basico" />
-	<!-- -->
+	-->
 
 	<inherits name='com.google.gwt.widgetideas.GWTCanvas' />
 
