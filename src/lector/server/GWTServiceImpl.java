@@ -2357,6 +2357,33 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 					deleteTag(entityManager, entry.getId(), Constants.CATALOGID);
 				}
 			}
+			
+			List<ReadingActivity> list;
+
+			String sql = "SELECT r FROM ReadingActivity r WHERE (r.closeCatalogo.id=" + catalogId +" OR r.openCatalogo.id=" + catalogId+")";
+			try {
+				list = entityManager.createQuery(sql).getResultList();
+			} catch (Exception e) {
+				// logger.error ("Exception in method loadTagById: ", e)
+				throw new GeneralException("Exception in method loadTagById:"
+						+ e.getMessage(), e.getStackTrace());
+
+			}
+			
+			for (ReadingActivity readingActivity : list) {
+				if (readingActivity.getCloseCatalogo()==catalogo)
+					{
+					readingActivity.setCloseCatalogo(null);
+					entityManager.merge(readingActivity);
+					}
+				
+				if (readingActivity.getOpenCatalogo()==catalogo)
+				{
+				readingActivity.setOpenCatalogo(null);
+				entityManager.merge(readingActivity);
+				}
+			}
+			
 			entityManager.remove(catalogo);
 			entityManager.flush();
 			userTransaction.commit();
