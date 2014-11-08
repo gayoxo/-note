@@ -11,8 +11,7 @@ header('Content-Disposition: inline; filename='.$number.'.rtf');
 
 $fileContent = "{\\rtf1\\ansi\\ansicpg1252\\deff0\\deflang3082\\deflangfe3082{\\fonttbl{\\f0\\froman\\fprq2\\fcharset0 Times New Roman;}{\\f1\\fnil\\fcharset0 Calibri;}}
 {\\colortbl ;\\red0\\green0\\blue0;}
-\\viewkind4\\uc1\\pard\\nowidctlpar\\qj\\kerning36\\b\\f0\\fs36 Export:";
-$fileContent.=$number;
+";
 $fileContent.="\\tab\\lang10\\kerning0\\b0\\f1\\fs22{\\pict\\wmetafile8\\picwgoal4350\\pichgoal2115 
 010009000003a0510a0000003db7050000001610000026060f002220574d464301000000000001
 008bcc000000004a00000000200000a4070900a4270900010000006c0000000000000000000000

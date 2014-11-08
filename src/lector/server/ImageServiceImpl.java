@@ -374,9 +374,6 @@ public class ImageServiceImpl extends RemoteServiceServlet implements
 			String htmlReturn = "<img src=\"" + encodedText + " alt=\"atnote\" height=\"200\" width=\"400\" \">";
 			
 			html.append(htmlReturn);
-		html.append("<h1>Export:");
-		html.append(System.currentTimeMillis());
-		html.append("</h1>");
 			
 		} catch (Exception e) {
 			// error de carga

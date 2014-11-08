@@ -12,9 +12,9 @@ header('Content-Disposition: inline; filename='.$number.'.html');
 
 /*  Comenzamos a armar el documento  */
 
-$Cesar=$_POST['html'];
+$TExto=$_POST['html'];
 
-$content=utf8($Cesar);
+$content=utf8($TExto);
 
 $output=$content;
  
