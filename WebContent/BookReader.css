@@ -154,6 +154,14 @@ position: RELATIVE;
 .gwt-StackPanel {
  	font-size: 10px;
 }
+
+
+.Root {
+min-width:800px;
+min-height:600px;
+
+}
+
 .Root2 {
 possition: LEFT;
 }
@@ -480,7 +488,7 @@ background: transparent url('BotonesLista/BotonAbajoGris.jpg') no-repeat center 
 	text-decoration: none;
 	border: 0px solid;
 	font-size: 24px;
-	min-height:33px;
+	min-height:16px;
 }
 .gwt-ButtonDerechaOver {
  background: transparent url('BotonesSueltos/BotonDer.jpg') no-repeat  center center;
@@ -492,7 +500,7 @@ background: transparent url('BotonesLista/BotonAbajoGris.jpg') no-repeat center 
 	font-size: 24px;
 	text-decoration: none;
 		border: 0px solid;
-		min-height:33px;
+		min-height:16px;
 }
 
 .gwt-ButtonDerechaSelect {
@@ -505,7 +513,7 @@ background: transparent url('BotonesSueltos/BotonDer.jpg') no-repeat center cent
 	text-decoration: none;
 		border: 0px solid;
 		  background-size:  100% 100%;
-		  min-height:33px;
+		  min-height:16px;
 }
 
 .gwt-ButtonDerechaPush {
@@ -518,7 +526,7 @@ background: transparent url('BotonesSueltos/BotonDer.jpg') no-repeat center cent
 	font-size: 24px;
 	text-decoration: none;
 	background-color: White;
-	min-height:33px;
+	min-height:16px;
 }
 
 .gwt-ButtonIzquierda {
@@ -531,7 +539,7 @@ background: transparent url('BotonesSueltos/BotonDer.jpg') no-repeat center cent
 	text-decoration: none;
 	border: 0px solid;
 	font-size: 24px;
-	min-height: 33px;
+	min-height: 16px;
 }
 .gwt-ButtonIzquierdaOver {
  background: transparent url('BotonesSueltos/BotonIzq.jpg') no-repeat  center center;
@@ -543,7 +551,7 @@ background: transparent url('BotonesSueltos/BotonDer.jpg') no-repeat center cent
 	font-size: 24px;
 	text-decoration: none;
 		border: 0px solid;
-		min-height: 33px;
+		min-height: 16px;
 }
 
 .gwt-ButtonIzquierdaSelect {
@@ -556,7 +564,7 @@ background: transparent url('BotonesSueltos/BotonIzq.jpg') no-repeat center cent
 	text-decoration: none;
 		border: 0px solid;
 		  background-size:  100% 100%;
-		  min-height: 33px;
+		  min-height: 16px;
 }
 
 .gwt-ButtonIzquierdaPush {
@@ -569,7 +577,7 @@ background: transparent url('BotonesSueltos/BotonIzq.jpg') no-repeat center cent
 	font-size: 24px;
 	text-decoration: none;
 	background-color: White;
-	min-height: 33px;
+	min-height: 16px;
 }
 .Dialog {
 max-width:600px;
@@ -758,7 +766,7 @@ background: transparent url('BotonesSueltos/Boton.jpg') no-repeat center center;
 	color: White;
 	text-decoration: none;
 	border: 0px solid;
-	min-height:33px;
+	min-height:16px;
 }
 .gwt-ButtonDerechaOverMIN {
  background: transparent url('BotonesSueltos/BotonDer.jpg') no-repeat  center center;
@@ -769,7 +777,7 @@ background: transparent url('BotonesSueltos/Boton.jpg') no-repeat center center;
 	color: Scrollbar;
 	text-decoration: none;
 		border: 0px solid;
-		min-height:33px;
+		min-height:16px;
 }
 
 .gwt-ButtonDerechaSelectMIN {
@@ -781,7 +789,7 @@ background: transparent url('BotonesSueltos/BotonDer.jpg') no-repeat center cent
 	text-decoration: none;
 		border: 0px solid;
 		  background-size:  100% 100%;
-		  min-height:33px;
+		  min-height:16px;
 }
 
 .gwt-ButtonDerechaPushMIN {
@@ -793,7 +801,7 @@ background: transparent url('BotonesSueltos/BotonDer.jpg') no-repeat center cent
 	border: 0px solid;
 	text-decoration: none;
 	background-color: White;
-	min-height:33px;
+	min-height:16px;
 }
 
 .gwt-ButtonIzquierdaMIN {
@@ -955,7 +963,7 @@ background: transparent url('Direccionales/BotonDerAbajo.jpg') no-repeat center 
 	text-decoration: none;
 	border: 0px solid;
 	font-size: 24px;
-	min-height: 33px;
+	min-height: 16px;
 }
 .gwt-ButtonCenterContinuoOver {
  background: transparent url('Direccionales/BotonCentroDer.jpg') no-repeat  center center;
@@ -967,7 +975,7 @@ background: transparent url('Direccionales/BotonDerAbajo.jpg') no-repeat center 
 	font-size: 24px;
 	text-decoration: none;
 		border: 0px solid;
-		min-height: 33px;
+		min-height: 16px;
 }
 
 .gwt-ButtonCenterContinuoSelect {
@@ -980,7 +988,7 @@ background: transparent url('Direccionales/BotonCentroDer.jpg') no-repeat center
 	text-decoration: none;
 		border: 0px solid;
 		  background-size:  100% 100%;
-		  min-height: 33px;
+		  min-height: 16px;
 }
 
 .gwt-ButtonCenterContinuoPush {
@@ -993,7 +1001,7 @@ background: transparent url('Direccionales/BotonCentroDer.jpg') no-repeat center
 	font-size: 24px;
 	text-decoration: none;
 	background-color: White;
-	min-height: 33px;
+	min-height: 16px;
 }
 
 .gwt-ButtonCenterContinuoEnd {
@@ -1006,7 +1014,7 @@ background: transparent url('Direccionales/BotonCentroDer.jpg') no-repeat center
 	text-decoration: none;
 	border: 0px solid;
 	font-size: 24px;
-	min-height: 33px;
+	min-height: 16px;
 }
 .gwt-ButtonCenterContinuoEndOver {
  background: transparent url('Direccionales/BotonCentroEnd.jpg') no-repeat  center center;
@@ -1018,7 +1026,7 @@ background: transparent url('Direccionales/BotonCentroDer.jpg') no-repeat center
 	font-size: 24px;
 	text-decoration: none;
 		border: 0px solid;
-		min-height: 33px;
+		min-height: 16px;
 }
 
 .gwt-ButtonCenterContinuoEndSelect {
@@ -1031,7 +1039,7 @@ background: transparent url('Direccionales/BotonCentroEnd.jpg') no-repeat center
 	text-decoration: none;
 		border: 0px solid;
 		  background-size:  100% 100%;
-		  min-height: 33px;
+		  min-height: 16px;
 }
 
 .gwt-ButtonCenterContinuoEndPush {
@@ -1044,7 +1052,7 @@ background: transparent url('Direccionales/BotonCentroEnd.jpg') no-repeat center
 	font-size: 24px;
 	text-decoration: none;
 	background-color: White;
-	min-height: 33px;
+	min-height: 16px;
 }
 
 .gwt-ButtonCenterContinuoIzq {
@@ -1151,7 +1159,7 @@ background: transparent url('Direccionales/BotonIzqIzq.jpg') no-repeat center ce
 	text-decoration: none;
 	border: 0px solid;
 	font-size: 15px;
-	min-height:33px;
+	min-height:16px;
 	max-height:100%;
 }
 .gwt-ButtonCenterContinuoDobleOver {
@@ -1164,7 +1172,7 @@ background: transparent url('Direccionales/BotonIzqIzq.jpg') no-repeat center ce
 	font-size: 24px;
 	text-decoration: none;
 		border: 0px solid;
-		min-height:33px;
+		min-height:16px;
 }
 
 .gwt-ButtonCenterContinuoDobleSelect {
@@ -1177,7 +1185,7 @@ background: transparent url('Direccionales/BotonCentro.jpg') no-repeat center ce
 	text-decoration: none;
 		border: 0px solid;
 		  background-size:  100% 100%;
-		  min-height:33px;
+		  min-height:16px;
 }
 
 .gwt-ButtonCenterContinuoDoblePush {
@@ -1190,7 +1198,7 @@ background: transparent url('Direccionales/BotonCentro.jpg') no-repeat center ce
 	font-size: 24px;
 	text-decoration: none;
 	background-color: White;
-	min-height:33px;
+	min-height:16px;
 }
 .TituloLogin {
 
@@ -1213,6 +1221,12 @@ img {
 .BlancoTransparente {
 	background-color: rgba(255, 255, 255, 0.50);
 }
+
+.Blancoopaco
+{
+	background-color: rgba(255, 255, 255, 1);
+}
+
 .gwt-LabelMargen2px {
   margin: 0px 5px 0px;
 }
@@ -1230,7 +1244,7 @@ outline:0;
 	text-decoration: none;
 	border: 0px solid;
 	font-size: 24px;
-	min-height:33px;
+	min-height:16px;
 }
 .gwt-ButtonCenterContinuoNoBorderOver {
  background: transparent url('BotonesSueltos/BotonsinBordeBlanco.jpg') no-repeat  center center;
@@ -1242,7 +1256,7 @@ outline:0;
 	font-size: 24px;
 	text-decoration: none;
 		border: 0px solid;
-		min-height:33px;
+		min-height:16px;
 }
 
 .gwt-ButtonCenterContinuoNoBorderSelect {
@@ -1255,7 +1269,7 @@ background: transparent url('BotonesSueltos/BotonsinBordeBlanco.jpg') no-repeat 
 	text-decoration: none;
 		border: 0px solid;
 		  background-size:  100% 100%;
-		  min-height:33px;
+		  min-height:16px;
 }
 
 .gwt-ButtonCenterContinuoNoBorderPush {
@@ -1268,8 +1282,10 @@ background: transparent url('BotonesSueltos/BotonsinBordeBlanco.jpg') no-repeat 
 	font-size: 24px;
 	text-decoration: none;
 	background-color: White;
-	min-height:33px;
+	min-height:16px;
 }
+
+
 
 .gwt-ButtonCenterGrafoFolder0 {
  background: transparent url('BotonesGrafo/BotonFolder.jpg') no-repeat center center;
@@ -1589,22 +1605,22 @@ Background_White {
 }
 
 .backgroundKey {
-background: transparent url('TreeKey/16.jpg') no-repeat left center;
-     background-size: 20px 100%;
+background: transparent url('TreeKey/16.png') no-repeat left center;
+     background-size: 5px 100%;
      display: block;
     float: left;
 }
 .backgroundKeyUp {
-background: transparent url('TreeKey/11.jpg') no-repeat left center;
+background: transparent url('TreeKey/11.png') no-repeat left center;
  display: block;
     float: left;
-     background-size: 40px 25px;
+     background-size: 11px 7px;
 }
 .backgroundKeyDown {
-background: transparent url('TreeKey/15.jpg') no-repeat left center;
+background: transparent url('TreeKey/15.png') no-repeat left center;
  display: block;
     float: left;
-     background-size: 40px 25px;
+     background-size: 11px 7px;
 }
 
 .RootMaxMin {

@@ -271,7 +271,7 @@ public enum CatalogTipo {
                 ScrollPanel.setSize("297px", "100%");
                 
                 panel = new HTMLPanel(annotation.getComment().toString());
-                panel.setStyleName("BlancoTransparente");
+                panel.setStyleName("Blancoopaco");
                 ScrollPanel.setWidget(panel);
                 panel.setSize("100%", "100%");
                 decoratorPanel_1.setVisible(false);
@@ -336,6 +336,7 @@ public enum CatalogTipo {
         simplePanel.setSize("306px", "45px");
         
         scrollPanel = new ScrollPanel();
+        scrollPanel.setStyleName("Blancoopaco");
         simplePanel.setWidget(scrollPanel);
         scrollPanel.setAlwaysShowScrollBars(true);
         simplePanel.setVisible(false);

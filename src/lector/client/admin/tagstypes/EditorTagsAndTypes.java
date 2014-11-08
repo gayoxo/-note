@@ -361,7 +361,7 @@ public class EditorTagsAndTypes implements EntryPoint {
 		menuBar.addItem(mntmSearcher);
 
 		DockLayoutPanel simplePanel_2 = new DockLayoutPanel(Unit.PX);
-		simplePanel_2.setStyleName("fondoLogo");
+//		simplePanel_2.setStyleName("fondoLogo");
 		
 		RootTXOriginal.add(simplePanel_2, 0, 0);
 		// RootTXOriginal.add(simplePanel_2);

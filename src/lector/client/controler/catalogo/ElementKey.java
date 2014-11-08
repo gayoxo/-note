@@ -485,7 +485,7 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		Large11 = new SimplePanel();
 		Large11.setStyleName("backgroundKeyUp");
 		verticalPanel_1.add(Large11);
-		Large11.setSize("40px", "25px");
+		Large11.setSize("11px", "7px");
 		
 		horizontalPanel_5 = new HorizontalPanel();
 		horizontalPanel_5.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -503,9 +503,9 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 //				LargeP.setVisible(true);
 //				LargeP.setSize("35px", "100%");
 		
-		Compact = new Image("ArbolLineChico.jpg");
+		Compact = new Image("ArbolLineChico2.png");
 		horizontalPanel_5.add(Compact);
-		Compact.setSize("10px", "55px");
+		Compact.setSize("13px", "34px");
 		Compact.setVisible(false);
 		
 		PanelOcultable = new HorizontalPanel();
@@ -516,17 +516,17 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		
 		absolutePanel = new AbsolutePanel();
 		PanelOcultable.add(absolutePanel);
-		absolutePanel.setSize("40px", "100%");
+		absolutePanel.setSize("7px", "100%");
 		
 		horizontalPanel_3 = new HorizontalPanel();
 		horizontalPanel_3.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		horizontalPanel_3.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		absolutePanel.add(horizontalPanel_3);
-		horizontalPanel_3.setSize("40px", "100%");
+		horizontalPanel_3.setSize("7px", "100%");
 		
 		LargeNN = new SimplePanel();
 		horizontalPanel_3.add(LargeNN);
-		LargeNN.setSize("40px", "20px");
+		LargeNN.setSize("7px", "20px");
 		
 		NextBotones = new VerticalPanelEspacial(this);
 		PanelOcultable.add(NextBotones);
@@ -536,7 +536,7 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		Large22 = new SimplePanel();
 		Large22.setStyleName("backgroundKeyDown");
 		verticalPanel_1.add(Large22);
-		Large22.setSize("40px", "25px");
+		Large22.setSize("11px", "7px");
 		
 		
 	}

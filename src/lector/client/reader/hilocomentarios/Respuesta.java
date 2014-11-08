@@ -252,7 +252,7 @@ public class Respuesta extends Composite {
 	        F.setSize("100%", "100%");
 	        richTextArea2.setWidget(F);
 	        panel = new HTMLPanel(annotation.getComment().toString());
-	        panel.setStyleName("BlancoTransparente");
+	        panel.setStyleName("Blancoopaco");
 	        richTextArea2.setSize("296px", "100%");
 	        
 
