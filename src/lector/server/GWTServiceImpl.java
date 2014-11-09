@@ -44,6 +44,7 @@ import lector.share.model.Annotation;
 import lector.share.model.AnnotationNotFoundException;
 import lector.share.model.AnnotationThread;
 import lector.share.model.AnnotationThreadNotFoundException;
+import lector.share.model.BNEBook;
 import lector.share.model.Book;
 import lector.share.model.BookNotFoundException;
 import lector.share.model.DecendanceException;
@@ -64,6 +65,7 @@ import lector.share.model.ProfessorNotFoundException;
 import lector.share.model.ReadingActivityNotFoundException;
 import lector.share.model.Relation;
 import lector.share.model.RelationNotFoundException;
+import lector.share.model.RemoteBook;
 import lector.share.model.Student;
 import lector.share.model.StudentNotFoundException;
 import lector.share.model.Tag;
@@ -80,6 +82,7 @@ import lector.share.model.UserApp;
 import lector.share.model.UserNotFoundException;
 import lector.share.model.client.AnnotationClient;
 import lector.share.model.client.AnnotationThreadClient;
+import lector.share.model.client.BNEBookClient;
 import lector.share.model.client.BookClient;
 import lector.share.model.client.CatalogoClient;
 import lector.share.model.client.EntryClient;
@@ -1985,20 +1988,6 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 				.produceGoogleBookClients(getGoogleBooks(query));
 	}
 
-	@Override
-	public void addBookToUser(BookClient bookClient, Long userId)
-			throws GeneralException {
-		Book book = reproduceBookFromClient(bookClient, userId);
-		book.getProfessor().getBooks().add(book);
-		try {
-			saveBook(book);
-		} catch (GeneralException e) {
-			throw new GeneralException("Error in method addBookToUser",
-					e.getStackTrace());
-
-		}
-
-	}
 
 	private Book reproduceBookFromClient(BookClient bookClient, Long userId)
 			throws GeneralException {
@@ -2019,20 +2008,35 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 																// RemoteBook
 																// aun cuando
 																// son locales
-		else
+		else			
 			return ProcessLocalbook(bookClient, professor);
 
 	}
 
 	private Book ProcessRemotebook(BookClient bookClient, Professor professor) {
 		if (bookClient instanceof GoogleBookClient)
-			return processGoogleBook(bookClient, professor);
-
+			return processGoogleBook((GoogleBookClient)bookClient, professor);
+		if (bookClient instanceof BNEBookClient)
+			return processBNEBook((BNEBookClient)bookClient, professor);
 		return null;
 	}
+	
+	private Book processBNEBook(BNEBookClient bookClient, Professor professor) {
+		BNEBookClient entrada = bookClient;
 
-	private Book processGoogleBook(BookClient bookClient, Professor professor) {
-		GoogleBookClient entrada = (GoogleBookClient) bookClient;
+		//TODO produce WL cargando el PDF y separandolo
+		
+		BNEBook book = new BNEBook(entrada.getAuthor(),
+				entrada.getISBN(), Integer.toString(entrada.getWebLinks()
+						.size()), entrada.getPublishedYear(),
+				entrada.getTitle(), entrada.getUrl());
+		book.setProfessor(professor);
+		book.setWebLinks(entrada.getWebLinks());
+		return book;
+	}
+
+	private Book processGoogleBook(GoogleBookClient bookClient, Professor professor) {
+		GoogleBookClient entrada = bookClient;
 
 		GoogleBook book = new GoogleBook(entrada.getAuthor(),
 				entrada.getISBN(), Integer.toString(entrada.getWebLinks()
@@ -4602,6 +4606,32 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 			
 
 
+
+		
+	}
+
+
+	@Override
+	public BNEBookClient getBNEBook(String BNEUri) {
+		// TODO llamar a la api de BN para obtener el Json con los datos
+		BNEBookClient BNE = new BNEBookClient("", "", "", "", "", "");
+		BNE.setUrl(BNEUri);
+		return BNE;
+	}
+
+	@Override
+	public void addBookToUser(RemoteBookClient bookClient, Long userId) throws GeneralException {
+		
+		try {
+		Book book = reproduceBookFromClient(bookClient, userId);
+		book.getProfessor().getBooks().add(book);
+		
+			saveBook(book);
+		} catch (GeneralException e) {
+			throw new GeneralException("Error in method addBookToUser",
+					e.getStackTrace());
+
+		}
 
 		
 	}

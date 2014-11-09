@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import lector.share.model.AnnotationNotFoundException;
 import lector.share.model.AnnotationThreadNotFoundException;
+import lector.share.model.BNEBook;
 import lector.share.model.BookNotFoundException;
 import lector.share.model.CatalogoNotFoundException;
 import lector.share.model.DecendanceException;
@@ -24,6 +25,7 @@ import lector.share.model.NotAuthenticatedException;
 import lector.share.model.NullParameterException;
 import lector.share.model.ProfessorNotFoundException;
 import lector.share.model.ReadingActivityNotFoundException;
+import lector.share.model.RemoteBook;
 import lector.share.model.StudentNotFoundException;
 import lector.share.model.Language;
 import lector.share.model.TagNotFoundException;
@@ -31,6 +33,7 @@ import lector.share.model.TwinBrotherException;
 import lector.share.model.UserNotFoundException;
 import lector.share.model.client.AnnotationClient;
 import lector.share.model.client.AnnotationThreadClient;
+import lector.share.model.client.BNEBookClient;
 import lector.share.model.client.BookClient;
 import lector.share.model.client.CatalogoClient;
 import lector.share.model.client.EntryClient;
@@ -38,6 +41,7 @@ import lector.share.model.client.GoogleBookClient;
 import lector.share.model.client.GroupClient;
 import lector.share.model.client.ProfessorClient;
 import lector.share.model.client.ReadingActivityClient;
+import lector.share.model.client.RemoteBookClient;
 import lector.share.model.client.StudentClient;
 import lector.share.model.client.TypeCategoryClient;
 import lector.share.model.client.TypeClient;
@@ -201,8 +205,7 @@ public interface GWTService extends RemoteService {
 	public List<BookClient> getBookClientsByIds(List<Long> ids)
 			throws BookNotFoundException, GeneralException;
 
-	public void addBookToUser(BookClient bookClient, Long userId)
-			throws GeneralException;
+	void addBookToUser(RemoteBookClient bookClient, Long userId) throws GeneralException;
 
 	// Carga un libro desde la factoria.
 
@@ -349,24 +352,12 @@ public interface GWTService extends RemoteService {
 	public Language loadLanguageById(Long languageId)
 			throws LanguageNotFoundException, GeneralException;
 
-	// Procesos Internos
-
-	// Generacion del Grafo // Se debe de implementar internamente
 
 	String getJSONServiceTODrawGraph(String query, String data);
 
-	// AnnotationSchema getSchemaByCatalogId(Long catalogId);
-
-	// public ArrayList<Tag> getEntriesIdsByIdsRec(ArrayList<Long> Ids);
-
-	// public Long saveFile(File filesys, Long fatherId) throws FileException;
-	//
-	// public Long saveFolder(Folder folderSys, Long fatherId)
-	// throws FolderException;
-	//
-	// public ArrayList<Entity> getSons(Long fatherId, Long catalogId);
-
-	// TODO: RETIRAR CUANDO SE HAGA EL LOGIN CON GOOGLE
+	BNEBookClient getBNEBook(String BNEUri);
+	
+	
 	public void deleteBookById(Long id) throws GeneralException;
 
 	void renameType(Long typeIds, String newTagName);
@@ -375,6 +366,6 @@ public interface GWTService extends RemoteService {
 
 	void saveSuper();
 
-	// public ArrayList<String> getFileNamesByIds(ArrayList<Long> ids);
+	
 
 }

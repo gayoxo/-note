@@ -11,8 +11,10 @@ import lector.client.controler.ConstantsInformation;
 import lector.client.logger.Logger;
 import lector.client.reader.LoadingPanel;
 import lector.share.model.Language;
+import lector.share.model.client.BNEBookClient;
 import lector.share.model.client.GoogleBookClient;
 import lector.share.model.client.ProfessorClient;
+import lector.share.model.client.RemoteBookClient;
 import lector.share.model.client.UserClient;
 
 import com.google.gwt.core.client.GWT;
@@ -56,11 +58,10 @@ public class VisorSearcherGoogleBookPopupPanel extends PopupPanel {
 	private TextBox AddToMyBooksMenuItemTextBox;
 	private TextBox CloseMenuItemTextBox;
 	
-	public String BookId="";
 	public VisorSearcherGoogleBookPopupPanel Yo;
 	static GWTServiceAsync bookReaderServiceHolder = GWT
 			.create(GWTService.class);
-	public GoogleBookClient Entrada;
+	public RemoteBookClient Entrada;
 
 	private AbsolutePanel PanelEdicion;
 
@@ -75,18 +76,18 @@ public class VisorSearcherGoogleBookPopupPanel extends PopupPanel {
 
 	private static final String WINDOW_HEIGHT = "608px";
 	
-	public VisorSearcherGoogleBookPopupPanel(GoogleBookClient entrada) {
+	public VisorSearcherGoogleBookPopupPanel(RemoteBookClient entrada) {
 		super(false);
 		setAnimationEnabled(true);
 		GeneralPanel=new AbsolutePanel();
 		GeneralPanel.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setWidget(GeneralPanel);
-		BookId=entrada.getWebLinks().get(0);
-		entrada.setImagesPath(BookId);
+	
+//		entrada.setImagesPath(BookId);
 		Yo=this;
 		Entrada=entrada;
-		String[] Booksplit=BookId.split(SPLIT);
-		BookId=Booksplit[0];
+		
+		
 		setGlassEnabled(true);
 		flowPanel = new SimplePanel();
 		//setWidget(simplePanel);
@@ -179,7 +180,16 @@ public class VisorSearcherGoogleBookPopupPanel extends PopupPanel {
 		});
 		menuBar.addItem(AddToMyBooksMenuItem);
 		
-		String Direccion=BookId +"&printsec=frontcover&output=embed";
+		String Direccion="";
+		if (Entrada instanceof GoogleBookClient) 
+			{
+			String BookId = entrada.getWebLinks().get(0);
+			String[] Booksplit=BookId.split(SPLIT);
+			BookId=Booksplit[0];
+			Direccion=BookId +"&printsec=frontcover&output=embed";
+			}
+		else if (Entrada instanceof BNEBookClient) 
+			Direccion=((BNEBookClient) Entrada).getUrl();
 		
 		TextBox textBox = new TextBox();
 		textBox.setVisibleLength(180);

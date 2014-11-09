@@ -26,6 +26,7 @@
 		<class>lector.share.model.GoogleBook</class>
 		<class>lector.share.model.RemoteBook</class>
 		<class>lector.share.model.Relation</class>
+		<class>lector.share.model.BNEBook</class>
 	
 		<!-- 	<class>lector.client.reader.filter.FilterConfig</class>
 		<class>lector.client.service.AnnotationSchema</class>  -->

@@ -48,33 +48,48 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class BookAdministrationEntryPoint implements EntryPoint {
 
+	
+
+	
+
 	private static final String BOOK_ADMINISTRATION_NAME = "Book Administration Menu";
 
 	private static final int NCampos = 5;
 
 	private static String GET_A_BOOK_WELLCOME = "Book Management";
-	private static String UPLOAD_A_TEXT = "Upload your own Text";
+	private static String UPLOAD_A_TEXT = "Upload your own text";
 	private static String GET_A_BOOK = "Get a book from Google Library";
 	private static String DELETE_SELECTED_LABEL = "Delete Selected Books";
 	private static String BACK_LABEL="Back";
+	private static String GET_A_ONLINE_BOOK = "Get a online book";
+	private static String GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL = "Get a book from Biblioteca Nacional de España";
 
-	private static String GET_A_BOOK_WELLCOME_RESET = "Book Management";
-	private static String UPLOAD_A_TEXT_RESET = "Upload your own Text";
-	private static String GET_A_BOOK_RESET = "Get a book from Google Library";
-	private static String DELETE_SELECTED_LABEL_RESET = "Delete Selected Books";
-	private static String BACK_LABEL_RESET="Back";
+	private static final String GET_A_BOOK_WELLCOME_RESET = "Book Management";
+	private static final String UPLOAD_A_TEXT_RESET = "Upload your own Text";
+	private static final String GET_A_BOOK_RESET = "Get a book from Google Library";
+	private static final String DELETE_SELECTED_LABEL_RESET = "Delete Selected Books";
+	private static final String BACK_LABEL_RESET="Back";
+	private static final String GET_A_ONLINE_BOOK_RESET = "Get a online book";
+	private static final String GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL_RESET = "Get a book from Biblioteca Nacional de España";
+	
+
+	
 	
 	private MenuItem GetABookWellcomeMenuItem;
 	private MenuItem UploadATextMenuItem;
 	private MenuItem GetABookFromGoogleMenuItem;
 	private MenuItem DeleteSelectedMenuItem;
 	private MenuItem BackMenuItem;
+	private MenuItem MenuGetaBook;
+	private MenuItem MenuItemBNE;
 
 	private TextBox GetABookWellcomeMenuItemTextBox;
 	private TextBox UploadATextMenuItemTextBox;
 	private TextBox GetABookFromGoogleMenuItemTextBox;
 	private TextBox DeleteSelectedMenuItemTextBox;
 	private TextBox BackMenuItemTextBox;
+	private TextBox MenuGetaBookTextBox;
+	private TextBox MenuItemBNETextBox;
 
 	public static String CONFIRM_REMOVE_BOOK = "Are you sure to remove the book?, The activities asociates to the book will be removed. Book to remove: ";
 
@@ -89,6 +104,11 @@ public class BookAdministrationEntryPoint implements EntryPoint {
 	private DockLayoutPanel PanelFondoGeneral;
 	private AbsolutePanel PanelEdicion;
 	private RootPanel rootPanel;
+
+	
+	
+
+	
 
 	
 
@@ -125,16 +145,29 @@ public class BookAdministrationEntryPoint implements EntryPoint {
 
 			}
 		});
-		UploadATextMenuItem.setHTML(BookAdministrationEntryPoint.UPLOAD_A_TEXT);
+		UploadATextMenuItem.setHTML(UPLOAD_A_TEXT);
 		menuBar.addItem(UploadATextMenuItem);
-
-		GetABookFromGoogleMenuItem = new MenuItem(
-				BookAdministrationEntryPoint.GET_A_BOOK, false, new Command() {
+		MenuBar menuBar_1 = new MenuBar(true);
+		
+		MenuGetaBook = new MenuItem(GET_A_ONLINE_BOOK, false, menuBar_1);
+		
+				GetABookFromGoogleMenuItem = new MenuItem(
+						BookAdministrationEntryPoint.GET_A_BOOK, false, new Command() {
+							public void execute() {
+								Controlador.change2Searcher();
+							}
+						});
+				menuBar_1.addItem(GetABookFromGoogleMenuItem);
+				
+				MenuItemBNE = new MenuItem(GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL, false, new Command() {
 					public void execute() {
-						Controlador.change2Searcher();
+						Controlador.change2SearcherBNE();
 					}
 				});
-		menuBar.addItem(GetABookFromGoogleMenuItem);
+				MenuItemBNE.setHTML(GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL);
+				menuBar_1.addItem(MenuItemBNE);
+		MenuGetaBook.setHTML(GET_A_ONLINE_BOOK);
+		menuBar.addItem(MenuGetaBook);
 
 		DeleteSelectedMenuItem = new MenuItem(DELETE_SELECTED_LABEL, false,
 				new Command() {
@@ -438,6 +471,18 @@ public class BookAdministrationEntryPoint implements EntryPoint {
 				else
 					BACK_LABEL = BACK_LABEL_RESET;
 				
+				if (!MenuGetaBookTextBox.getText().isEmpty())
+					GET_A_ONLINE_BOOK = MenuGetaBookTextBox
+							.getText();
+				else
+					GET_A_ONLINE_BOOK = GET_A_ONLINE_BOOK_RESET;
+				
+				if (!MenuItemBNETextBox.getText().isEmpty())
+					GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL = MenuItemBNETextBox
+							.getText();
+				else
+					GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL = GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL_RESET;
+				
 				PanelPublicPrivatePanel.OpenEditPanelonClick();
 
 				
@@ -492,6 +537,24 @@ public class BookAdministrationEntryPoint implements EntryPoint {
 				BackMenuItem.getAbsoluteLeft(),
 				BackMenuItem.getAbsoluteTop());
 		
+		MenuGetaBookTextBox = new TextBox();
+		MenuGetaBookTextBox.setText(BACK_LABEL);
+		MenuGetaBookTextBox.setSize(
+				MenuGetaBook.getOffsetWidth() + "px",
+				MenuGetaBook.getOffsetHeight() + "px");
+		PanelEdicion.add(MenuGetaBookTextBox,
+				MenuGetaBook.getAbsoluteLeft(),
+				MenuGetaBook.getAbsoluteTop());
+		
+		MenuItemBNETextBox = new TextBox();
+		MenuItemBNETextBox.setText(BACK_LABEL);
+		MenuItemBNETextBox.setSize(
+				MenuItemBNE.getOffsetWidth() + "px",
+				MenuItemBNE.getOffsetHeight() + "px");
+		PanelEdicion.add(MenuItemBNETextBox,
+				MenuItemBNE.getAbsoluteLeft(),
+				MenuItemBNE.getAbsoluteTop());
+		
 		PanelPublicPrivatePanel.OpenEditPanel(PanelEdicion);
 
 	}
@@ -511,6 +574,8 @@ public class BookAdministrationEntryPoint implements EntryPoint {
 		GetABookFromGoogleMenuItem.setText(GET_A_BOOK);
 		DeleteSelectedMenuItem.setText(DELETE_SELECTED_LABEL);
 		BackMenuItem.setText(BACK_LABEL);
+		MenuGetaBook.setText(GET_A_ONLINE_BOOK);
+		MenuItemBNE.setText(GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL);
 		PanelPublicPrivatePanel.ParsearFieldsAItems();
 
 	}
@@ -522,6 +587,8 @@ public class BookAdministrationEntryPoint implements EntryPoint {
 		SB.append(GET_A_BOOK + "\r\n");
 		SB.append(DELETE_SELECTED_LABEL + "\r\n");
 		SB.append(BACK_LABEL + "\r\n");
+		SB.append(GET_A_ONLINE_BOOK + "\r\n");
+		SB.append(GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL + "\r\n");
 		return SB.toString();
 	}
 
@@ -553,6 +620,16 @@ public class BookAdministrationEntryPoint implements EntryPoint {
 				BACK_LABEL = Lista[4];
 			else
 				BACK_LABEL = BACK_LABEL_RESET;
+			
+			if (!Lista[5].isEmpty())
+				GET_A_ONLINE_BOOK = Lista[5];
+			else
+				GET_A_ONLINE_BOOK = GET_A_ONLINE_BOOK_RESET;
+			
+			if (!Lista[6].isEmpty())
+				GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL = Lista[6];
+			else
+				GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL = GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL_RESET;
 		} else
 			Logger.GetLogger().severe(
 					BookAdministrationEntryPoint.class.toString(),
@@ -569,6 +646,8 @@ public class BookAdministrationEntryPoint implements EntryPoint {
 		GET_A_BOOK = GET_A_BOOK_RESET;
 		DELETE_SELECTED_LABEL = DELETE_SELECTED_LABEL_RESET;
 		BACK_LABEL = BACK_LABEL_RESET;
+		GET_A_ONLINE_BOOK=GET_A_ONLINE_BOOK_RESET;
+		GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL=GET_A_BOOK_FROM_BIBLIOTECA_NACIONAL_RESET;
 		
 	}
 

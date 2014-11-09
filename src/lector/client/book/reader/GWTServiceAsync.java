@@ -7,10 +7,14 @@ package lector.client.book.reader;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.ArrayList;
 import java.util.List;
+
+import lector.share.model.BNEBook;
 import lector.share.model.Entry;
 import lector.share.model.Language;
+import lector.share.model.RemoteBook;
 import lector.share.model.client.AnnotationClient;
 import lector.share.model.client.AnnotationThreadClient;
+import lector.share.model.client.BNEBookClient;
 import lector.share.model.client.BookClient;
 import lector.share.model.client.CatalogoClient;
 import lector.share.model.client.EntryClient;
@@ -18,6 +22,7 @@ import lector.share.model.client.GoogleBookClient;
 import lector.share.model.client.GroupClient;
 import lector.share.model.client.ProfessorClient;
 import lector.share.model.client.ReadingActivityClient;
+import lector.share.model.client.RemoteBookClient;
 import lector.share.model.client.StudentClient;
 import lector.share.model.client.TypeCategoryClient;
 import lector.share.model.client.TypeClient;
@@ -185,7 +190,7 @@ public interface GWTServiceAsync {
 	void saveType(TypeClient typesys, Long fatherEntry,
 			AsyncCallback<Void> callback);
 
-	void addBookToUser(BookClient bookClient, Long userId,
+	void addBookToUser(RemoteBookClient bookClient, Long userId,
 			AsyncCallback<Void> callback);
 
 	void renameTypeCategory(Long typeCategoryId, String newFolderDBName,
@@ -267,6 +272,8 @@ public interface GWTServiceAsync {
 			AsyncCallback<Void> asyncCallback);
 
 	void saveSuper(AsyncCallback<Void> asyncCallback);
+
+	void getBNEBook(String BNEUri, AsyncCallback<BNEBookClient> asyncCallback);
 
 
 }

@@ -438,7 +438,7 @@ public class SearcherGoogleEntryPoint implements EntryPoint, HistoryListener {
 
 		GoogleLoaderWellcomeMenuItem = new MenuItem(GOOGLE_LOADER_SYSTEM_MENUITEM,
 				false, (Command) null);
-		GoogleLoaderWellcomeMenuItem.setHTML("Add Book Administration");
+		GoogleLoaderWellcomeMenuItem.setHTML(GOOGLE_LOADER_SYSTEM_MENUITEM);
 		GoogleLoaderWellcomeMenuItem.setEnabled(false);
 		menuBar.addItem(GoogleLoaderWellcomeMenuItem);
 

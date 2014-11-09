@@ -8,6 +8,7 @@ import lector.client.admin.Library.MyBooks;
 import lector.client.admin.activity.AdminActivitiesEntryPoint;
 import lector.client.admin.admins.AdminAdministratorEntryPoint;
 import lector.client.admin.book.BookAdministrationEntryPoint;
+import lector.client.admin.book.BNEAPI.SearcherBNEEntryPoint;
 import lector.client.admin.book.googleAPI.SearcherGoogleEntryPoint;
 import lector.client.admin.book.upload.BookUploadEntryPoint;
 import lector.client.admin.catalog.CatalogAdmintrationEntryPoint;
@@ -40,6 +41,7 @@ public class Controlador implements EntryPoint {
     private static MainEntryPoint MEP = new MainEntryPoint();
     private static EntryPoint Actual = null;
     private static SearcherGoogleEntryPoint Search = new SearcherGoogleEntryPoint();
+    private static SearcherBNEEntryPoint SearchBNE = new SearcherBNEEntryPoint();
     private static AdministradorEntryPoint Admin = new AdministradorEntryPoint();
     private static EditorTagsAndTypes AdminTagsAndTypes = new EditorTagsAndTypes();
     private static Login LoginPage=new Login();
@@ -60,6 +62,7 @@ public class Controlador implements EntryPoint {
 	private static NewAdminTemplate AdminTemplate=new NewAdminTemplate();
 //	private static ExportResult ExportResultado=new ExportResult();
 	private static EditTemplate EditTemplateE=new EditTemplate();
+	
 
     /**
      * @wbp.parser.entryPoint
@@ -112,6 +115,12 @@ public class Controlador implements EntryPoint {
         Actual.onModuleLoad();
     }
     
+    public static void change2SearcherBNE() {
+    	clear();
+        Actual = SearchBNE;
+        Actual.onModuleLoad();
+		
+	}
    
 
    public static void change2Administrator() {
@@ -257,4 +266,6 @@ public class Controlador implements EntryPoint {
 		Actual.onModuleLoad();
 		
 	}
+
+	
 }
