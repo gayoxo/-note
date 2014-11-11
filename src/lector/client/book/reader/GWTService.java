@@ -355,7 +355,7 @@ public interface GWTService extends RemoteService {
 
 	String getJSONServiceTODrawGraph(String query, String data);
 
-	BNEBookClient getBNEBook(String BNEUri);
+	BNEBookClient getBNEBook(String BNEUri,String Autor,String ISBN,String year,String Title);
 	
 	
 	public void deleteBookById(Long id) throws GeneralException;

@@ -8,10 +8,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import lector.share.model.BNEBook;
 import lector.share.model.Entry;
 import lector.share.model.Language;
-import lector.share.model.RemoteBook;
 import lector.share.model.client.AnnotationClient;
 import lector.share.model.client.AnnotationThreadClient;
 import lector.share.model.client.BNEBookClient;
@@ -273,7 +271,8 @@ public interface GWTServiceAsync {
 
 	void saveSuper(AsyncCallback<Void> asyncCallback);
 
-	void getBNEBook(String BNEUri, AsyncCallback<BNEBookClient> asyncCallback);
+	void getBNEBook(String BNEUri, String Autor, String ISBN, String year,
+			String Title, AsyncCallback<BNEBookClient> asyncCallback);
 
 
 }

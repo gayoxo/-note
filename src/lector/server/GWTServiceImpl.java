@@ -1,13 +1,20 @@
 package lector.server;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,7 +24,10 @@ import java.util.Properties;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -26,6 +36,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.management.RuntimeErrorException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -36,6 +47,10 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+
 import lector.client.book.reader.ExportService;
 import lector.client.book.reader.GWTService;
 import lector.client.controler.Constants;
@@ -104,6 +119,8 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 			.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 	@Resource
 	UserTransaction userTransaction;
+	
+	private static final String DATA_DIRECTORY = "data";
 
 	private ExportService exportService = new ExportServiceImpl();
 
@@ -2009,7 +2026,7 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 																// aun cuando
 																// son locales
 		else			
-			return ProcessLocalbook(bookClient, professor);
+			return null;
 
 	}
 
@@ -2024,7 +2041,52 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 	private Book processBNEBook(BNEBookClient bookClient, Professor professor) {
 		BNEBookClient entrada = bookClient;
 
-		//TODO produce WL cargando el PDF y separandolo
+		List<String> Weblinks=new ArrayList<String>();
+		
+		String[] bookS= bookClient.getUrl().split("=");
+		try {
+		String number= bookS[1];
+		
+		String URL = "http://bdh-rd.bne.es/high.raw?id="+number+"&name=00000001.original.pdf";
+		System.out.println(URL);
+		
+			
+			String[] route = getServletContext().getRealPath("").split(Pattern.quote(File.separator));
+			StringBuffer uploadFolderSb = new StringBuffer();
+			// uploadFolderSb.append(File.separator);
+			for (int i = 0; i < route.length - 2; i++) {
+				uploadFolderSb.append(route[i]);
+				uploadFolderSb.append(File.separator);
+			}
+
+			
+			uploadFolderSb.append("docroot");
+			uploadFolderSb.append(File.separator + DATA_DIRECTORY+File.separator);
+			String uploadFolder = uploadFolderSb.toString();
+			
+			File F=new File(uploadFolder);
+			F.mkdirs();
+			
+			String Filepath=uploadFolder+System.currentTimeMillis()+".pdf";
+			
+			URL website = new URL(URL);
+			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			FileOutputStream fos = new FileOutputStream(Filepath);
+			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			fos.close();
+			
+			Weblinks =convert(Filepath, uploadFolder);
+			entrada.setWebLinks(Weblinks);
+			
+			//TODO produce WL cargando el PDF y separandolo
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Error en la bajada del archivo");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Error en la coversion del archivo");
+		}
 		
 		BNEBook book = new BNEBook(entrada.getAuthor(),
 				entrada.getISBN(), Integer.toString(entrada.getWebLinks()
@@ -2035,6 +2097,53 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 		return book;
 	}
 
+	
+	private List<String> convert(String sourceDir, String destinationDir)
+			throws IOException, InterruptedException {
+		Date date = new Date();
+		Long id = (Long) date.getTime();
+		// String idString = id.toString();
+		// String cmd;
+		// String cmdPagesCount;
+		// int pagesCount=0;
+
+		List<String> webLinks = new ArrayList<String>();
+		File sourceFile = new File(sourceDir);
+		File destinationFile = new File(destinationDir);
+		if (!destinationFile.exists()) {
+			destinationFile.mkdir();
+			System.out.println("Folder Created -> "
+					+ destinationFile.getAbsolutePath());
+		}
+		if (sourceFile.exists()) {
+			System.out.println("Images copied to Folder: "
+					+ destinationFile.getName());
+			PDDocument document = PDDocument.load(sourceDir);
+			List<PDPage> list = document.getDocumentCatalog().getAllPages();
+			System.out.println("Total files to be converted -> " + list.size());
+
+			String fileName = sourceFile.getName().replace(".pdf", "");
+			int pageNumber = 1;
+			for (PDPage page : list) {
+				BufferedImage image = page.convertToImage();
+				File outputfile = new File(destinationDir + "/" + fileName
+						+ "_" + id + "_" + "_" + pageNumber + ".png");
+				System.out.println("Image Created -> " + outputfile.getName());
+				ImageIO.write(image, "png", outputfile);
+				pageNumber++;
+				webLinks.add("/data/" + outputfile.getName());
+			}
+			document.close();
+			System.out.println("Converted Images are saved at -> "
+					+ destinationFile.getAbsolutePath());
+		} else {
+			System.err.println(sourceFile.getName() + " File not exists");
+		}
+
+		return webLinks;
+	}
+	
+	
 	private Book processGoogleBook(GoogleBookClient bookClient, Professor professor) {
 		GoogleBookClient entrada = bookClient;
 
@@ -2047,10 +2156,10 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 		return book;
 	}
 
-	private Book ProcessLocalbook(BookClient bookClient, Professor professor) {
-		// TODO Realizar cuando este el sistema de carga
-		return null;
-	}
+//	private Book ProcessLocalbook(BookClient bookClient, Professor professor) {
+//		// TODO Realizar cuando este el sistema de carga
+//		return null;
+//	}
 
 	public List<GoogleBook> getGoogleBooks(String query) {
 		String cleanQuery = ServiceManagerUtils.removeSpaces(query);
@@ -4612,9 +4721,9 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
 
 	@Override
-	public BNEBookClient getBNEBook(String BNEUri) {
-		// TODO llamar a la api de BN para obtener el Json con los datos
-		BNEBookClient BNE = new BNEBookClient("", "", "", "", "", "");
+	public BNEBookClient getBNEBook(String BNEUri,String Autor,String ISBN,String year,String Title) {
+		//TODO parseo &name=00000001.original.pdf&attachment=3802092_3787477_T_003562.pdf&view=main&lang=es
+		BNEBookClient BNE = new BNEBookClient(Autor, ISBN, "", year, Title, "");
 		BNE.setUrl(BNEUri);
 		return BNE;
 	}

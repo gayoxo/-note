@@ -24,6 +24,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import lector.share.model.Annotation;
 import lector.share.model.AnnotationThread;
+import lector.share.model.BNEBook;
 import lector.share.model.Book;
 import lector.share.model.Catalogo;
 import lector.share.model.FolderDB;
@@ -41,6 +42,7 @@ import lector.share.model.TextSelector;
 import lector.share.model.UserApp;
 import lector.share.model.client.AnnotationClient;
 import lector.share.model.client.AnnotationThreadClient;
+import lector.share.model.client.BNEBookClient;
 import lector.share.model.client.BookClient;
 import lector.share.model.client.CatalogoClient;
 import lector.share.model.client.EntryClient;
@@ -333,6 +335,14 @@ public class ServiceManagerUtils {
 		g.setId(gb.getId());
 		return g;
 	}
+	
+	public static BNEBookClient produceBNEBookClient(BNEBook gb) {
+		BNEBookClient g = new BNEBookClient(gb.getAuthor(), gb.getISBN(),
+				gb.getPagesCount(), gb.getPublishedYear(), gb.getTitle(),
+				gb.getUrl());
+		g.setId(gb.getId());
+		return g;
+	}
 
 	public static List<GoogleBookClient> produceGoogleBookClients(
 			List<GoogleBook> s) {
@@ -346,9 +356,12 @@ public class ServiceManagerUtils {
 	public static BookClient produceBookClient(Book b) {
 		if (b instanceof GoogleBook) {
 			return produceGoogleBookClient((GoogleBook) b);
-		} else {
+		} else if (b instanceof BNEBook) {
+			return produceBNEBookClient((BNEBook) b);
+		} else if (b instanceof LocalBook) {
 			return produceLocalBookClient((LocalBook) b);
 		}
+		else return null;
 
 	}
 

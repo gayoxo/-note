@@ -33,6 +33,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.user.client.ui.Grid;
 
 /**
  * @author Joaquin Gayoso-Cabada
@@ -40,7 +41,8 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
  */
 public class SearcherBNEEntryPoint implements EntryPoint {
 
-	private static final String TEXT_CAN_NOT_BE_EMPTY = "Text Can not be empty";
+	private static final String TEXT_CAN_NOT_BE_EMPTY = "URI Can not be empty";
+	private static final String TITLE_CAN_NOT_BE_EMPTY = "Title Can not be empty";
 	private RootPanel rootPanel;
 	private DockLayoutPanel PanelFondoGeneral;
 	private MenuItem GoogleLoaderWellcomeMenuItem;
@@ -56,7 +58,16 @@ public class SearcherBNEEntryPoint implements EntryPoint {
 	private TextBox textBox;
 	static GWTServiceAsync bookReaderServiceHolder = GWT
 			.create(GWTService.class);
-
+	private VerticalPanel verticalPanel_1;
+	private Label OptionalLabel;
+	private Grid grid;
+	private Label TittleLAbel;
+	private TextBox TitleTextbox;
+	private TextBox AuthorText;
+	private TextBox YearTextb;
+	private TextBox ISBNText;
+	
+	
 	/* (non-Javadoc)
 	 * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
 	 */
@@ -124,9 +135,23 @@ public class SearcherBNEEntryPoint implements EntryPoint {
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 				
-					if (!textBox.getText().isEmpty())
+					boolean Error=false;
+					if (textBox.getText().isEmpty())
 					{
-						bookReaderServiceHolder.getBNEBook(textBox.getText(), new AsyncCallback<BNEBookClient>() {
+						Window.alert(TEXT_CAN_NOT_BE_EMPTY);
+						Error=true;
+					}
+					
+					if (TitleTextbox.getText().isEmpty())
+					{
+						Window.alert(TITLE_CAN_NOT_BE_EMPTY);
+						Error=true;
+					}
+					
+					
+					
+					if (!Error)
+						bookReaderServiceHolder.getBNEBook(textBox.getText(),AuthorText.getText(),ISBNText.getText(),YearTextb.getText(),TitleTextbox.getText(), new AsyncCallback<BNEBookClient>() {
 							
 							@Override
 							public void onSuccess(BNEBookClient result) {
@@ -141,16 +166,45 @@ public class SearcherBNEEntryPoint implements EntryPoint {
 								
 							}
 						});
-					}
-					else
-					{
-						Window.alert(TEXT_CAN_NOT_BE_EMPTY);
-					}
 				}
 				
 			}
 		});
 		BlancoPanel_1.add(textBox);
 		textBox.setWidth("688px");
+		
+		verticalPanel_1 = new VerticalPanel();
+		verticalPanel_1.setSpacing(5);
+		BlancoPanel_1.add(verticalPanel_1);
+		
+		OptionalLabel = new Label("Aditional information (* = optional)");
+		verticalPanel_1.add(OptionalLabel);
+		
+		grid = new Grid(4, 2);
+		verticalPanel_1.add(grid);
+		
+		TittleLAbel = new Label("Title");
+		grid.setWidget(0, 0, TittleLAbel);
+		
+		TitleTextbox = new TextBox();
+		grid.setWidget(0, 1, TitleTextbox);
+		
+		Label Authorlabel = new Label("Author *");
+		grid.setWidget(1, 0, Authorlabel);
+		
+		AuthorText = new TextBox();
+		grid.setWidget(1, 1, AuthorText);
+		
+		Label YearLabel = new Label("Year *");
+		grid.setWidget(2, 0, YearLabel);
+		
+		YearTextb = new TextBox();
+		grid.setWidget(2, 1, YearTextb);
+		
+		Label ISBNLabel = new Label("ISBN *");
+		grid.setWidget(3, 0, ISBNLabel);
+		
+		ISBNText = new TextBox();
+		grid.setWidget(3, 1, ISBNText);
 	}
 }
