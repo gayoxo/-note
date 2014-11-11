@@ -7,7 +7,7 @@ import lector.client.admin.book.googleAPI.VisorSearcherGoogleBookPopupPanel;
 import lector.client.book.reader.GWTService;
 import lector.client.book.reader.GWTServiceAsync;
 import lector.client.controler.Controlador;
-import lector.share.model.BNEBook;
+import lector.share.RuntimeAtNoteException;
 import lector.share.model.client.BNEBookClient;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -31,9 +31,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 
 /**
  * @author Joaquin Gayoso-Cabada
@@ -66,6 +67,8 @@ public class SearcherBNEEntryPoint implements EntryPoint {
 	private TextBox AuthorText;
 	private TextBox YearTextb;
 	private TextBox ISBNText;
+	private HorizontalPanel horizontalPanel;
+	private Button SearchButton;
 	
 	
 	/* (non-Javadoc)
@@ -128,50 +131,35 @@ public class SearcherBNEEntryPoint implements EntryPoint {
 		Label lblNewLabel = new Label("Insert BNE book URI  (example : http://bdh-rd.bne.es/viewer.vm?id=0000093282 ) ");
 		BlancoPanel_1.add(lblNewLabel);
 		
+		horizontalPanel = new HorizontalPanel();
+		horizontalPanel.setSpacing(3);
+		horizontalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		horizontalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		BlancoPanel_1.add(horizontalPanel);
+		
 		textBox = new TextBox();
+		horizontalPanel.add(textBox);
 		textBox.addKeyDownHandler(new KeyDownHandler() {
 			
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 				
-					boolean Error=false;
-					if (textBox.getText().isEmpty())
-					{
-						Window.alert(TEXT_CAN_NOT_BE_EMPTY);
-						Error=true;
-					}
+					llamada();
 					
-					if (TitleTextbox.getText().isEmpty())
-					{
-						Window.alert(TITLE_CAN_NOT_BE_EMPTY);
-						Error=true;
-					}
-					
-					
-					
-					if (!Error)
-						bookReaderServiceHolder.getBNEBook(textBox.getText(),AuthorText.getText(),ISBNText.getText(),YearTextb.getText(),TitleTextbox.getText(), new AsyncCallback<BNEBookClient>() {
-							
-							@Override
-							public void onSuccess(BNEBookClient result) {
-								VisorSearcherGoogleBookPopupPanel VS = new VisorSearcherGoogleBookPopupPanel(result);
-								 VS.center();
-								
-							}
-							
-							@Override
-							public void onFailure(Throwable caught) {
-								Window.alert("Book not supported");
-								
-							}
-						});
 				}
 				
 			}
 		});
-		BlancoPanel_1.add(textBox);
 		textBox.setWidth("688px");
+		
+		SearchButton = new Button("Load Book");
+		SearchButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				llamada();
+			}
+		});
+		horizontalPanel.add(SearchButton);
 		
 		verticalPanel_1 = new VerticalPanel();
 		verticalPanel_1.setSpacing(5);
@@ -206,5 +194,43 @@ public class SearcherBNEEntryPoint implements EntryPoint {
 		
 		ISBNText = new TextBox();
 		grid.setWidget(3, 1, ISBNText);
+	}
+
+
+	protected void llamada() {
+		boolean Error=false;
+		if (textBox.getText().isEmpty())
+		{
+			Window.alert(TEXT_CAN_NOT_BE_EMPTY);
+			Error=true;
+		}
+		
+		if (TitleTextbox.getText().isEmpty())
+		{
+			Window.alert(TITLE_CAN_NOT_BE_EMPTY);
+			Error=true;
+		}
+		
+		
+		
+		if (!Error)
+			bookReaderServiceHolder.getBNEBook(textBox.getText(),AuthorText.getText(),ISBNText.getText(),YearTextb.getText(),TitleTextbox.getText(), new AsyncCallback<BNEBookClient>() {
+				
+				@Override
+				public void onSuccess(BNEBookClient result) {
+					VisorSearcherGoogleBookPopupPanel VS = new VisorSearcherGoogleBookPopupPanel(result);
+					 VS.center();
+					
+				}
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					if (caught instanceof RuntimeAtNoteException)
+						Window.alert(((RuntimeAtNoteException)caught).getMessage());	
+					else 
+						Window.alert("Error in load, please try again");
+				}
+			});
+		
 	}
 }

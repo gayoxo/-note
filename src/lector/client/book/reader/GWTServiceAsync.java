@@ -8,6 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import lector.share.RuntimeAtNoteException;
 import lector.share.model.Entry;
 import lector.share.model.Language;
 import lector.share.model.client.AnnotationClient;

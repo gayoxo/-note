@@ -340,6 +340,7 @@ public class ServiceManagerUtils {
 		BNEBookClient g = new BNEBookClient(gb.getAuthor(), gb.getISBN(),
 				gb.getPagesCount(), gb.getPublishedYear(), gb.getTitle(),
 				gb.getUrl());
+		g.setWebLinks(gb.getWebLinks());
 		g.setId(gb.getId());
 		return g;
 	}

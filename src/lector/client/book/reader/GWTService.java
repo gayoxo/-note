@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
+import lector.share.RuntimeAtNoteException;
 import lector.share.model.AnnotationNotFoundException;
 import lector.share.model.AnnotationThreadNotFoundException;
 import lector.share.model.BNEBook;
@@ -355,7 +357,7 @@ public interface GWTService extends RemoteService {
 
 	String getJSONServiceTODrawGraph(String query, String data);
 
-	BNEBookClient getBNEBook(String BNEUri,String Autor,String ISBN,String year,String Title);
+	BNEBookClient getBNEBook(String BNEUri,String Autor,String ISBN,String year,String Title) throws RuntimeAtNoteException;
 	
 	
 	public void deleteBookById(Long id) throws GeneralException;

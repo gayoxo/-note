@@ -24,6 +24,7 @@ import java.util.Properties;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
@@ -55,6 +56,8 @@ import lector.client.book.reader.ExportService;
 import lector.client.book.reader.GWTService;
 import lector.client.controler.Constants;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import lector.share.RuntimeAtNoteException;
 import lector.share.model.Annotation;
 import lector.share.model.AnnotationNotFoundException;
 import lector.share.model.AnnotationThread;
@@ -2043,31 +2046,41 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
 		List<String> Weblinks=new ArrayList<String>();
 		
+		
+		String[] route = getServletContext().getRealPath("").split(Pattern.quote(File.separator));
+		StringBuffer uploadFolderSb = new StringBuffer();
+		// uploadFolderSb.append(File.separator);
+		for (int i = 0; i < route.length - 2; i++) {
+			uploadFolderSb.append(route[i]);
+			uploadFolderSb.append(File.separator);
+		}
+
+		
+		uploadFolderSb.append("docroot");
+		uploadFolderSb.append(File.separator + DATA_DIRECTORY+File.separator);
+		String uploadFolder = uploadFolderSb.toString();
+		
+		long currentTimeMillis = System.currentTimeMillis();
+		
+		
 		String[] bookS= bookClient.getUrl().split("=");
 		try {
 		String number= bookS[1];
 		
-		String URL = "http://bdh-rd.bne.es/high.raw?id="+number+"&name=00000001.original.pdf";
-		System.out.println(URL);
+//		String URL = "http://bdh-rd.bne.es/high.raw?id="+number+"&name=00000001.original.pdf";
 		
 			
-			String[] route = getServletContext().getRealPath("").split(Pattern.quote(File.separator));
-			StringBuffer uploadFolderSb = new StringBuffer();
-			// uploadFolderSb.append(File.separator);
-			for (int i = 0; i < route.length - 2; i++) {
-				uploadFolderSb.append(route[i]);
-				uploadFolderSb.append(File.separator);
-			}
-
+			String URL=BuscarLAURL(bookClient.getUrl(),number);
 			
-			uploadFolderSb.append("docroot");
-			uploadFolderSb.append(File.separator + DATA_DIRECTORY+File.separator);
-			String uploadFolder = uploadFolderSb.toString();
+			URL = "http://bdh-rd.bne.es/high.raw?id="+number+"&name="+URL;
+			
+			System.out.println(URL);
 			
 			File F=new File(uploadFolder);
 			F.mkdirs();
 			
-			String Filepath=uploadFolder+System.currentTimeMillis()+".pdf";
+			
+			String Filepath=uploadFolder+currentTimeMillis+".pdf";
 			
 			URL website = new URL(URL);
 			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
@@ -2098,6 +2111,39 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 	}
 
 	
+	private String BuscarLAURL(String urlin, String number) throws IOException {
+		 URL url = new URL(urlin);
+		    URLConnection uc = url.openConnection();
+		    uc.connect();
+		    BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+		    String inputLine;
+		    String contenido = "";
+		    while ((inputLine = in.readLine()) != null) {
+		        contenido += inputLine + "\n";
+		    }
+		    in.close();
+		    
+		    StringBuffer Salida=new StringBuffer();
+		    
+		    int position=contenido.indexOf("var viewerModel");
+		    position=position+10;
+		    while (contenido.charAt(position)!='{')
+		    	position++;
+
+		    position++;
+		    position++;
+		    while (contenido.charAt(position)!='"')
+	    	{
+		    	Salida.append(contenido.charAt(position));
+	    	position++;
+	    	}
+		    
+		    //<a href="high.raw?id=0000018534&amp;name=high.pdf&amp;attachment=0000018534.pdf&amp;view=main&amp;lang=es" title="Descargar PDF (1.1 MiB)"></a>
+		    
+		    
+		    return Salida.toString();
+	}
+
 	private List<String> convert(String sourceDir, String destinationDir)
 			throws IOException, InterruptedException {
 		Date date = new Date();
@@ -4721,11 +4767,20 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
 
 	@Override
-	public BNEBookClient getBNEBook(String BNEUri,String Autor,String ISBN,String year,String Title) {
-		//TODO parseo &name=00000001.original.pdf&attachment=3802092_3787477_T_003562.pdf&view=main&lang=es
+	public BNEBookClient getBNEBook(String BNEUri,String Autor,String ISBN,String year,String Title) throws RuntimeAtNoteException{
+		//TODO parseo http://bdh-rd.bne.es/viewer.vm?id=0000093282
+		Pattern regexAmbito = Pattern.compile("^http://bdh-rd.bne.es/viewer.vm\\?id=\\d+$");
+//		Pattern regexAmbito = Pattern.compile("^Size: \\d+(\\S+\\})+$");
+		BNEUri=BNEUri.trim().toLowerCase();
+		 Matcher matcher = regexAmbito.matcher(BNEUri);
+		 if (matcher.matches())
+		 {
 		BNEBookClient BNE = new BNEBookClient(Autor, ISBN, "", year, Title, "");
 		BNE.setUrl(BNEUri);
 		return BNE;
+		 }
+		 else
+			 throw new RuntimeAtNoteException("Error in link, please check the URL, it should be like http://bdh-rd.bne.es/viewer.vm?id=0000093282");
 	}
 
 	@Override
@@ -4744,5 +4799,13 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
 		
 	}
+	
+	public static void main(String[] args) {
+		Pattern regexAmbito = Pattern.compile("^http://bdh-rd.bne.es/viewer.vm\\?id=\\d+$");
+//		Pattern regexAmbito = Pattern.compile("^Size: \\d+(\\S+\\})+$");
+		 Matcher matcher = regexAmbito.matcher("http://bdh-rd.bne.es/viewer.vm?id=0000093282");
+		 System.out.println(matcher.matches());
+	}
+	
 
 }

@@ -6,8 +6,6 @@ import java.util.List;
 import lector.client.book.reader.GWTService;
 import lector.client.book.reader.GWTServiceAsync;
 import lector.client.controler.ActualState;
-import lector.client.controler.CalendarNow;
-import lector.client.controler.Constants;
 import lector.client.controler.Controlador;
 import lector.client.controler.ConstantsError;
 import lector.client.controler.ConstantsInformation;
@@ -33,15 +31,11 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 
 public class MyBooks implements EntryPoint {
 	

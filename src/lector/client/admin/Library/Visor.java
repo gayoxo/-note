@@ -153,6 +153,7 @@ public class Visor extends PopupPanel {
 				Atras.setEnabled(true);
 				Pagina1.setUrl(Book.getWebLinks().get(actualpagina-2).replace("\\", "/"));
 				Pagina2.setUrl(Book.getWebLinks().get(actualpagina-1).replace("\\", "/"));
+				resize();
 			}
 		});
 		
@@ -246,6 +247,43 @@ public class Visor extends PopupPanel {
 			Adelante.setEnabled(false);	
 		Atras.setEnabled(false);
 		PaginaInt.setValue(actualpagina);		
+	}
+
+	protected void resize() {
+		{
+		Image I = Pagina1;
+		float He = I.getHeight();
+		float Wi = I.getWidth();
+		float prop = He / 528;
+		float Winew = (Wi / prop);
+		
+		if (Winew<410)
+			Pagina1.setSize(Winew + "px", "528px");
+		else{
+			He = I.getHeight();
+			Wi = I.getWidth();
+			prop = Wi / 410;
+			float Hinew = (He / prop);
+			Pagina1.setSize("410px", Hinew + "px");
+		}
+		}
+		{
+		Image I = Pagina2;
+		float He = I.getHeight();
+		float Wi = I.getWidth();
+		float prop = He / 528;
+		float Winew = (Wi / prop);
+		
+		if (Winew<410)
+			Pagina2.setSize(Winew + "px", "528px");
+		else{
+			He = I.getHeight();
+			Wi = I.getWidth();
+			prop = Wi / 410;
+			float Hinew = (He / prop);
+			Pagina2.setSize("410px", Hinew + "px");
+		}
+		}
 	}
 
 
