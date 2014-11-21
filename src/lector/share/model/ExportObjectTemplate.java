@@ -1,10 +1,18 @@
 package lector.share.model;
 
+import java.io.Serializable;
 
-public class ExportObjectTemplate extends ExportObject {
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+
+public class ExportObjectTemplate extends ExportObject implements Serializable, IsSerializable{
 
 	private int profundidad;
 	private String Text;
+	
+	public ExportObjectTemplate() {
+		super();
+	}
 	
 	public ExportObjectTemplate(int profundidadin, String Textin) {
 		profundidad=profundidadin;

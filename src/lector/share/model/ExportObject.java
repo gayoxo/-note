@@ -2,10 +2,12 @@ package lector.share.model;
 
 import java.io.Serializable;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 import lector.share.model.Annotation;
 import lector.share.model.client.AnnotationClient;
 
-public class ExportObject implements Serializable {
+public class ExportObject implements Serializable ,IsSerializable{
 
 	private AnnotationClient annotation;
 	private String imageURL;
