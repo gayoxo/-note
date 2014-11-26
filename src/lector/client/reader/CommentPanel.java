@@ -74,7 +74,7 @@ public class CommentPanel extends Composite {
 
 public enum CatalogTipo {
 		
-		Catalog1("<img src=\"FilePe.gif\">"), Catalog2("<img src=\"File2Pe.gif\">");
+		Catalog1("<img src=\"File.gif\" class=\"coment\"  >"), Catalog2("<img src=\"File2.gif\" class=\"coment\" >");
 		
 		private String Texto;
 		

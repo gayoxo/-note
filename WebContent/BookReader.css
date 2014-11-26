@@ -1630,3 +1630,12 @@ min-width: 1392px;
 .RootMaxMin2 {
 min-width: 1392px;
 }
+
+
+img.direct {
+height: 16px;
+}
+
+img.coment {
+height: 15px;
+}

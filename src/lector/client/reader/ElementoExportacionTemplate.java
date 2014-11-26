@@ -129,7 +129,7 @@ public class ElementoExportacionTemplate extends Composite{
 	        horizontalPanel.add(UP);
 	        horizontalPanel.setCellVerticalAlignment(UP, HasVerticalAlignment.ALIGN_MIDDLE);
 	        horizontalPanel.setCellHorizontalAlignment(UP, HasHorizontalAlignment.ALIGN_CENTER);
-	        UP.setHTML("<img src=\"BotonesTemplate/Arriba.gif\" alt=\"UP\">");
+	        UP.setHTML("<img src=\"BotonesTemplate/Arriba.gif\" class=\"direct\" alt=\"UP\">");
 	        UP.setSize("50px", "30px");
 	        UP.setStyleName("gwt-ButtonCenterContinuo");
 	        UP.addMouseOutHandler(new MouseOutHandler() {
@@ -157,7 +157,7 @@ public class ElementoExportacionTemplate extends Composite{
 	        horizontalPanel.add(Down);
 	        horizontalPanel.setCellHorizontalAlignment(Down, HasHorizontalAlignment.ALIGN_CENTER);
 	        horizontalPanel.setCellVerticalAlignment(Down, HasVerticalAlignment.ALIGN_MIDDLE);
-	        Down.setHTML("<img src=\"BotonesTemplate/Abajo.gif\" alt=\"<-\">");
+	        Down.setHTML("<img src=\"BotonesTemplate/Abajo.gif\" class=\"direct\" alt=\"<-\">");
 	        Down.setSize("50px", "30px");
 	        Down.setStyleName("gwt-ButtonCenterContinuoEnd");
 	        Down.addMouseOutHandler(new MouseOutHandler() {

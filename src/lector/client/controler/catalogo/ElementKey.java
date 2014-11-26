@@ -103,7 +103,7 @@ public class ElementKey extends Composite{
 		BotonT.add(horizontalPanel_2);
 		horizontalPanel_2.setHeight("100%");
 		
-		BotonUp = new Button("<img src=\"BotonesTemplate/Arriba.gif\" alt=\"<-\">");
+		BotonUp = new Button("<img src=\"BotonesTemplate/Arriba.gif\" class=\"direct\" alt=\"<-\">");
 		horizontalPanel_2.add(BotonUp);
 		horizontalPanel_2.setCellVerticalAlignment(BotonUp, HasVerticalAlignment.ALIGN_MIDDLE);
 		horizontalPanel_2.setCellHorizontalAlignment(BotonUp, HasHorizontalAlignment.ALIGN_CENTER);
@@ -202,7 +202,7 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 			}
 		});
 		
-		BotonDown = new Button("<img src=\"BotonesTemplate/Abajo.gif\" alt=\"<-\">");
+		BotonDown = new Button("<img src=\"BotonesTemplate/Abajo.gif\" class=\"direct\" alt=\"<-\">");
 		horizontalPanel_2.add(BotonDown);
 		horizontalPanel_2.setCellVerticalAlignment(BotonDown, HasVerticalAlignment.ALIGN_MIDDLE);
 		horizontalPanel_2.setCellHorizontalAlignment(BotonDown, HasHorizontalAlignment.ALIGN_CENTER);
@@ -606,7 +606,7 @@ bookReaderServiceHolder.updateCatalog(catalog, new AsyncCallback<Void>() {
 		Label.setHTML(Text);
 		Label.setStyleName("gwt-ButtonCenterContinuoDoble");
 		Label.setSize("100%", "100%");
-		Icon.setHTML("<img src=\""+ S +"\">");
+		Icon.setHTML("<img src=\""+ S +"\" class=\"direct\" alt=\""+S+"\">");
 	}
 
 	public void addItem(ElementKey a) {
