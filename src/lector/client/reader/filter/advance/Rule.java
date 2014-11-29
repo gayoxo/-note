@@ -194,19 +194,27 @@ public class Rule extends Composite {
 			private List<AnnotationClient> borrarTiposNoPositivos(
 					List<AnnotationClient> result) {
 				ArrayList<AnnotationClient> ResultadoAux = new ArrayList<AnnotationClient>();
-				for (AnnotationClient annotation : result) {
-					boolean esta=false;
-					for (UserClient User : UsuariosPos) {
-						if (annotation.getCreator().getId().equals(User.getId())) 
-							{
-							esta=true;
-							break;
-							}
-					}
-					if (esta) ResultadoAux.add(annotation);
-					
-				} 
-				return ResultadoAux;
+				if (!UsuariosPos.isEmpty())
+				{
+					for (AnnotationClient annotation : result) {
+						
+						boolean esta=false;
+						
+						for (UserClient User : UsuariosPos) {
+							if (annotation.getCreator().getId().equals(User.getId())) 
+								{
+								esta=true;
+								break;
+								}
+						}
+						if (esta) ResultadoAux.add(annotation);
+						
+					} 
+					return ResultadoAux;
+				}
+				else
+					return result;
+				
 			}
 
 			private ArrayList<AnnotationClient> clearRep(
@@ -235,6 +243,8 @@ public class Rule extends Composite {
 
 				private ArrayList<AnnotationClient> borrarUsuariosNegativos(List<AnnotationClient> result) {
 					ArrayList<AnnotationClient> ResultadoAux = new ArrayList<AnnotationClient>();
+					if (!UsuariosNeg.isEmpty())
+					{
 					for (AnnotationClient annotation : result) {
 						boolean esta=false;
 						for (UserClient User : UsuariosNeg) {
@@ -247,11 +257,20 @@ public class Rule extends Composite {
 						if (!esta) ResultadoAux.add(annotation);
 						
 					} 
-					return ResultadoAux;
+					
+					}
+					else{
+						for (AnnotationClient result1 : result) 
+							ResultadoAux.add(result1);
+						}
+				return ResultadoAux;
 				}
 
 				private ArrayList<AnnotationClient> borrarTiposNegativos(List<AnnotationClient> result) {
 					ArrayList<AnnotationClient> ResultadoAux = new ArrayList<AnnotationClient>();
+					
+					if (!TiposNeg.isEmpty())
+					{
 					for (AnnotationClient annotation : result) {
 						boolean esta=false;
 						for (EntryClient Type : TiposNeg) {
@@ -267,8 +286,16 @@ public class Rule extends Composite {
 						}
 						if (!esta) ResultadoAux.add(annotation);
 						
-					} 
+					}
+					
+					}
+					else{
+						for (AnnotationClient result1 : result) 
+							ResultadoAux.add(result1);
+						}
+					
 					return ResultadoAux;
+					
 				}
 
 			@Override
