@@ -8,6 +8,8 @@ import lector.client.controler.Controlador;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ScrollEvent;
+import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -24,6 +26,8 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 
@@ -53,10 +57,30 @@ public class Welcome implements EntryPoint {
 	// });
 	// }
 	FormPanel formPanel = new FormPanel();
+	private RootPanel rootPanel;
 
 	public void onModuleLoad() {
 		// callUserRoot();
 
+		
+		Window.addResizeHandler(new ResizeHandler() {
+			
+			public void onResize(ResizeEvent event) {
+				
+				rootPanel.setSize("100%", "100%");
+					
+				
+				
+			}
+		});
+		
+		Window.addWindowScrollHandler(new ScrollHandler() {
+			
+			public void onWindowScroll(ScrollEvent event) {
+				rootPanel.setSize("100%", "100%");
+			}
+		});
+		
 		// // POST request test
 
 		// formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -64,7 +88,7 @@ public class Welcome implements EntryPoint {
 		// formPanel.addStyleName("table-center");
 		// formPanel.addStyleName("demo-FormPanel");
 		// TextArea textArea = new TextArea();
-		// textArea.setText("Esto es una descripción");
+		// textArea.setText("Esto es una descripciï¿½n");
 		// textArea.setName("description");
 		// formPanel.add(textArea);
 		// formPanel.setAction("http://127.0.0.1:8888/rs/AtNote/html/produce");
@@ -79,7 +103,7 @@ public class Welcome implements EntryPoint {
 			}
 		});
 
-		RootPanel rootPanel = RootPanel.get();
+		rootPanel = RootPanel.get();
 		Footer = RootPanel.get("footer");
 		Footer.clear();
 		rootPanel.setSize("100%", "100%");
