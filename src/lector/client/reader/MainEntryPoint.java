@@ -45,6 +45,7 @@ import lector.client.controler.ActualState;
 import lector.client.controler.Controlador;
 import lector.client.controler.ConstantsError;
 import lector.client.controler.HelpMessage;
+import lector.client.logger.Logger;
 import lector.client.reader.hilocomentarios.ArbitroThreads;
 import lector.client.reader.filter.FilterBasicPopUp;
 import lector.client.reader.hilocomentarios.JeraquiaSimulada;
@@ -350,11 +351,17 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 Movile=false;
 
 		
-				if (Navigator.getUserAgent().toLowerCase().contains("android")||Navigator.getUserAgent().toLowerCase().contains("mac os"))
+				if (Navigator.getUserAgent().toLowerCase().contains("mobile"))
 					Movile=true;
 				else
 					Movile=false;
-		
+				
+		System.out.println("Navegador: "+ Navigator.getUserAgent() + " conectado detectado como movil= "+ Movile);
+		System.err.println("Navegador: "+ Navigator.getUserAgent() + " conectado detectado como movil= "+ Movile);
+		Logger.GetLogger().info(
+				this.getClass().getName(),
+				ActualState.getUser().toString(),
+				"Navegador: "+ Navigator.getUserAgent() + " conectado detectado como movil= "+ Movile);
 		
 		PEX=new PopUPEXportacion();
 		// Paneles
@@ -1443,6 +1450,11 @@ Movile=false;
 				}
 				else
 					{
+					Logger.GetLogger().info(
+							this.getClass().getName(),
+							ActualState.getUser().toString(),
+							"Movil");
+					
 					
 						if (state != State.NoAnnotations&&!isSelectionMode) {
 						popUpSelectoract = new SelectorPanel(event.getX(), event
@@ -1450,6 +1462,10 @@ Movile=false;
 								originalBook.getAbsoluteTop(), 0, 0);
 						popUpSelectoract.show();
 						isSelectionMode = true;
+						Logger.GetLogger().info(
+								this.getClass().getName(),
+								ActualState.getUser().toString(),
+								"PopUpCreado");
 						}
 						else
 						{
@@ -1459,18 +1475,20 @@ Movile=false;
 							if (!selectorvacio(popUpSelectoract))
 								popUpSelector.add(popUpSelectoract);
 							else Window.alert(ConstantsError.ERROR_SELECTION_TOO_SMALL);
-							if (!event.isShiftKeyDown())
-							{
 							
 							ArrayList<TextSelectorClient> ARRAT=new ArrayList<TextSelectorClient>();
 			
 								for (SelectorPanel PPSelect : popUpSelector) {
 								
 								ARRAT.add(PPSelect.getSelector());
-								}
+
 							
 							if (!ARRAT.isEmpty())
 							{	
+								Logger.GetLogger().info(
+										this.getClass().getName(),
+										ActualState.getUser().toString(),
+										"Saco Ventana");
 							TextComment TC = new TextComment(ARRAT, book);
 							TC.center();
 							}
