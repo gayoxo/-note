@@ -1215,6 +1215,8 @@ font-size: 30pt;
 .fondoLogo {
 background: transparent url('Logo.jpg') no-repeat center center;
  background-size:  contain;
+min-width: 800px;
+  min-height: 600px;
 }
 .AzulTransparente {
 background-color: rgba(178, 203, 225, 0.70);

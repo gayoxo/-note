@@ -63,23 +63,23 @@ public class Welcome implements EntryPoint {
 		// callUserRoot();
 
 		
-		Window.addResizeHandler(new ResizeHandler() {
-			
-			public void onResize(ResizeEvent event) {
-				
-				rootPanel.setSize("100%", "100%");
-					
-				
-				
-			}
-		});
-		
-		Window.addWindowScrollHandler(new ScrollHandler() {
-			
-			public void onWindowScroll(ScrollEvent event) {
-				rootPanel.setSize("100%", "100%");
-			}
-		});
+//		Window.addResizeHandler(new ResizeHandler() {
+//			
+//			public void onResize(ResizeEvent event) {
+//				
+//				rootPanel.setSize("100%", "100%");
+//					
+//				
+//				
+//			}
+//		});
+//		
+//		Window.addWindowScrollHandler(new ScrollHandler() {
+//			
+//			public void onWindowScroll(ScrollEvent event) {
+//				rootPanel.setSize("100%", "100%");
+//			}
+//		});
 		
 		// // POST request test
 
@@ -106,7 +106,7 @@ public class Welcome implements EntryPoint {
 		rootPanel = RootPanel.get();
 		Footer = RootPanel.get("footer");
 		Footer.clear();
-		rootPanel.setSize("100%", "100%");
+//		rootPanel.setSize("100%", "100%");
 		rootPanel.setStyleName("Root");
 
 		// Image image_1 = new Image("Logo.jpg");
@@ -133,6 +133,7 @@ public class Welcome implements EntryPoint {
 		verticalPanel
 				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setStyleName("fondoLogo");
+		verticalPanel.addStyleName("Root");
 
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
 		// verticalPanel_1.setStyleName("fondoLogo");

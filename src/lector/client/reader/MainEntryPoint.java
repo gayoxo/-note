@@ -17,8 +17,10 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.Window.ScrollEvent;
 import com.google.gwt.user.client.Window.ScrollHandler;
 
@@ -40,7 +42,6 @@ import java.util.List;
 import lector.client.book.reader.GWTService;
 import lector.client.book.reader.GWTServiceAsync;
 import lector.client.controler.ActualState;
-import lector.client.controler.Constants;
 import lector.client.controler.Controlador;
 import lector.client.controler.ConstantsError;
 import lector.client.controler.HelpMessage;
@@ -147,6 +148,7 @@ public class MainEntryPoint implements EntryPoint {
 	private static List<AnnotationClient> anotaciones_Actuales;
 	private static final int DesviacionVentanaExportacion=34;
 	private static final int DesviacionVentanaExportacionH=11;
+	private static boolean Movile;
 
 	public MainEntryPoint() {
 		
@@ -345,7 +347,15 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 	}
 
 	public void onModuleLoad() {
+Movile=false;
 
+		
+				if (Navigator.getUserAgent().toLowerCase().contains("android")||Navigator.getUserAgent().toLowerCase().contains("mac os"))
+					Movile=true;
+				else
+					Movile=false;
+		
+		
 		PEX=new PopUPEXportacion();
 		// Paneles
 		//final RootPanel RootAnnotation = RootPanel.get("Etiquetas");
@@ -1390,32 +1400,92 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 
 			}
 		});
-
+		
+		
+		originalBook.addTouchStartHandler(new TouchStartHandler() {
+			
+			@Override
+			public void onTouchStart(TouchStartEvent event) {
+				event.preventDefault();
+				event.stopPropagation();
+				
+			}
+		});
+		
 		originalBook.addMouseDownHandler(new MouseDownHandler() {
+
+
 
 			public void onMouseDown(MouseDownEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
-				if (state != State.NoAnnotations) {
-					if (!isSelectionMode
-							&& (event.getNativeButton() == NativeEvent.BUTTON_LEFT)) {
-						if (!event.isShiftKeyDown()) 
-							{
-							for (SelectorPanel SP : popUpSelector) {
-								SP.hide();
-							}
-							popUpSelector=new ArrayList<SelectorPanel>();
-							}
+				if (!Movile)
+				{
+					if (state != State.NoAnnotations) {
+						if (!isSelectionMode
+								&& (event.getNativeButton() == NativeEvent.BUTTON_LEFT)) {
+							if (!event.isShiftKeyDown()) 
+								{
+								for (SelectorPanel SP : popUpSelector) {
+									SP.hide();
+								}
+								popUpSelector=new ArrayList<SelectorPanel>();
+								}
+							popUpSelectoract = new SelectorPanel(event.getX(), event
+									.getY(), originalBook.getAbsoluteLeft(),
+									originalBook.getAbsoluteTop(), 0, 0);
+							popUpSelectoract.show();
+							isSelectionMode = true;
+								
+						}
+	
+					}
+				}
+				else
+					{
+					
+						if (state != State.NoAnnotations&&!isSelectionMode) {
 						popUpSelectoract = new SelectorPanel(event.getX(), event
 								.getY(), originalBook.getAbsoluteLeft(),
 								originalBook.getAbsoluteTop(), 0, 0);
 						popUpSelectoract.show();
 						isSelectionMode = true;
+						}
+						else
+						{
+							if (state != State.NoAnnotations&&isSelectionMode)
+							{
+							popUpSelectoract.setTamagno(event.getX(), event.getY());
+							if (!selectorvacio(popUpSelectoract))
+								popUpSelector.add(popUpSelectoract);
+							else Window.alert(ConstantsError.ERROR_SELECTION_TOO_SMALL);
+							if (!event.isShiftKeyDown())
+							{
 							
+							ArrayList<TextSelectorClient> ARRAT=new ArrayList<TextSelectorClient>();
+			
+								for (SelectorPanel PPSelect : popUpSelector) {
+								
+								ARRAT.add(PPSelect.getSelector());
+								}
+							
+							if (!ARRAT.isEmpty())
+							{	
+							TextComment TC = new TextComment(ARRAT, book);
+							TC.center();
+							}
+							}
+							
+							isSelectionMode = false;
 					}
-
+				
+						}
 				}
+			}
 
+			private boolean selectorvacio(SelectorPanel popUpSelectoract) {
+				
+				return popUpSelectoract.vacio_();
 			}
 		});
 
@@ -1424,6 +1494,10 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 			public void onMouseUp(MouseUpEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
+				
+				if (!Movile)
+				{
+					
 				if (state != State.NoAnnotations) {
 					if (isSelectionMode){
 						if (!selectorvacio(popUpSelectoract))
@@ -1455,6 +1529,8 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 					}
 				
 
+				}
+				
 				}
 
 			}
@@ -1515,7 +1591,6 @@ pageBack.addMouseDownHandler(new MouseDownHandler() {
 		}
 		
 	}
-	
-	
+
 	
 }
