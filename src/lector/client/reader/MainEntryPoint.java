@@ -1399,25 +1399,25 @@ Movile=false;
 			}
 		});
 
-		originalBook.addClickHandler(new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
-
-			}
-		});
-		
-		
-		originalBook.addTouchStartHandler(new TouchStartHandler() {
-			
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				event.preventDefault();
-				event.stopPropagation();
-				
-			}
-		});
+//		originalBook.addClickHandler(new ClickHandler() {
+//
+//			public void onClick(ClickEvent event) {
+//				event.preventDefault();
+//				event.stopPropagation();
+//
+//			}
+//		});
+//		
+//		
+//		originalBook.addTouchStartHandler(new TouchStartHandler() {
+//			
+//			@Override
+//			public void onTouchStart(TouchStartEvent event) {
+//				event.preventDefault();
+//				event.stopPropagation();
+//				
+//			}
+//		});
 		
 		originalBook.addMouseDownHandler(new MouseDownHandler() {
 
@@ -1450,27 +1450,21 @@ Movile=false;
 				}
 				else
 					{
-					Logger.GetLogger().info(
-							this.getClass().getName(),
-							ActualState.getUser().toString(),
-							"Movil");
-					
-					
+					//	Window.alert("Movil!!A");
 						if (state != State.NoAnnotations&&!isSelectionMode) {
 						popUpSelectoract = new SelectorPanel(event.getX(), event
 								.getY(), originalBook.getAbsoluteLeft(),
 								originalBook.getAbsoluteTop(), 0, 0);
 						popUpSelectoract.show();
-						isSelectionMode = true;
-						Logger.GetLogger().info(
-								this.getClass().getName(),
-								ActualState.getUser().toString(),
-								"PopUpCreado");
+						isSelectionMode = true;					
+					//	Window.alert("Movil!!B");
 						}
 						else
 						{
+					//		Window.alert("Movil!!C");
 							if (state != State.NoAnnotations&&isSelectionMode)
 							{
+					//			Window.alert("Movil!!D");
 							popUpSelectoract.setTamagno(event.getX(), event.getY());
 							if (!selectorvacio(popUpSelectoract))
 								popUpSelector.add(popUpSelectoract);
@@ -1482,17 +1476,17 @@ Movile=false;
 								
 								ARRAT.add(PPSelect.getSelector());
 
-							
+					//			Window.alert("Movil!!E");
+								}
+								
 							if (!ARRAT.isEmpty())
 							{	
-								Logger.GetLogger().info(
-										this.getClass().getName(),
-										ActualState.getUser().toString(),
-										"Saco Ventana");
+					//			Window.alert("Movil!!F");
 							TextComment TC = new TextComment(ARRAT, book);
 							TC.center();
 							}
-							}
+							
+					//		Window.alert("Movil!!G");
 							
 							isSelectionMode = false;
 					}
