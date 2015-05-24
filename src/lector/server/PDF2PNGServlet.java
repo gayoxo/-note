@@ -43,8 +43,8 @@ public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
 	private EntityManagerFactory emf = Persistence
 			.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 	private static final String DATA_DIRECTORY = "data";
-	private static final int MAX_MEMORY_SIZE = 10240 * 1024 * 2;
-	private static final int MAX_REQUEST_SIZE = 10240 * 1024;
+	private static final int MAX_MEMORY_SIZE = 10240 * 1024 * 200;
+	private static final int MAX_REQUEST_SIZE = 10240 * 1024 * 100;
 	private GWTService gwtServiceImpl = new GWTServiceImpl();
 
 	protected void doPost(HttpServletRequest request,
