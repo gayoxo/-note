@@ -45,6 +45,7 @@ public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
 	private static final String DATA_DIRECTORY = "data";
 	private static final int MAX_MEMORY_SIZE = 10240 * 1024 * 200;
 	private static final int MAX_REQUEST_SIZE = 10240 * 1024 * 100;
+	private static final int DEFAULT_IMAGE_RESOLUTION = 256;
 	private GWTService gwtServiceImpl = new GWTServiceImpl();
 
 	protected void doPost(HttpServletRequest request,
@@ -188,7 +189,12 @@ public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
             System.out.println("Folder Created -> "+ destinationFile.getAbsolutePath());
         }
         if (sourceFile.exists()) {
+        	
             System.out.println("Images copied to Folder: "+ destinationFile.getName());             
+            
+            
+            //TODO Hacerlo aqui
+            
             PDDocument document = PDDocument.load(sourceDir);
             List<PDPage> list = document.getDocumentCatalog().getAllPages();
             System.out.println("Total files to be converted -> "+ list.size());
@@ -196,7 +202,9 @@ public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
             String fileName = sourceFile.getName().replace(".pdf", "");             
             int pageNumber = 1;
             for (PDPage page : list) {
-                BufferedImage image = page.convertToImage();
+            	int imageType = BufferedImage.TYPE_INT_RGB;
+            	 int resolution = DEFAULT_IMAGE_RESOLUTION;
+                BufferedImage image = page.convertToImage(imageType,resolution);
                 File outputfile = new File(destinationDir+"/"+ fileName+"_"+id+"_" +"_"+ pageNumber +".png");
                 System.out.println("Image Created -> "+ outputfile.getName());
                 ImageIO.write(image, "png", outputfile);
