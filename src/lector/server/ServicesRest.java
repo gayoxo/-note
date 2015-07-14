@@ -42,7 +42,7 @@ public class ServicesRest  extends RemoteServiceServlet {
 		@GET
 		public String doGreet() {
 			
-			if (!isActiveUsersModule())
+			if (isActiveUsersModule())
 			{
 			
 			try{
