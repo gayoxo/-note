@@ -27,6 +27,7 @@ public class SelectorTypePopUpAnnotacionAdministracion extends PopupPanel {
 	public SelectorTypePopUpAnnotacionAdministracion(HorizontalPanel penelBotonesTipo,CatalogoClient Cata, Finder refresh) {
 		super(false);
 		setModal(true);
+		setGlassEnabled(true);
 		SimplePanel verticalPanel = new SimplePanel();
 		finderrefresh=refresh;
 		setWidget(verticalPanel);
@@ -37,7 +38,7 @@ public class SelectorTypePopUpAnnotacionAdministracion extends PopupPanel {
         
         menuBar = new MenuBar(false);
         dockPanel.add(menuBar, DockPanel.NORTH);
-        dockPanel.setCellHeight(menuBar, "15px");
+        dockPanel.setCellHeight(menuBar, "20px");
         menuBar.setSize("100%", "20px");
         
         mntmNewItem = new MenuItem(ActualState.getLanguage().getNew(), false, new Command() {
@@ -49,7 +50,7 @@ public class SelectorTypePopUpAnnotacionAdministracion extends PopupPanel {
         	}
         });
       menuBar.addItem(mntmNewItem);
-        mntmNewItem.setSize("50%", "");
+        mntmNewItem.setSize("", "");
         
         MenuItem mntmNewItem_2 = new MenuItem(ActualState.getLanguage().getFromExist(), false, new Command() {
         	public void execute() {
@@ -60,7 +61,13 @@ public class SelectorTypePopUpAnnotacionAdministracion extends PopupPanel {
         	}
         });
         menuBar.addItem(mntmNewItem_2);
-        mntmNewItem_2.setSize("50%", "");
+        mntmNewItem_2.setSize("", "");
+        
+        MenuItem mntmNewItem_3 = new MenuItem("", false, (Command) null);
+        mntmNewItem_3.setEnabled(false);
+        mntmNewItem_3.setHTML("");
+        menuBar.addItem(mntmNewItem_3);
+        mntmNewItem_3.setWidth("100%");
         
         MenuItem mntmNewItem_1 = new MenuItem("New item", false, new Command() {
         	public void execute() {

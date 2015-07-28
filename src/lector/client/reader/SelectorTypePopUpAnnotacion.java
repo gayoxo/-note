@@ -57,13 +57,14 @@ public class SelectorTypePopUpAnnotacion extends PopupPanel {
 //		
 //		
 //		verticalPanel.setSize("100%", "100%");
-		DockLayoutPanel dockPanel = new DockLayoutPanel(Unit.EM);
+		DockPanel dockPanel = new DockPanel();
 //        verticalPanel.add(dockPanel);
         dockPanel.setSize(Window.getClientWidth()-25+"px", Window.getClientHeight()-25+"px");
         setWidget(dockPanel);
         
         menuBar = new MenuBar(false);
-        dockPanel.addNorth(menuBar, 1.9);
+        dockPanel.add(menuBar,DockPanel.NORTH);
+        dockPanel.setCellHeight(menuBar, "20px");
         menuBar.setSize("100%", "20px");
         
        
@@ -73,8 +74,18 @@ public class SelectorTypePopUpAnnotacion extends PopupPanel {
         		SBTF.center();
         	}
         });
-        if (ActualState.getUser() instanceof ProfessorClient) menuBar.addItem(mntmNewItem);
-        mntmNewItem.setSize("100%", "100%");
+        if (ActualState.getUser() instanceof ProfessorClient)
+        	menuBar.addItem(mntmNewItem);
+        
+        mntmNewItem.setHeight("20px");
+       // mntmNewItem.setSize("100%", "100%");
+        
+        MenuItem GlueMnI = new MenuItem("", false, (Command) null);
+        GlueMnI.setEnabled(false);
+        GlueMnI.setHTML("");
+        menuBar.addItem(GlueMnI);
+        GlueMnI.setWidth("100%");
+        GlueMnI.setHeight("20px");
         
         MenuItem mntmNewItem_1 = new MenuItem("New item", false, new Command() {
         	public void execute() {
@@ -103,11 +114,12 @@ public class SelectorTypePopUpAnnotacion extends PopupPanel {
 			}
         });
         mntmNewItem_1.setHTML(ActualState.getLanguage().getClose());
+        mntmNewItem_1.setHeight("20px");
         menuBar.addItem(mntmNewItem_1);
         
         ScrollPanel SP=new ScrollPanel();
-        dockPanel.addSouth(SP, 5.0);
-        
+        dockPanel.add(SP,DockPanel.SOUTH);
+        dockPanel.setCellHeight(SP, "38px");
         SP.setSize("100%", "100%");
         HP=new HorizontalPanel();
         SP.add(HP);
@@ -116,7 +128,7 @@ public class SelectorTypePopUpAnnotacion extends PopupPanel {
         
         SimplePanel scrollPanel = new SimplePanel();
         scrollPanel.setSize("100%", "100%");
-        dockPanel.add(scrollPanel);
+        dockPanel.add(scrollPanel, DockPanel.CENTER);
         dockPanel.setSize(Window.getClientWidth()-25+"px", Window.getClientHeight()-25+"px");
         
 

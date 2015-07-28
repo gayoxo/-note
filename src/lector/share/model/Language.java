@@ -99,9 +99,9 @@ public class Language implements Serializable {
 	private String SetTypesPublic = "Student Catalog";
 	private String Visibility = "Visibility";
 	private String Upgradeable = "Public Editable?";
-	private String New = "New";
-	private String FromExist = "Reuse";
-	private String NewAdmin = "Admin";
+	private String New = "New element";
+	private String FromExist = "Reuse element";
+	private String NewAdmin = "Create types on fly";
 	private String Done = "Done";
 	// Varios
 	private String E_Page_Dont_Exist = "Error: Page does not exist";
