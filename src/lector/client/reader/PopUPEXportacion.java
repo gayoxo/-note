@@ -123,6 +123,10 @@ public class PopUPEXportacion extends PopupPanel {
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		verticalPanel_1.add(horizontalPanel);
 		
+		verticalPanel = new VerticalPanel();
+		verticalPanel_1.add(verticalPanel);
+		Actual = verticalPanel;
+		
 
 		if (ActualState.getReadingactivity().getIsFreeTemplateAllowed()
 				&& ActualState.getReadingactivity().getTemplate() != null) {
@@ -189,9 +193,7 @@ public class PopUPEXportacion extends PopupPanel {
 			// });
 		}
 
-		verticalPanel = new VerticalPanel();
-		verticalPanel_1.add(verticalPanel);
-		Actual = verticalPanel;
+		
 		if (EET != null)
 			EET.ResetButton();
 
@@ -216,18 +218,18 @@ exportServiceHolder.loadTemplateById(Template.getId(), new AsyncCallback<Templat
 	}
 
 	protected void LoadTemplate() {
-		Actual.clear();
+		verticalPanel.clear();
 		if (!Template.getCategories().isEmpty())
 		{
 			List<TemplateCategoryClient> Lista=Template.getCategories();
 			for (TemplateCategoryClient templateCategory : Lista) {
 				ElementoExportacionTemplate E=new ElementoExportacionTemplate(templateCategory, 1, Template.getModifyable());
-				Actual.add(E);
+				verticalPanel.add(E);
 				E.addCliker(Actual);
 				procesaHijo(templateCategory,E);
 			}
 			
-			setActual((ElementoExportacionTemplate) Actual.getWidget(0));
+			setActual((ElementoExportacionTemplate) verticalPanel.getWidget(0));
 			
 		}
 	
@@ -269,8 +271,8 @@ exportServiceHolder.loadTemplateById(Template.getId(), new AsyncCallback<Templat
 
 	public void Refresh() {
 		verticalPanel.clear();
-		if (Template!=null&&TemplateButton.getValue())
-			LoadTemplate();
+		if (Template!=null&&(TemplateButton==null||TemplateButton.getValue()))
+			ReLoadTemplate();
 		
 	}
 	

@@ -40,6 +40,7 @@ public class ServicesRest  extends RemoteServiceServlet {
 	
 		@Path("users")
 		@GET
+		//http://localhost:8080/GlassAtNote/rs/atnote/users
 		public String doGreet() {
 			
 			if (isActiveUsersModule())
