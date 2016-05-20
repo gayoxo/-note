@@ -91,6 +91,8 @@ public class CatalogAdmintrationEntryPoint implements EntryPoint {
 		PanelFondoGeneral.addNorth(menuBar, 25.0);
 		menuBar.setWidth("100%");
 		
+		PanelFondoGeneral.addStyleName("Min600px");
+		
 		CatalogMenuItem = new MenuItem(CATALOGEMENUITEM, false, (Command) null);
 		CatalogMenuItem.setHTML(CATALOGEMENUITEM);
 		CatalogMenuItem.setEnabled(false);

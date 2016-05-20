@@ -1637,6 +1637,10 @@ min-width: 1392px;
 min-width: 1392px;
 }
 
+.Min600px
+{
+	min-height: 600px;
+}
 
 img.direct {
 height: 16px;
