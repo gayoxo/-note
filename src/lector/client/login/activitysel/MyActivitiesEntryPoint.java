@@ -51,7 +51,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
-public class MyActivities implements EntryPoint {
+public class MyActivitiesEntryPoint implements EntryPoint {
 
 	private static String BIENVENIDA;
 	private List<ReadingActivityClient> BooksIDs = new ArrayList<ReadingActivityClient>();
@@ -60,7 +60,7 @@ public class MyActivities implements EntryPoint {
 			.create(GWTService.class);
 	static ImageServiceAsync userImageService = GWT.create(ImageService.class);
 	private ReadingActivityClient RA;
-	private MyActivities Yo;
+	private MyActivitiesEntryPoint Yo;
 
 	public void onModuleLoad() {
 		

@@ -51,6 +51,10 @@ import javax.transaction.UserTransaction;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageTree;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.tools.imageio.ImageIOUtil;
 
 import lector.client.book.reader.ExportService;
 import lector.client.book.reader.GWTService;
@@ -2164,22 +2168,23 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 		if (sourceFile.exists()) {
 			System.out.println("Images copied to Folder: "
 					+ destinationFile.getName());
-			PDDocument document = PDDocument.load(sourceDir);
-			List<PDPage> list = document.getDocumentCatalog().getAllPages();
-			System.out.println("Total files to be converted -> " + list.size());
+			
+			
+			PDDocument document = PDDocument.load(new File(sourceDir));
+            PDFRenderer pdfRenderer = new PDFRenderer(document);
+            PDPageTree list = document.getDocumentCatalog().getPages();
+            System.out.println("Total files to be converted -> "+ list.getCount());
 
-			String fileName = sourceFile.getName().replace(".pdf", "");
-			int pageNumber = 1;
-			for (PDPage page : list) {
-				BufferedImage image = page.convertToImage();
-				File outputfile = new File(destinationDir + "/" + fileName
-						+ "_" + id + "_" + "_" + pageNumber + ".png");
-				System.out.println("Image Created -> " + outputfile.getName());
-				ImageIO.write(image, "png", outputfile);
-				pageNumber++;
-				webLinks.add("/data/" + outputfile.getName());
-			}
-			document.close();
+            String fileName = sourceFile.getName().replace(".pdf", "");             
+            for (int pageNumber = 0; pageNumber < list.getCount(); pageNumber++) {
+				
+                BufferedImage bim = pdfRenderer.renderImageWithDPI(pageNumber, 300, ImageType.RGB);
+
+                ImageIOUtil.writeImage(bim, destinationDir+"/"+ fileName+"_"+id+"_" +"_"+ pageNumber +".png", 300);
+       
+            }
+            document.close();
+			
 			System.out.println("Converted Images are saved at -> "
 					+ destinationFile.getAbsolutePath());
 		} else {

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,7 +31,11 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
+//import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageTree;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.pdfbox.tools.imageio.*;
 
 public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
 		javax.servlet.Servlet {
@@ -45,7 +48,7 @@ public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
 	private static final String DATA_DIRECTORY = "data";
 	private static final int MAX_MEMORY_SIZE = 10240 * 1024 * 200;
 	private static final int MAX_REQUEST_SIZE = 10240 * 1024 * 100;
-	private static final int DEFAULT_IMAGE_RESOLUTION = 256;
+//	private static final int DEFAULT_IMAGE_RESOLUTION = 256;
 	private GWTService gwtServiceImpl = new GWTServiceImpl();
 
 	protected void doPost(HttpServletRequest request,
@@ -193,109 +196,29 @@ public class PDF2PNGServlet extends javax.servlet.http.HttpServlet implements
             System.out.println("Images copied to Folder: "+ destinationFile.getName());             
             
             
-            //TODO Hacerlo aqui
-            
-            PDDocument document = PDDocument.load(sourceDir);
-            List<PDPage> list = document.getDocumentCatalog().getAllPages();
-            System.out.println("Total files to be converted -> "+ list.size());
+            PDDocument document = PDDocument.load(new File(sourceDir));
+            PDFRenderer pdfRenderer = new PDFRenderer(document);
+            PDPageTree list = document.getDocumentCatalog().getPages();
+            System.out.println("Total files to be converted -> "+ list.getCount());
 
             String fileName = sourceFile.getName().replace(".pdf", "");             
-            int pageNumber = 1;
-            for (PDPage page : list) {
-            	int imageType = BufferedImage.TYPE_INT_RGB;
-            	 int resolution = DEFAULT_IMAGE_RESOLUTION;
-                BufferedImage image = page.convertToImage(imageType,resolution);
-                File outputfile = new File(destinationDir+"/"+ fileName+"_"+id+"_" +"_"+ pageNumber +".png");
-                System.out.println("Image Created -> "+ outputfile.getName());
-                ImageIO.write(image, "png", outputfile);
-                pageNumber++;
-                webLinks.add("/data/"+outputfile.getName());
+            for (int pageNumber = 0; pageNumber < list.getCount(); pageNumber++) {
+				
+                BufferedImage bim = pdfRenderer.renderImageWithDPI(pageNumber, 300, ImageType.RGB);
+
+                ImageIOUtil.writeImage(bim, destinationDir+"/"+ fileName+"_"+id+"_" +"_"+ pageNumber +".png", 300);
+       
             }
             document.close();
             System.out.println("Converted Images are saved at -> "+ destinationFile.getAbsolutePath());
         } else {
             System.err.println(sourceFile.getName() +" File not exists");
         }
-		
-		
-		
-//		String winDirectory = directory.replace("\\", "/"); // posiblemente se
-//		 if (System.getProperty("os.name").startsWith("Windows")) {
-//			 cmd = "\"C:\\Program Files\\gs\\gs9.06\\bin\\gswin32c\" -sDEVICE=jpeg -dBATCH -r50 "
-//						+ "-dNOPAUSE -sOutputFile=\"C:\\glassfish3.2\\glassfish3\\glassfish\\domains\\domain1\\docroot\\data\\"
-//						+ idString + "%01d.jpg\" " + "\"" + directory + "\"";
-//
-//				
-//				cmdPagesCount = "\"C:\\Program Files\\gs\\gs9.06\\bin\\gswin32c\" -q -dNODISPLAY -c (\""
-//						+ winDirectory
-//						+ ")"
-//						+ " (r) file runpdfbegin pdfpagecount = quit\"";
-//				 Process p = Runtime.getRuntime().exec(cmd);
-//					new Dumper(p.getInputStream()).start();
-//					new Dumper(p.getErrorStream()).start();
-//					pagesCount = getPagesCount(cmdPagesCount);
-//					p.waitFor();
-//		 }else{
-//		        // everything else
-//		    cmd = "gs -sDEVICE=jpeg -dBATCH " +
-//		    		"-r200 "+
-//		    		"-dNOPAUSE -sOutputFile=\""+rootfolder+"/"
-//				+ idString + "%01d.jpg\" \"" +directory+ "\"";
-//			
-//			// tnenga que
-//			cmdPagesCount= "gs -q -dNODISPLAY -c \"("
-//					+ winDirectory
-//					+ ")"
-//					+ " (r) file runpdfbegin pdfpagecount = quit\"";
-////			
-////		 String[] cmd2={"gs", "-sDEVICE=jpeg", "-dBATCH", "-r50", "-dNOPAUSE", "-sOutputFile= \""+rootfolder+"\\"
-////					+ idString + "%01d.jpg\" ", "\"" +directory+ "\""};
-//			
-//		 
-//		 	
-//		 	Process p = Runtime.getRuntime().exec(new String[] {"sh",  "-c", cmd});
-//			new Dumper(p.getInputStream()).start();
-//			new Dumper(p.getErrorStream()).start();
-//			p.waitFor();
-//			pagesCount = getPagesCountUnix(cmdPagesCount);
-//		
-//		    } 
-//		
-//		
-//
-//	
-//		 
-//		
-//		// System.out.println(cmd);
-//		
-//		
-//		// HACER LA FUNCION QUE GENERA LOS LINKS
-//
-//		List<String> webLinks = generateLinks(idString, pagesCount);
+
+
 		return webLinks;
 	}
-//
-//	private static List<String> generateLinks(String pattern, int pagesCount) {
-//		List<String> webLinks = new ArrayList<String>();
-//		for (int i = 1; i <= pagesCount; i++) {
-//			webLinks.add("/data/" + pattern + i + ".jpg");
-//		}
-//		return webLinks;
-//	}
-//
-//	private int getPagesCount(String cmd) throws IOException {
-//		Process p2 = Runtime.getRuntime().exec(cmd);
-//		return Character.getNumericValue((char) p2.getInputStream().read());
-//	}
-//
-//	private int getPagesCountUnix(String cmd) throws IOException, InterruptedException {
-//		Process p2 = Runtime.getRuntime().exec(new String[] {"sh",  "-c",cmd});
-//		p2.waitFor();
-//		InputStream is = p2.getInputStream(); 
-//		BufferedReader br = new BufferedReader (new InputStreamReader (is));
-//		String S=br.readLine();
-//		return Integer.parseInt(S);
-//	}
+
 	
 	private void saveUser(UserApp user) throws GeneralException {
 		EntityManager entityManager = emf.createEntityManager();

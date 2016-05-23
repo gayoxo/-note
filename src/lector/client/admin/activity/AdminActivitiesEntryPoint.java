@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -63,7 +64,7 @@ public class AdminActivitiesEntryPoint implements EntryPoint {
 	
 	
 	private AbsolutePanel PanelEdicion;
-	private VerticalPanel PanelBotones;
+	private HorizontalPanel PanelBotones;
 	
 	private VerticalPanel Actual;
 	private AdminActivitiesEntryPoint yo;
@@ -85,6 +86,7 @@ public class AdminActivitiesEntryPoint implements EntryPoint {
 		PanelFondoGeneral.setStyleName("fondoLogo");
 		rootPanel.add(PanelFondoGeneral, 0, 0);
 		PanelFondoGeneral.setSize("100%", "100%");
+		PanelFondoGeneral.addStyleName("Min600px");
 		
 		MenuBar menuBar = new MenuBar(false);
 		PanelFondoGeneral.addNorth(menuBar, 25);
@@ -118,17 +120,19 @@ public class AdminActivitiesEntryPoint implements EntryPoint {
 		});
 		menuBar.addItem(BackMenuItem);
 
-		PanelBotones = new VerticalPanel();
-		PanelBotones.setSpacing(10);
+		PanelBotones = new HorizontalPanel();
+		PanelBotones.setSize("100%", "100%");
+//		PanelBotones.setSpacing(10);
 		//PanelBotones.setStyleName("fondoLogo");
 //		PanelBotones
 //				.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 	//	rootPanel.add(PanelBotones, 0, 27);
-		HorizontalPanel SP= new HorizontalPanel();
+		ScrollPanel SP= new ScrollPanel();
+		
 		SP.add(PanelBotones);
-		SP.setHeight(Constants.P100);
+		SP.setSize("100%", "100%");
 		PanelFondoGeneral.add(SP);
-		PanelBotones.setSize("100%", "100%");
+		
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.setSpacing(6);

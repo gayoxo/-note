@@ -90,7 +90,7 @@ public class CatalogAdmintrationEntryPoint implements EntryPoint {
 		MenuBar menuBar = new MenuBar(false);
 		PanelFondoGeneral.addNorth(menuBar, 25.0);
 		menuBar.setWidth("100%");
-		
+		PanelFondoGeneral.setStyleName("fondoLogo");
 		PanelFondoGeneral.addStyleName("Min600px");
 		
 		CatalogMenuItem = new MenuItem(CATALOGEMENUITEM, false, (Command) null);
@@ -124,7 +124,6 @@ public class CatalogAdmintrationEntryPoint implements EntryPoint {
 		
 		ScrollPanel verticalPanel = new ScrollPanel();
 		PanelFondoGeneral.add(verticalPanel);
-		verticalPanel.setStyleName("fondoLogo");
 //		verticalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel.setSize("100%", "100%");
 		
