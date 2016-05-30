@@ -7,6 +7,7 @@ import lector.client.controler.Constants;
 import lector.client.controler.EntitdadObject;
 import lector.client.controler.catalogo.BotonesStackPanelMio;
 import lector.client.controler.catalogo.client.EntityCatalogElements;
+import lector.share.model.DecendanceException;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -37,8 +38,11 @@ public class ClickHandlerMioSeleccion extends ClickHandlerMio implements
 			}
 			
 			public void onFailure(Throwable caught) {
-				EditorTagsAndTypes.LoadBasicTypes();
-				Window.alert("Error in copy in folder");
+//				EditorTagsAndTypes.LoadBasicTypes();
+				if (caught instanceof DecendanceException)
+					Window.alert(caught.getMessage());
+				else
+					Window.alert("Error in copy in folder");
 				
 				
 			}
@@ -61,7 +65,10 @@ AsyncCallback<Void> LLamada=new AsyncCallback<Void>() {
 			}
 			
 			public void onFailure(Throwable caught) {
-				Window.alert("Error in copy in folder");
+				if (caught instanceof DecendanceException)
+					Window.alert(caught.getMessage());
+				else
+					Window.alert("Error in copy in folder");
 				
 			}
 		};

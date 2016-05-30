@@ -289,7 +289,7 @@ public interface GWTService extends RemoteService {
 	// throws GeneralException, TagNotFoundException;
 
 	public void addChildEntry(Long entryId, Long fatherTypeCategory)
-			throws TwinBrotherException, GeneralException;
+			throws TwinBrotherException, GeneralException,DecendanceException;
 
 	// TypeCategory
 

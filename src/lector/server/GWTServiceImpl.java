@@ -3113,7 +3113,7 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
 	@Override
 	public void addChildEntry(Long entryId, Long fatherFolderDBId)
-			throws TwinBrotherException, GeneralException {
+			throws TwinBrotherException, GeneralException, DecendanceException {
 		try {
 			FolderDB father = findFolderDB(fatherFolderDBId);
 			Entry entry = findEntry(entryId);
@@ -3122,6 +3122,10 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 					throw new TwinBrotherException(
 							"This element has a twin brother in DB");
 				}
+				if (entry instanceof FolderDB && isDescendant((FolderDB)entry,father))
+					throw new DecendanceException(
+							"Can not be exist cicles in graph");
+				
 				Relation relation = new Relation(father, entry);
 				father.getRelations().add(relation);
 				saveFolderDB(father);
@@ -3610,7 +3614,7 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
 			//REVISION Y LANZAMIENTO DE LA DECADENANCEEXCEPTION PUEDE HACER CICLOS CON EL FOLDER
 			if (typeCategoryToId==typeCategoryId)
-				return;
+				throw new DecendanceException("Can not be exist cicles in graph");
 			
 			FolderDB folderDB = findFolderDB(typeCategoryId);
 			if (!typeCategoryFromId.equals(Constants.CATALOGID)) {
@@ -3628,6 +3632,10 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 
 				if (!typeCategoryToId.equals(Constants.CATALOGID)) {
 					FolderDB typeCategoryTo = findFolderDB(typeCategoryToId);
+					
+					if (isDescendant(folderDB, typeCategoryTo))
+						throw new DecendanceException("Can not be exist cicles in graph");
+					
 					relation.setFather(typeCategoryTo);
 					typeCategoryTo.getRelations().add(relation);
 					saveFolderDB(typeCategoryTo);
