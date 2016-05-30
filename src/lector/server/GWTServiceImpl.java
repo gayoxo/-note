@@ -3608,6 +3608,10 @@ public class GWTServiceImpl extends RemoteServiceServlet implements GWTService {
 			Long typeCategoryToId) throws GeneralException, DecendanceException {
 		try {
 
+			//REVISION Y LANZAMIENTO DE LA DECADENANCEEXCEPTION PUEDE HACER CICLOS CON EL FOLDER
+			if (typeCategoryToId==typeCategoryId)
+				return;
+			
 			FolderDB folderDB = findFolderDB(typeCategoryId);
 			if (!typeCategoryFromId.equals(Constants.CATALOGID)) {
 				Relation relation = loadRelationByFatherAndSonId(
